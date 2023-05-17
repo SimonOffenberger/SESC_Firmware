@@ -1,0 +1,4 @@
+main.c:53:9:PI_control	16	static
+main.c:80:5:main	24	static
+main.c:170:6:SystemClock_Config	120	static
+main.c:227:6:Error_Handler	8	static,ignoring_inline_asm

@@ -1,0 +1,3 @@
+phaseEstimater.c:49:6:init_phase_estimater	4	static
+phaseEstimater.c:59:10:initialize_Hallsensor_phase_estimator	48	static
+phaseEstimater.c:175:6:estimate_rotor_phase	40	static

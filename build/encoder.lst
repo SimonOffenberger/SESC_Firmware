@@ -1,0 +1,528 @@
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclRzSQK.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"encoder.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Core/Src/encoder.c"
+  20              		.section	.rodata.readEncoder.str1.4,"aMS",%progbits,1
+  21              		.align	2
+  22              	.LC0:
+  23 0000 706F7765 		.ascii	"power on\000"
+  23      72206F6E 
+  23      00
+  24 0009 000000   		.align	2
+  25              	.LC1:
+  26 000c 69646C65 		.ascii	"idle\000"
+  26      00
+  27 0011 000000   		.align	2
+  28              	.LC2:
+  29 0014 454E434F 		.ascii	"ENCODERA rising\000"
+  29      44455241 
+  29      20726973 
+  29      696E6700 
+  30              		.align	2
+  31              	.LC3:
+  32 0024 77616974 		.ascii	"wait for ENCODERB\000"
+  32      20666F72 
+  32      20454E43 
+  32      4F444552 
+  32      4200
+  33 0036 0000     		.align	2
+  34              	.LC4:
+  35 0038 454E434F 		.ascii	"ENCODERB falling\000"
+  35      44455242 
+  35      2066616C 
+  35      6C696E67 
+  35      00
+  36 0049 000000   		.align	2
+  37              	.LC5:
+  38 004c 77616974 		.ascii	"wait for ENCODERA\000"
+  38      20666F72 
+  38      20454E43 
+  38      4F444552 
+  38      4100
+  39 005e 0000     		.align	2
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclRzSQK.s 			page 2
+
+
+  40              	.LC6:
+  41 0060 636F756E 		.ascii	"count up\000"
+  41      74207570 
+  41      00
+  42 0069 000000   		.align	2
+  43              	.LC7:
+  44 006c 636F756E 		.ascii	"count down\000"
+  44      7420646F 
+  44      776E00
+  45 0077 00       		.align	2
+  46              	.LC8:
+  47 0078 6E6F6E65 		.ascii	"none\000"
+  47      00
+  48              		.section	.text.readEncoder,"ax",%progbits
+  49              		.align	1
+  50              		.global	readEncoder
+  51              		.syntax unified
+  52              		.thumb
+  53              		.thumb_func
+  55              	readEncoder:
+  56              	.LVL0:
+  57              	.LFB126:
+   1:Core/Src/encoder.c **** /**
+   2:Core/Src/encoder.c ****   ******************************************************************************
+   3:Core/Src/encoder.c ****   * @file    adc.c
+   4:Core/Src/encoder.c ****   * @brief   This file provides code for the configuration
+   5:Core/Src/encoder.c ****   *          of the ADC instances.
+   6:Core/Src/encoder.c ****   ******************************************************************************
+   7:Core/Src/encoder.c ****   * @attention
+   8:Core/Src/encoder.c ****   *
+   9:Core/Src/encoder.c ****   * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
+  10:Core/Src/encoder.c ****   * All rights reserved.</center></h2>
+  11:Core/Src/encoder.c ****   *
+  12:Core/Src/encoder.c ****   * This software component is licensed by ST under BSD 3-Clause license,
+  13:Core/Src/encoder.c ****   * the "License"; You may not use this file except in compliance with the
+  14:Core/Src/encoder.c ****   * License. You may obtain a copy of the License at:
+  15:Core/Src/encoder.c ****   *                        opensource.org/licenses/BSD-3-Clause
+  16:Core/Src/encoder.c ****   *
+  17:Core/Src/encoder.c ****   ******************************************************************************
+  18:Core/Src/encoder.c ****   */
+  19:Core/Src/encoder.c **** 
+  20:Core/Src/encoder.c **** /* Includes ------------------------------------------------------------------*/
+  21:Core/Src/encoder.c **** #include "encoder.h"
+  22:Core/Src/encoder.c **** #include <string.h>
+  23:Core/Src/encoder.c **** #include <stdio.h>
+  24:Core/Src/encoder.c **** #include <stdlib.h>
+  25:Core/Src/encoder.c **** 
+  26:Core/Src/encoder.c **** int readEncoder(GPIO_TypeDef* PORT_A, uint16_t PIN_A , GPIO_TypeDef* PORT_B, uint16_t PIN_B,int upp
+  58              		.loc 1 26 130 view -0
+  59              		.cfi_startproc
+  60              		@ args = 8, pretend = 0, frame = 0
+  61              		@ frame_needed = 0, uses_anonymous_args = 0
+  62              		.loc 1 26 130 is_stmt 0 view .LVU1
+  63 0000 2DE9F047 		push	{r4, r5, r6, r7, r8, r9, r10, lr}
+  64              	.LCFI0:
+  65              		.cfi_def_cfa_offset 32
+  66              		.cfi_offset 4, -32
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclRzSQK.s 			page 3
+
+
+  67              		.cfi_offset 5, -28
+  68              		.cfi_offset 6, -24
+  69              		.cfi_offset 7, -20
+  70              		.cfi_offset 8, -16
+  71              		.cfi_offset 9, -12
+  72              		.cfi_offset 10, -8
+  73              		.cfi_offset 14, -4
+  74 0004 1546     		mov	r5, r2
+  75 0006 9946     		mov	r9, r3
+  76 0008 089F     		ldr	r7, [sp, #32]
+  77 000a 099E     		ldr	r6, [sp, #36]
+  27:Core/Src/encoder.c **** 	static ui8 ENCODERA =0;
+  78              		.loc 1 27 2 is_stmt 1 view .LVU2
+  28:Core/Src/encoder.c **** 	static ui8 ENCODERB =0;
+  79              		.loc 1 28 2 view .LVU3
+  29:Core/Src/encoder.c **** 	static int encoder_val=0;
+  80              		.loc 1 29 2 view .LVU4
+  30:Core/Src/encoder.c **** 	
+  31:Core/Src/encoder.c **** 	ENCODERA=(ENCODERA<<1)|HAL_GPIO_ReadPin(PORT_A,PIN_A);
+  81              		.loc 1 31 2 view .LVU5
+  82              		.loc 1 31 24 is_stmt 0 view .LVU6
+  83 000c 3E4C     		ldr	r4, .L19
+  84 000e 94F80080 		ldrb	r8, [r4]	@ zero_extendqisi2
+  85              		.loc 1 31 25 view .LVU7
+  86 0012 FFF7FEFF 		bl	HAL_GPIO_ReadPin
+  87              	.LVL1:
+  88              		.loc 1 31 24 discriminator 1 view .LVU8
+  89 0016 40EA4800 		orr	r0, r0, r8, lsl #1
+  90              		.loc 1 31 10 discriminator 1 view .LVU9
+  91 001a 2070     		strb	r0, [r4]
+  32:Core/Src/encoder.c **** 	ENCODERB=(ENCODERB<<1)|HAL_GPIO_ReadPin(PORT_B,PIN_B);
+  92              		.loc 1 32 2 is_stmt 1 view .LVU10
+  93              		.loc 1 32 24 is_stmt 0 view .LVU11
+  94 001c DFF82081 		ldr	r8, .L19+56
+  95 0020 98F800A0 		ldrb	r10, [r8]	@ zero_extendqisi2
+  96              		.loc 1 32 25 view .LVU12
+  97 0024 4946     		mov	r1, r9
+  98 0026 2846     		mov	r0, r5
+  99 0028 FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 100              	.LVL2:
+ 101              		.loc 1 32 24 discriminator 1 view .LVU13
+ 102 002c 40EA4A00 		orr	r0, r0, r10, lsl #1
+ 103 0030 C0B2     		uxtb	r0, r0
+ 104              		.loc 1 32 10 discriminator 1 view .LVU14
+ 105 0032 88F80000 		strb	r0, [r8]
+  33:Core/Src/encoder.c **** 	
+  34:Core/Src/encoder.c **** 	bool ENCODERA_rising_edge =		(ENCODERA&0x0F)==3;
+ 106              		.loc 1 34 2 is_stmt 1 view .LVU15
+ 107              		.loc 1 34 40 is_stmt 0 view .LVU16
+ 108 0036 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 109              	.LVL3:
+  35:Core/Src/encoder.c **** 	bool ENCODERA_falling_edge=	  (ENCODERA&0x0F)==14;
+ 110              		.loc 1 35 2 is_stmt 1 view .LVU17
+  36:Core/Src/encoder.c **** 	bool ENCODERB_rising_edge =		(ENCODERB&0x0F)==3;
+ 111              		.loc 1 36 2 view .LVU18
+  37:Core/Src/encoder.c **** 	bool ENCODERB_falling_edge=	  (ENCODERB&0x0F)==14;
+ 112              		.loc 1 37 2 view .LVU19
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclRzSQK.s 			page 4
+
+
+  38:Core/Src/encoder.c **** 	
+  39:Core/Src/encoder.c **** 	static string event;
+ 113              		.loc 1 39 2 view .LVU20
+  40:Core/Src/encoder.c **** 	static string state;
+ 114              		.loc 1 40 2 view .LVU21
+  41:Core/Src/encoder.c **** 	static bool iniOK=false;
+ 115              		.loc 1 41 2 view .LVU22
+  42:Core/Src/encoder.c **** 	
+  43:Core/Src/encoder.c **** 	if(!iniOK)																					{event="power on";											  state="idle";}
+ 116              		.loc 1 43 2 view .LVU23
+ 117              		.loc 1 43 5 is_stmt 0 view .LVU24
+ 118 0038 344A     		ldr	r2, .L19+4
+ 119 003a 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 120              		.loc 1 43 4 view .LVU25
+ 121 003c 02BB     		cbnz	r2, .L2
+ 122              		.loc 1 43 34 is_stmt 1 discriminator 1 view .LVU26
+ 123              		.loc 1 43 39 is_stmt 0 discriminator 1 view .LVU27
+ 124 003e 344B     		ldr	r3, .L19+8
+ 125              	.LVL4:
+ 126              		.loc 1 43 39 discriminator 1 view .LVU28
+ 127 0040 344A     		ldr	r2, .L19+12
+ 128 0042 1A60     		str	r2, [r3]
+ 129              		.loc 1 43 64 is_stmt 1 discriminator 1 view .LVU29
+ 130              		.loc 1 43 69 is_stmt 0 discriminator 1 view .LVU30
+ 131 0044 344B     		ldr	r3, .L19+16
+ 132 0046 354A     		ldr	r2, .L19+20
+ 133 0048 1A60     		str	r2, [r3]
+ 134              	.LVL5:
+ 135              	.L3:
+  44:Core/Src/encoder.c **** 	else if (state_is("idle")&&ENCODERA_rising_edge)											{event="ENCODERA rising";											sta
+  45:Core/Src/encoder.c **** 	else if (state_is("idle")&&ENCODERB_falling_edge)											{event="ENCODERB falling";											s
+  46:Core/Src/encoder.c **** 	else if (state_is("wait for ENCODERB")&&ENCODERB_rising_edge)								{event="count up";											
+  47:Core/Src/encoder.c **** 	else if (state_is("wait for ENCODERA")&&ENCODERA_falling_edge)								{event="count down";								
+  48:Core/Src/encoder.c **** 	else 																						{event="none";}
+  49:Core/Src/encoder.c **** 	
+  50:Core/Src/encoder.c **** 	if(event_occured("count up")) 	encoder_val++;
+ 136              		.loc 1 50 2 is_stmt 1 view .LVU31
+ 137              		.loc 1 50 5 is_stmt 0 view .LVU32
+ 138 004a 314B     		ldr	r3, .L19+8
+ 139 004c 1B68     		ldr	r3, [r3]
+ 140 004e 344A     		ldr	r2, .L19+24
+ 141              		.loc 1 50 4 view .LVU33
+ 142 0050 9342     		cmp	r3, r2
+ 143 0052 4ED0     		beq	.L13
+ 144              	.L8:
+  51:Core/Src/encoder.c **** 	if(event_occured("count down")) encoder_val--;
+ 145              		.loc 1 51 2 is_stmt 1 view .LVU34
+ 146              		.loc 1 51 5 is_stmt 0 view .LVU35
+ 147 0054 334A     		ldr	r2, .L19+28
+ 148              		.loc 1 51 4 view .LVU36
+ 149 0056 9342     		cmp	r3, r2
+ 150 0058 50D0     		beq	.L14
+ 151              	.L9:
+  52:Core/Src/encoder.c **** 	
+  53:Core/Src/encoder.c **** 	if(encoder_val > upperboundary) encoder_val=upperboundary;
+ 152              		.loc 1 53 2 is_stmt 1 view .LVU37
+ 153              		.loc 1 53 17 is_stmt 0 view .LVU38
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclRzSQK.s 			page 5
+
+
+ 154 005a 334B     		ldr	r3, .L19+32
+ 155 005c 1B68     		ldr	r3, [r3]
+ 156              		.loc 1 53 4 view .LVU39
+ 157 005e BB42     		cmp	r3, r7
+ 158 0060 01DD     		ble	.L10
+ 159              		.loc 1 53 34 is_stmt 1 discriminator 1 view .LVU40
+ 160              		.loc 1 53 45 is_stmt 0 discriminator 1 view .LVU41
+ 161 0062 314B     		ldr	r3, .L19+32
+ 162 0064 1F60     		str	r7, [r3]
+ 163              	.L10:
+  54:Core/Src/encoder.c **** 	if(encoder_val < lowerboundary)	encoder_val=lowerboundary;
+ 164              		.loc 1 54 2 is_stmt 1 view .LVU42
+ 165              		.loc 1 54 17 is_stmt 0 view .LVU43
+ 166 0066 304B     		ldr	r3, .L19+32
+ 167 0068 1B68     		ldr	r3, [r3]
+ 168              		.loc 1 54 4 view .LVU44
+ 169 006a B342     		cmp	r3, r6
+ 170 006c 01DA     		bge	.L11
+ 171              		.loc 1 54 34 is_stmt 1 discriminator 1 view .LVU45
+ 172              		.loc 1 54 45 is_stmt 0 discriminator 1 view .LVU46
+ 173 006e 2E4B     		ldr	r3, .L19+32
+ 174 0070 1E60     		str	r6, [r3]
+ 175              	.L11:
+  55:Core/Src/encoder.c **** 
+  56:Core/Src/encoder.c **** 	
+  57:Core/Src/encoder.c **** 	iniOK=true;
+ 176              		.loc 1 57 2 is_stmt 1 view .LVU47
+ 177              		.loc 1 57 7 is_stmt 0 view .LVU48
+ 178 0072 264B     		ldr	r3, .L19+4
+ 179 0074 0122     		movs	r2, #1
+ 180 0076 1A70     		strb	r2, [r3]
+  58:Core/Src/encoder.c **** 	
+  59:Core/Src/encoder.c **** 	return encoder_val;
+ 181              		.loc 1 59 2 is_stmt 1 view .LVU49
+  60:Core/Src/encoder.c **** }
+ 182              		.loc 1 60 1 is_stmt 0 view .LVU50
+ 183 0078 2B4B     		ldr	r3, .L19+32
+ 184 007a 1868     		ldr	r0, [r3]
+ 185 007c BDE8F087 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ 186              	.LVL6:
+ 187              	.L2:
+ 188              		.loc 1 60 1 view .LVU51
+ 189 0080 03F00F03 		and	r3, r3, #15
+ 190              	.LVL7:
+ 191              		.loc 1 60 1 view .LVU52
+ 192 0084 00F00F00 		and	r0, r0, #15
+ 193              	.LVL8:
+  44:Core/Src/encoder.c **** 	else if (state_is("idle")&&ENCODERB_falling_edge)											{event="ENCODERB falling";											s
+ 194              		.loc 1 44 7 is_stmt 1 view .LVU53
+  44:Core/Src/encoder.c **** 	else if (state_is("idle")&&ENCODERB_falling_edge)											{event="ENCODERB falling";											s
+ 195              		.loc 1 44 11 is_stmt 0 view .LVU54
+ 196 0088 234A     		ldr	r2, .L19+16
+ 197 008a 1268     		ldr	r2, [r2]
+ 198 008c 2349     		ldr	r1, .L19+20
+  44:Core/Src/encoder.c **** 	else if (state_is("idle")&&ENCODERB_falling_edge)											{event="ENCODERB falling";											s
+ 199              		.loc 1 44 10 view .LVU55
+ 200 008e 8A42     		cmp	r2, r1
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclRzSQK.s 			page 6
+
+
+ 201 0090 0BD0     		beq	.L15
+ 202              	.L4:
+  45:Core/Src/encoder.c **** 	else if (state_is("wait for ENCODERB")&&ENCODERB_rising_edge)								{event="count up";											
+ 203              		.loc 1 45 7 is_stmt 1 view .LVU56
+  45:Core/Src/encoder.c **** 	else if (state_is("wait for ENCODERB")&&ENCODERB_rising_edge)								{event="count up";											
+ 204              		.loc 1 45 10 is_stmt 0 view .LVU57
+ 205 0092 8A42     		cmp	r2, r1
+ 206 0094 12D0     		beq	.L16
+ 207              	.L5:
+  46:Core/Src/encoder.c **** 	else if (state_is("wait for ENCODERA")&&ENCODERA_falling_edge)								{event="count down";								
+ 208              		.loc 1 46 7 is_stmt 1 view .LVU58
+  46:Core/Src/encoder.c **** 	else if (state_is("wait for ENCODERA")&&ENCODERA_falling_edge)								{event="count down";								
+ 209              		.loc 1 46 11 is_stmt 0 view .LVU59
+ 210 0096 2549     		ldr	r1, .L19+36
+  46:Core/Src/encoder.c **** 	else if (state_is("wait for ENCODERA")&&ENCODERA_falling_edge)								{event="count down";								
+ 211              		.loc 1 46 10 view .LVU60
+ 212 0098 8A42     		cmp	r2, r1
+ 213 009a 18D0     		beq	.L17
+ 214              	.L6:
+  47:Core/Src/encoder.c **** 	else 																						{event="none";}
+ 215              		.loc 1 47 7 is_stmt 1 view .LVU61
+  47:Core/Src/encoder.c **** 	else 																						{event="none";}
+ 216              		.loc 1 47 11 is_stmt 0 view .LVU62
+ 217 009c 2449     		ldr	r1, .L19+40
+  47:Core/Src/encoder.c **** 	else 																						{event="none";}
+ 218              		.loc 1 47 10 view .LVU63
+ 219 009e 8A42     		cmp	r2, r1
+ 220 00a0 1ED0     		beq	.L18
+ 221              	.L7:
+  48:Core/Src/encoder.c **** 	
+ 222              		.loc 1 48 30 is_stmt 1 view .LVU64
+  48:Core/Src/encoder.c **** 	
+ 223              		.loc 1 48 35 is_stmt 0 view .LVU65
+ 224 00a2 1B4B     		ldr	r3, .L19+8
+ 225 00a4 234A     		ldr	r2, .L19+44
+ 226 00a6 1A60     		str	r2, [r3]
+ 227 00a8 CFE7     		b	.L3
+ 228              	.L15:
+  44:Core/Src/encoder.c **** 	else if (state_is("idle")&&ENCODERB_falling_edge)											{event="ENCODERB falling";											s
+ 229              		.loc 1 44 27 discriminator 1 view .LVU66
+ 230 00aa 032B     		cmp	r3, #3
+ 231 00ac F1D1     		bne	.L4
+  44:Core/Src/encoder.c **** 	else if (state_is("idle")&&ENCODERB_falling_edge)											{event="ENCODERB falling";											s
+ 232              		.loc 1 44 62 is_stmt 1 discriminator 2 view .LVU67
+  44:Core/Src/encoder.c **** 	else if (state_is("idle")&&ENCODERB_falling_edge)											{event="ENCODERB falling";											s
+ 233              		.loc 1 44 67 is_stmt 0 discriminator 2 view .LVU68
+ 234 00ae 184B     		ldr	r3, .L19+8
+ 235 00b0 214A     		ldr	r2, .L19+48
+ 236 00b2 1A60     		str	r2, [r3]
+  44:Core/Src/encoder.c **** 	else if (state_is("idle")&&ENCODERB_falling_edge)											{event="ENCODERB falling";											s
+ 237              		.loc 1 44 97 is_stmt 1 discriminator 2 view .LVU69
+  44:Core/Src/encoder.c **** 	else if (state_is("idle")&&ENCODERB_falling_edge)											{event="ENCODERB falling";											s
+ 238              		.loc 1 44 102 is_stmt 0 discriminator 2 view .LVU70
+ 239 00b4 184B     		ldr	r3, .L19+16
+ 240 00b6 1D4A     		ldr	r2, .L19+36
+ 241 00b8 1A60     		str	r2, [r3]
+  44:Core/Src/encoder.c **** 	else if (state_is("idle")&&ENCODERB_falling_edge)											{event="ENCODERB falling";											s
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclRzSQK.s 			page 7
+
+
+ 242              		.loc 1 44 102 view .LVU71
+ 243 00ba C6E7     		b	.L3
+ 244              	.L16:
+  45:Core/Src/encoder.c **** 	else if (state_is("wait for ENCODERB")&&ENCODERB_rising_edge)								{event="count up";											
+ 245              		.loc 1 45 27 discriminator 1 view .LVU72
+ 246 00bc 0E28     		cmp	r0, #14
+ 247 00be EAD1     		bne	.L5
+  45:Core/Src/encoder.c **** 	else if (state_is("wait for ENCODERB")&&ENCODERB_rising_edge)								{event="count up";											
+ 248              		.loc 1 45 63 is_stmt 1 discriminator 2 view .LVU73
+  45:Core/Src/encoder.c **** 	else if (state_is("wait for ENCODERB")&&ENCODERB_rising_edge)								{event="count up";											
+ 249              		.loc 1 45 68 is_stmt 0 discriminator 2 view .LVU74
+ 250 00c0 134B     		ldr	r3, .L19+8
+ 251 00c2 1E4A     		ldr	r2, .L19+52
+ 252 00c4 1A60     		str	r2, [r3]
+  45:Core/Src/encoder.c **** 	else if (state_is("wait for ENCODERB")&&ENCODERB_rising_edge)								{event="count up";											
+ 253              		.loc 1 45 99 is_stmt 1 discriminator 2 view .LVU75
+  45:Core/Src/encoder.c **** 	else if (state_is("wait for ENCODERB")&&ENCODERB_rising_edge)								{event="count up";											
+ 254              		.loc 1 45 104 is_stmt 0 discriminator 2 view .LVU76
+ 255 00c6 144B     		ldr	r3, .L19+16
+ 256 00c8 194A     		ldr	r2, .L19+40
+ 257 00ca 1A60     		str	r2, [r3]
+  45:Core/Src/encoder.c **** 	else if (state_is("wait for ENCODERB")&&ENCODERB_rising_edge)								{event="count up";											
+ 258              		.loc 1 45 104 view .LVU77
+ 259 00cc BDE7     		b	.L3
+ 260              	.L17:
+  46:Core/Src/encoder.c **** 	else if (state_is("wait for ENCODERA")&&ENCODERA_falling_edge)								{event="count down";								
+ 261              		.loc 1 46 40 discriminator 1 view .LVU78
+ 262 00ce 0328     		cmp	r0, #3
+ 263 00d0 E4D1     		bne	.L6
+  46:Core/Src/encoder.c **** 	else if (state_is("wait for ENCODERA")&&ENCODERA_falling_edge)								{event="count down";								
+ 264              		.loc 1 46 72 is_stmt 1 discriminator 2 view .LVU79
+  46:Core/Src/encoder.c **** 	else if (state_is("wait for ENCODERA")&&ENCODERA_falling_edge)								{event="count down";								
+ 265              		.loc 1 46 77 is_stmt 0 discriminator 2 view .LVU80
+ 266 00d2 0F4B     		ldr	r3, .L19+8
+ 267 00d4 124A     		ldr	r2, .L19+24
+ 268 00d6 1A60     		str	r2, [r3]
+  46:Core/Src/encoder.c **** 	else if (state_is("wait for ENCODERA")&&ENCODERA_falling_edge)								{event="count down";								
+ 269              		.loc 1 46 102 is_stmt 1 discriminator 2 view .LVU81
+  46:Core/Src/encoder.c **** 	else if (state_is("wait for ENCODERA")&&ENCODERA_falling_edge)								{event="count down";								
+ 270              		.loc 1 46 107 is_stmt 0 discriminator 2 view .LVU82
+ 271 00d8 0F4B     		ldr	r3, .L19+16
+ 272 00da 104A     		ldr	r2, .L19+20
+ 273 00dc 1A60     		str	r2, [r3]
+  46:Core/Src/encoder.c **** 	else if (state_is("wait for ENCODERA")&&ENCODERA_falling_edge)								{event="count down";								
+ 274              		.loc 1 46 107 view .LVU83
+ 275 00de B4E7     		b	.L3
+ 276              	.L18:
+  47:Core/Src/encoder.c **** 	else 																						{event="none";}
+ 277              		.loc 1 47 40 discriminator 1 view .LVU84
+ 278 00e0 0E2B     		cmp	r3, #14
+ 279 00e2 DED1     		bne	.L7
+  47:Core/Src/encoder.c **** 	else 																						{event="none";}
+ 280              		.loc 1 47 73 is_stmt 1 discriminator 2 view .LVU85
+  47:Core/Src/encoder.c **** 	else 																						{event="none";}
+ 281              		.loc 1 47 78 is_stmt 0 discriminator 2 view .LVU86
+ 282 00e4 0A4B     		ldr	r3, .L19+8
+ 283 00e6 0F4A     		ldr	r2, .L19+28
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclRzSQK.s 			page 8
+
+
+ 284 00e8 1A60     		str	r2, [r3]
+  47:Core/Src/encoder.c **** 	else 																						{event="none";}
+ 285              		.loc 1 47 103 is_stmt 1 discriminator 2 view .LVU87
+  47:Core/Src/encoder.c **** 	else 																						{event="none";}
+ 286              		.loc 1 47 108 is_stmt 0 discriminator 2 view .LVU88
+ 287 00ea 0B4B     		ldr	r3, .L19+16
+ 288 00ec 0B4A     		ldr	r2, .L19+20
+ 289 00ee 1A60     		str	r2, [r3]
+  47:Core/Src/encoder.c **** 	else 																						{event="none";}
+ 290              		.loc 1 47 108 view .LVU89
+ 291 00f0 ABE7     		b	.L3
+ 292              	.L13:
+  50:Core/Src/encoder.c **** 	if(event_occured("count down")) encoder_val--;
+ 293              		.loc 1 50 33 is_stmt 1 discriminator 1 view .LVU90
+  50:Core/Src/encoder.c **** 	if(event_occured("count down")) encoder_val--;
+ 294              		.loc 1 50 44 is_stmt 0 discriminator 1 view .LVU91
+ 295 00f2 0D49     		ldr	r1, .L19+32
+ 296 00f4 0A68     		ldr	r2, [r1]
+ 297 00f6 0132     		adds	r2, r2, #1
+ 298 00f8 0A60     		str	r2, [r1]
+ 299 00fa ABE7     		b	.L8
+ 300              	.L14:
+  51:Core/Src/encoder.c **** 	
+ 301              		.loc 1 51 34 is_stmt 1 discriminator 1 view .LVU92
+  51:Core/Src/encoder.c **** 	
+ 302              		.loc 1 51 45 is_stmt 0 discriminator 1 view .LVU93
+ 303 00fc 0A4A     		ldr	r2, .L19+32
+ 304 00fe 1368     		ldr	r3, [r2]
+ 305 0100 013B     		subs	r3, r3, #1
+ 306 0102 1360     		str	r3, [r2]
+ 307 0104 A9E7     		b	.L9
+ 308              	.L20:
+ 309 0106 00BF     		.align	2
+ 310              	.L19:
+ 311 0108 00000000 		.word	ENCODERA.5
+ 312 010c 00000000 		.word	iniOK.3
+ 313 0110 00000000 		.word	event.2
+ 314 0114 00000000 		.word	.LC0
+ 315 0118 00000000 		.word	state.1
+ 316 011c 0C000000 		.word	.LC1
+ 317 0120 60000000 		.word	.LC6
+ 318 0124 6C000000 		.word	.LC7
+ 319 0128 00000000 		.word	encoder_val.0
+ 320 012c 24000000 		.word	.LC3
+ 321 0130 4C000000 		.word	.LC5
+ 322 0134 78000000 		.word	.LC8
+ 323 0138 14000000 		.word	.LC2
+ 324 013c 38000000 		.word	.LC4
+ 325 0140 00000000 		.word	ENCODERB.4
+ 326              		.cfi_endproc
+ 327              	.LFE126:
+ 329              		.section	.bss.encoder_val.0,"aw",%nobits
+ 330              		.align	2
+ 333              	encoder_val.0:
+ 334 0000 00000000 		.space	4
+ 335              		.section	.bss.state.1,"aw",%nobits
+ 336              		.align	2
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclRzSQK.s 			page 9
+
+
+ 339              	state.1:
+ 340 0000 00000000 		.space	4
+ 341              		.section	.bss.event.2,"aw",%nobits
+ 342              		.align	2
+ 345              	event.2:
+ 346 0000 00000000 		.space	4
+ 347              		.section	.bss.iniOK.3,"aw",%nobits
+ 350              	iniOK.3:
+ 351 0000 00       		.space	1
+ 352              		.section	.bss.ENCODERB.4,"aw",%nobits
+ 355              	ENCODERB.4:
+ 356 0000 00       		.space	1
+ 357              		.section	.bss.ENCODERA.5,"aw",%nobits
+ 360              	ENCODERA.5:
+ 361 0000 00       		.space	1
+ 362              		.text
+ 363              	.Letext0:
+ 364              		.file 2 "C:/toolchain/arm_gnu_toolchain/arm-none-eabi/include/machine/_default_types.h"
+ 365              		.file 3 "C:/toolchain/arm_gnu_toolchain/arm-none-eabi/include/sys/_stdint.h"
+ 366              		.file 4 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f302x8.h"
+ 367              		.file 5 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_gpio.h"
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclRzSQK.s 			page 10
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 encoder.c
+C:\Users\Simio\AppData\Local\Temp\cclRzSQK.s:21     .rodata.readEncoder.str1.4:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\cclRzSQK.s:49     .text.readEncoder:00000000 $t
+C:\Users\Simio\AppData\Local\Temp\cclRzSQK.s:55     .text.readEncoder:00000000 readEncoder
+C:\Users\Simio\AppData\Local\Temp\cclRzSQK.s:311    .text.readEncoder:00000108 $d
+C:\Users\Simio\AppData\Local\Temp\cclRzSQK.s:360    .bss.ENCODERA.5:00000000 ENCODERA.5
+C:\Users\Simio\AppData\Local\Temp\cclRzSQK.s:350    .bss.iniOK.3:00000000 iniOK.3
+C:\Users\Simio\AppData\Local\Temp\cclRzSQK.s:345    .bss.event.2:00000000 event.2
+C:\Users\Simio\AppData\Local\Temp\cclRzSQK.s:339    .bss.state.1:00000000 state.1
+C:\Users\Simio\AppData\Local\Temp\cclRzSQK.s:333    .bss.encoder_val.0:00000000 encoder_val.0
+C:\Users\Simio\AppData\Local\Temp\cclRzSQK.s:355    .bss.ENCODERB.4:00000000 ENCODERB.4
+C:\Users\Simio\AppData\Local\Temp\cclRzSQK.s:330    .bss.encoder_val.0:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\cclRzSQK.s:336    .bss.state.1:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\cclRzSQK.s:342    .bss.event.2:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\cclRzSQK.s:351    .bss.iniOK.3:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\cclRzSQK.s:356    .bss.ENCODERB.4:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\cclRzSQK.s:361    .bss.ENCODERA.5:00000000 $d
+
+UNDEFINED SYMBOLS
+HAL_GPIO_ReadPin

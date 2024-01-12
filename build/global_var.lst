@@ -1,0 +1,45 @@
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cct1AsIQ.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"global_var.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Core/Src/global_var.c"
+  20              		.global	Motor
+  21              		.section	.bss.Motor,"aw",%nobits
+  22              		.align	2
+  25              	Motor:
+  26 0000 00000000 		.space	40
+  26      00000000 
+  26      00000000 
+  26      00000000 
+  26      00000000 
+  27              		.text
+  28              	.Letext0:
+  29              		.file 2 "C:/toolchain/arm_gnu_toolchain/arm-none-eabi/include/machine/_default_types.h"
+  30              		.file 3 "C:/toolchain/arm_gnu_toolchain/arm-none-eabi/include/sys/_stdint.h"
+  31              		.file 4 "Core/Inc/global_var.h"
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cct1AsIQ.s 			page 2
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 global_var.c
+C:\Users\Simio\AppData\Local\Temp\cct1AsIQ.s:25     .bss.Motor:00000000 Motor
+C:\Users\Simio\AppData\Local\Temp\cct1AsIQ.s:22     .bss.Motor:00000000 $d
+
+NO UNDEFINED SYMBOLS

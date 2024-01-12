@@ -1,0 +1,723 @@
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cchNnNY1.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"Park_u_Clark.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Core/Src/Park_u_Clark.c"
+  20              		.section	.text.sin_from_table,"ax",%progbits
+  21              		.align	1
+  22              		.global	sin_from_table
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	sin_from_table:
+  28              	.LVL0:
+  29              	.LFB167:
+   1:Core/Src/Park_u_Clark.c **** /**
+   2:Core/Src/Park_u_Clark.c ****   ******************************************************************************
+   3:Core/Src/Park_u_Clark.c ****   * @file    adc.c
+   4:Core/Src/Park_u_Clark.c ****   * @brief   This file provides code for the configuration
+   5:Core/Src/Park_u_Clark.c ****   *          of the ADC instances.
+   6:Core/Src/Park_u_Clark.c ****   ******************************************************************************
+   7:Core/Src/Park_u_Clark.c ****   * @attention
+   8:Core/Src/Park_u_Clark.c ****   *
+   9:Core/Src/Park_u_Clark.c ****   * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
+  10:Core/Src/Park_u_Clark.c ****   * All rights reserved.</center></h2>
+  11:Core/Src/Park_u_Clark.c ****   *
+  12:Core/Src/Park_u_Clark.c ****   * This software component is licensed by ST under BSD 3-Clause license,
+  13:Core/Src/Park_u_Clark.c ****   * the "License"; You may not use this file except in compliance with the
+  14:Core/Src/Park_u_Clark.c ****   * License. You may obtain a copy of the License at:
+  15:Core/Src/Park_u_Clark.c ****   *                        opensource.org/licenses/BSD-3-Clause
+  16:Core/Src/Park_u_Clark.c ****   *
+  17:Core/Src/Park_u_Clark.c ****   ******************************************************************************
+  18:Core/Src/Park_u_Clark.c ****   */
+  19:Core/Src/Park_u_Clark.c **** 
+  20:Core/Src/Park_u_Clark.c **** /* Includes ------------------------------------------------------------------*/
+  21:Core/Src/Park_u_Clark.c **** #include "Park_u_Clark.h"
+  22:Core/Src/Park_u_Clark.c **** #include "global_var.h"
+  23:Core/Src/Park_u_Clark.c **** #include <string.h>
+  24:Core/Src/Park_u_Clark.c **** #include <stdio.h>
+  25:Core/Src/Park_u_Clark.c **** #include <stdlib.h>
+  26:Core/Src/Park_u_Clark.c **** #include "arm_math.h"
+  27:Core/Src/Park_u_Clark.c ****  
+  28:Core/Src/Park_u_Clark.c **** 
+  29:Core/Src/Park_u_Clark.c **** const SIN_TABLE[91]={
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cchNnNY1.s 			page 2
+
+
+  30:Core/Src/Park_u_Clark.c **** 		0		 ,
+  31:Core/Src/Park_u_Clark.c **** 		18       ,
+  32:Core/Src/Park_u_Clark.c **** 		36       ,
+  33:Core/Src/Park_u_Clark.c **** 		54       ,
+  34:Core/Src/Park_u_Clark.c **** 		71       ,
+  35:Core/Src/Park_u_Clark.c **** 		89       ,
+  36:Core/Src/Park_u_Clark.c **** 		107      ,
+  37:Core/Src/Park_u_Clark.c **** 		125      ,
+  38:Core/Src/Park_u_Clark.c **** 		143      ,
+  39:Core/Src/Park_u_Clark.c **** 		160      ,
+  40:Core/Src/Park_u_Clark.c **** 		178      ,
+  41:Core/Src/Park_u_Clark.c **** 		195      ,
+  42:Core/Src/Park_u_Clark.c **** 		213      ,
+  43:Core/Src/Park_u_Clark.c **** 		230      ,
+  44:Core/Src/Park_u_Clark.c **** 		248      ,
+  45:Core/Src/Park_u_Clark.c **** 		265      ,
+  46:Core/Src/Park_u_Clark.c **** 		282      ,
+  47:Core/Src/Park_u_Clark.c **** 		299      ,
+  48:Core/Src/Park_u_Clark.c **** 		316      ,
+  49:Core/Src/Park_u_Clark.c **** 		333      ,
+  50:Core/Src/Park_u_Clark.c **** 		350      ,
+  51:Core/Src/Park_u_Clark.c **** 		367      ,
+  52:Core/Src/Park_u_Clark.c **** 		384      ,
+  53:Core/Src/Park_u_Clark.c **** 		400      ,
+  54:Core/Src/Park_u_Clark.c **** 		416      ,
+  55:Core/Src/Park_u_Clark.c **** 		433      ,
+  56:Core/Src/Park_u_Clark.c **** 		449      ,
+  57:Core/Src/Park_u_Clark.c **** 		465      ,
+  58:Core/Src/Park_u_Clark.c **** 		481      ,
+  59:Core/Src/Park_u_Clark.c **** 		496      ,
+  60:Core/Src/Park_u_Clark.c **** 		512      ,
+  61:Core/Src/Park_u_Clark.c **** 		527      ,
+  62:Core/Src/Park_u_Clark.c **** 		543      ,
+  63:Core/Src/Park_u_Clark.c **** 		558      ,
+  64:Core/Src/Park_u_Clark.c **** 		573      ,
+  65:Core/Src/Park_u_Clark.c **** 		587      ,
+  66:Core/Src/Park_u_Clark.c **** 		602      ,
+  67:Core/Src/Park_u_Clark.c **** 		616      ,
+  68:Core/Src/Park_u_Clark.c **** 		630      ,
+  69:Core/Src/Park_u_Clark.c **** 		644      ,
+  70:Core/Src/Park_u_Clark.c **** 		658      ,
+  71:Core/Src/Park_u_Clark.c **** 		672      ,
+  72:Core/Src/Park_u_Clark.c **** 		685      ,
+  73:Core/Src/Park_u_Clark.c **** 		698      ,
+  74:Core/Src/Park_u_Clark.c **** 		711      ,
+  75:Core/Src/Park_u_Clark.c **** 		724      ,
+  76:Core/Src/Park_u_Clark.c **** 		737      ,
+  77:Core/Src/Park_u_Clark.c **** 		749      ,
+  78:Core/Src/Park_u_Clark.c **** 		761      ,
+  79:Core/Src/Park_u_Clark.c **** 		773      ,
+  80:Core/Src/Park_u_Clark.c **** 		784      ,
+  81:Core/Src/Park_u_Clark.c **** 		796      ,
+  82:Core/Src/Park_u_Clark.c **** 		807      ,
+  83:Core/Src/Park_u_Clark.c **** 		818      ,
+  84:Core/Src/Park_u_Clark.c **** 		828      ,
+  85:Core/Src/Park_u_Clark.c **** 		839      ,
+  86:Core/Src/Park_u_Clark.c **** 		849      ,
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cchNnNY1.s 			page 3
+
+
+  87:Core/Src/Park_u_Clark.c **** 		859      ,
+  88:Core/Src/Park_u_Clark.c **** 		868      ,
+  89:Core/Src/Park_u_Clark.c **** 		878      ,
+  90:Core/Src/Park_u_Clark.c **** 		887      ,
+  91:Core/Src/Park_u_Clark.c **** 		896      ,
+  92:Core/Src/Park_u_Clark.c **** 		904      ,
+  93:Core/Src/Park_u_Clark.c **** 		912      ,
+  94:Core/Src/Park_u_Clark.c **** 		920      ,
+  95:Core/Src/Park_u_Clark.c **** 		928      ,
+  96:Core/Src/Park_u_Clark.c **** 		935      ,
+  97:Core/Src/Park_u_Clark.c **** 		943      ,
+  98:Core/Src/Park_u_Clark.c **** 		949      ,
+  99:Core/Src/Park_u_Clark.c **** 		956      ,
+ 100:Core/Src/Park_u_Clark.c **** 		962      ,
+ 101:Core/Src/Park_u_Clark.c **** 		968      ,
+ 102:Core/Src/Park_u_Clark.c **** 		974      ,
+ 103:Core/Src/Park_u_Clark.c **** 		979      ,
+ 104:Core/Src/Park_u_Clark.c **** 		984      ,
+ 105:Core/Src/Park_u_Clark.c **** 		989      ,
+ 106:Core/Src/Park_u_Clark.c **** 		994      ,
+ 107:Core/Src/Park_u_Clark.c **** 		998      ,
+ 108:Core/Src/Park_u_Clark.c **** 		1002     ,
+ 109:Core/Src/Park_u_Clark.c **** 		1005     ,
+ 110:Core/Src/Park_u_Clark.c **** 		1008     ,
+ 111:Core/Src/Park_u_Clark.c **** 		1011     ,
+ 112:Core/Src/Park_u_Clark.c **** 		1014     ,
+ 113:Core/Src/Park_u_Clark.c **** 		1016     ,
+ 114:Core/Src/Park_u_Clark.c **** 		1018     ,
+ 115:Core/Src/Park_u_Clark.c **** 		1020     ,
+ 116:Core/Src/Park_u_Clark.c **** 		1022     ,
+ 117:Core/Src/Park_u_Clark.c **** 		1023     ,
+ 118:Core/Src/Park_u_Clark.c **** 		1023     ,
+ 119:Core/Src/Park_u_Clark.c **** 		1024     ,
+ 120:Core/Src/Park_u_Clark.c **** 		1024
+ 121:Core/Src/Park_u_Clark.c **** };
+ 122:Core/Src/Park_u_Clark.c **** 
+ 123:Core/Src/Park_u_Clark.c **** 
+ 124:Core/Src/Park_u_Clark.c **** int16_t sin_from_table(uint16_t phase){
+  30              		.loc 1 124 39 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		@ link register save eliminated.
+ 125:Core/Src/Park_u_Clark.c **** 
+ 126:Core/Src/Park_u_Clark.c **** 	if(phase>=360) phase = phase -360;
+  35              		.loc 1 126 2 view .LVU1
+  36              		.loc 1 126 4 is_stmt 0 view .LVU2
+  37 0000 B0F5B47F 		cmp	r0, #360
+  38 0004 02D3     		bcc	.L2
+  39              		.loc 1 126 17 is_stmt 1 discriminator 1 view .LVU3
+  40              		.loc 1 126 23 is_stmt 0 discriminator 1 view .LVU4
+  41 0006 A0F5B470 		sub	r0, r0, #360
+  42              	.LVL1:
+  43              		.loc 1 126 23 discriminator 1 view .LVU5
+  44 000a 80B2     		uxth	r0, r0
+  45              	.LVL2:
+  46              	.L2:
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cchNnNY1.s 			page 4
+
+
+ 127:Core/Src/Park_u_Clark.c **** 
+ 128:Core/Src/Park_u_Clark.c **** 	if(phase>=0 && phase <90){
+  47              		.loc 1 128 2 is_stmt 1 view .LVU6
+  48              		.loc 1 128 4 is_stmt 0 view .LVU7
+  49 000c 5928     		cmp	r0, #89
+  50 000e 16D9     		bls	.L8
+ 129:Core/Src/Park_u_Clark.c **** 		return SIN_TABLE[phase];
+ 130:Core/Src/Park_u_Clark.c **** 	}
+ 131:Core/Src/Park_u_Clark.c **** 	else if(phase>=90 && phase<180){
+  51              		.loc 1 131 7 is_stmt 1 view .LVU8
+  52              		.loc 1 131 20 is_stmt 0 view .LVU9
+  53 0010 A0F15A03 		sub	r3, r0, #90
+  54 0014 9BB2     		uxth	r3, r3
+  55              		.loc 1 131 9 view .LVU10
+  56 0016 592B     		cmp	r3, #89
+  57 0018 15D9     		bls	.L9
+ 132:Core/Src/Park_u_Clark.c **** 		return SIN_TABLE[90-(phase-90)];
+ 133:Core/Src/Park_u_Clark.c **** 	}
+ 134:Core/Src/Park_u_Clark.c **** 	else if(phase>=180 && phase <270){
+  58              		.loc 1 134 7 is_stmt 1 view .LVU11
+  59              		.loc 1 134 21 is_stmt 0 view .LVU12
+  60 001a A0F1B403 		sub	r3, r0, #180
+  61 001e 9BB2     		uxth	r3, r3
+  62              		.loc 1 134 9 view .LVU13
+  63 0020 592B     		cmp	r3, #89
+  64 0022 16D9     		bls	.L10
+ 135:Core/Src/Park_u_Clark.c **** 		return -SIN_TABLE[phase-180];
+ 136:Core/Src/Park_u_Clark.c **** 	}
+ 137:Core/Src/Park_u_Clark.c **** 	else if(phase>=270 && phase<360){
+  65              		.loc 1 137 7 is_stmt 1 view .LVU14
+  66              		.loc 1 137 21 is_stmt 0 view .LVU15
+  67 0024 A0F58773 		sub	r3, r0, #270
+  68 0028 9BB2     		uxth	r3, r3
+  69              		.loc 1 137 9 view .LVU16
+  70 002a 592B     		cmp	r3, #89
+  71 002c 18D8     		bhi	.L7
+ 138:Core/Src/Park_u_Clark.c **** 		return -SIN_TABLE[90-((phase-180)-90)];
+  72              		.loc 1 138 3 is_stmt 1 view .LVU17
+  73              		.loc 1 138 23 is_stmt 0 view .LVU18
+  74 002e C0F5B470 		rsb	r0, r0, #360
+  75              	.LVL3:
+  76              		.loc 1 138 20 view .LVU19
+  77 0032 0C4B     		ldr	r3, .L11
+  78 0034 53F82000 		ldr	r0, [r3, r0, lsl #2]
+  79              		.loc 1 138 10 view .LVU20
+  80 0038 4042     		rsbs	r0, r0, #0
+  81 003a 00B2     		sxth	r0, r0
+  82 003c 7047     		bx	lr
+  83              	.LVL4:
+  84              	.L8:
+ 129:Core/Src/Park_u_Clark.c **** 	}
+  85              		.loc 1 129 3 is_stmt 1 view .LVU21
+ 129:Core/Src/Park_u_Clark.c **** 	}
+  86              		.loc 1 129 19 is_stmt 0 view .LVU22
+  87 003e 094B     		ldr	r3, .L11
+  88 0040 33F92000 		ldrsh	r0, [r3, r0, lsl #2]
+  89              	.LVL5:
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cchNnNY1.s 			page 5
+
+
+ 129:Core/Src/Park_u_Clark.c **** 	}
+  90              		.loc 1 129 19 view .LVU23
+  91 0044 7047     		bx	lr
+  92              	.LVL6:
+  93              	.L9:
+ 132:Core/Src/Park_u_Clark.c **** 	}
+  94              		.loc 1 132 3 is_stmt 1 view .LVU24
+ 132:Core/Src/Park_u_Clark.c **** 	}
+  95              		.loc 1 132 22 is_stmt 0 view .LVU25
+  96 0046 C0F1B400 		rsb	r0, r0, #180
+  97              	.LVL7:
+ 132:Core/Src/Park_u_Clark.c **** 	}
+  98              		.loc 1 132 19 view .LVU26
+  99 004a 064B     		ldr	r3, .L11
+ 100 004c 33F92000 		ldrsh	r0, [r3, r0, lsl #2]
+ 101 0050 7047     		bx	lr
+ 102              	.LVL8:
+ 103              	.L10:
+ 135:Core/Src/Park_u_Clark.c **** 	}
+ 104              		.loc 1 135 3 is_stmt 1 view .LVU27
+ 135:Core/Src/Park_u_Clark.c **** 	}
+ 105              		.loc 1 135 26 is_stmt 0 view .LVU28
+ 106 0052 B438     		subs	r0, r0, #180
+ 107              	.LVL9:
+ 135:Core/Src/Park_u_Clark.c **** 	}
+ 108              		.loc 1 135 20 view .LVU29
+ 109 0054 034B     		ldr	r3, .L11
+ 110 0056 53F82000 		ldr	r0, [r3, r0, lsl #2]
+ 111              	.LVL10:
+ 135:Core/Src/Park_u_Clark.c **** 	}
+ 112              		.loc 1 135 10 view .LVU30
+ 113 005a 4042     		rsbs	r0, r0, #0
+ 114 005c 00B2     		sxth	r0, r0
+ 115 005e 7047     		bx	lr
+ 116              	.LVL11:
+ 117              	.L7:
+ 139:Core/Src/Park_u_Clark.c **** 	}
+ 140:Core/Src/Park_u_Clark.c **** 	else {
+ 141:Core/Src/Park_u_Clark.c **** 		return 0;
+ 118              		.loc 1 141 10 view .LVU31
+ 119 0060 0020     		movs	r0, #0
+ 120              	.LVL12:
+ 142:Core/Src/Park_u_Clark.c **** 	}
+ 143:Core/Src/Park_u_Clark.c **** 
+ 144:Core/Src/Park_u_Clark.c **** }
+ 121              		.loc 1 144 1 view .LVU32
+ 122 0062 7047     		bx	lr
+ 123              	.L12:
+ 124              		.align	2
+ 125              	.L11:
+ 126 0064 00000000 		.word	SIN_TABLE
+ 127              		.cfi_endproc
+ 128              	.LFE167:
+ 130              		.section	.text.cos_from_table,"ax",%progbits
+ 131              		.align	1
+ 132              		.global	cos_from_table
+ 133              		.syntax unified
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cchNnNY1.s 			page 6
+
+
+ 134              		.thumb
+ 135              		.thumb_func
+ 137              	cos_from_table:
+ 138              	.LVL13:
+ 139              	.LFB168:
+ 145:Core/Src/Park_u_Clark.c **** 
+ 146:Core/Src/Park_u_Clark.c **** int16_t cos_from_table(uint16_t phase){
+ 140              		.loc 1 146 39 is_stmt 1 view -0
+ 141              		.cfi_startproc
+ 142              		@ args = 0, pretend = 0, frame = 0
+ 143              		@ frame_needed = 0, uses_anonymous_args = 0
+ 144              		@ link register save eliminated.
+ 147:Core/Src/Park_u_Clark.c **** 
+ 148:Core/Src/Park_u_Clark.c **** 	phase = phase+90;
+ 145              		.loc 1 148 2 view .LVU34
+ 146              		.loc 1 148 8 is_stmt 0 view .LVU35
+ 147 0000 00F15A03 		add	r3, r0, #90
+ 148 0004 9BB2     		uxth	r3, r3
+ 149              	.LVL14:
+ 149:Core/Src/Park_u_Clark.c **** 
+ 150:Core/Src/Park_u_Clark.c **** 	if(phase>=360) phase = phase -360;
+ 150              		.loc 1 150 2 is_stmt 1 view .LVU36
+ 151              		.loc 1 150 4 is_stmt 0 view .LVU37
+ 152 0006 B3F5B47F 		cmp	r3, #360
+ 153 000a 02D3     		bcc	.L14
+ 154              		.loc 1 150 17 is_stmt 1 discriminator 1 view .LVU38
+ 155              		.loc 1 150 23 is_stmt 0 discriminator 1 view .LVU39
+ 156 000c A0F58770 		sub	r0, r0, #270
+ 157 0010 83B2     		uxth	r3, r0
+ 158              	.LVL15:
+ 159              	.L14:
+ 151:Core/Src/Park_u_Clark.c **** 
+ 152:Core/Src/Park_u_Clark.c **** 	if(phase>=0 && phase <90){
+ 160              		.loc 1 152 2 is_stmt 1 view .LVU40
+ 161              		.loc 1 152 4 is_stmt 0 view .LVU41
+ 162 0012 592B     		cmp	r3, #89
+ 163 0014 16D9     		bls	.L20
+ 153:Core/Src/Park_u_Clark.c **** 		return SIN_TABLE[phase];
+ 154:Core/Src/Park_u_Clark.c **** 	}
+ 155:Core/Src/Park_u_Clark.c **** 	else if(phase>=90 && phase<180){
+ 164              		.loc 1 155 7 is_stmt 1 view .LVU42
+ 165              		.loc 1 155 20 is_stmt 0 view .LVU43
+ 166 0016 A3F15A02 		sub	r2, r3, #90
+ 167 001a 92B2     		uxth	r2, r2
+ 168              		.loc 1 155 9 view .LVU44
+ 169 001c 592A     		cmp	r2, #89
+ 170 001e 15D9     		bls	.L21
+ 156:Core/Src/Park_u_Clark.c **** 		return SIN_TABLE[90-(phase-90)];
+ 157:Core/Src/Park_u_Clark.c **** 	}
+ 158:Core/Src/Park_u_Clark.c **** 	else if(phase>=180 && phase <270){
+ 171              		.loc 1 158 7 is_stmt 1 view .LVU45
+ 172              		.loc 1 158 21 is_stmt 0 view .LVU46
+ 173 0020 A3F1B402 		sub	r2, r3, #180
+ 174 0024 92B2     		uxth	r2, r2
+ 175              		.loc 1 158 9 view .LVU47
+ 176 0026 592A     		cmp	r2, #89
+ 177 0028 16D9     		bls	.L22
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cchNnNY1.s 			page 7
+
+
+ 159:Core/Src/Park_u_Clark.c **** 		return -SIN_TABLE[phase-180];
+ 160:Core/Src/Park_u_Clark.c **** 	}
+ 161:Core/Src/Park_u_Clark.c **** 	else if(phase>=270 && phase<360){
+ 178              		.loc 1 161 7 is_stmt 1 view .LVU48
+ 179              		.loc 1 161 21 is_stmt 0 view .LVU49
+ 180 002a A3F58772 		sub	r2, r3, #270
+ 181 002e 92B2     		uxth	r2, r2
+ 182              		.loc 1 161 9 view .LVU50
+ 183 0030 592A     		cmp	r2, #89
+ 184 0032 18D8     		bhi	.L19
+ 162:Core/Src/Park_u_Clark.c **** 		return -SIN_TABLE[90-((phase-180)-90)];
+ 185              		.loc 1 162 3 is_stmt 1 view .LVU51
+ 186              		.loc 1 162 23 is_stmt 0 view .LVU52
+ 187 0034 C3F5B473 		rsb	r3, r3, #360
+ 188              	.LVL16:
+ 189              		.loc 1 162 20 view .LVU53
+ 190 0038 0C4A     		ldr	r2, .L23
+ 191 003a 52F82300 		ldr	r0, [r2, r3, lsl #2]
+ 192              		.loc 1 162 10 view .LVU54
+ 193 003e 4042     		rsbs	r0, r0, #0
+ 194 0040 00B2     		sxth	r0, r0
+ 195 0042 7047     		bx	lr
+ 196              	.LVL17:
+ 197              	.L20:
+ 153:Core/Src/Park_u_Clark.c **** 	}
+ 198              		.loc 1 153 3 is_stmt 1 view .LVU55
+ 153:Core/Src/Park_u_Clark.c **** 	}
+ 199              		.loc 1 153 19 is_stmt 0 view .LVU56
+ 200 0044 094A     		ldr	r2, .L23
+ 201 0046 32F92300 		ldrsh	r0, [r2, r3, lsl #2]
+ 202 004a 7047     		bx	lr
+ 203              	.L21:
+ 156:Core/Src/Park_u_Clark.c **** 	}
+ 204              		.loc 1 156 3 is_stmt 1 view .LVU57
+ 156:Core/Src/Park_u_Clark.c **** 	}
+ 205              		.loc 1 156 22 is_stmt 0 view .LVU58
+ 206 004c C3F1B403 		rsb	r3, r3, #180
+ 207              	.LVL18:
+ 156:Core/Src/Park_u_Clark.c **** 	}
+ 208              		.loc 1 156 19 view .LVU59
+ 209 0050 064A     		ldr	r2, .L23
+ 210 0052 32F92300 		ldrsh	r0, [r2, r3, lsl #2]
+ 211 0056 7047     		bx	lr
+ 212              	.LVL19:
+ 213              	.L22:
+ 159:Core/Src/Park_u_Clark.c **** 	}
+ 214              		.loc 1 159 3 is_stmt 1 view .LVU60
+ 159:Core/Src/Park_u_Clark.c **** 	}
+ 215              		.loc 1 159 26 is_stmt 0 view .LVU61
+ 216 0058 B43B     		subs	r3, r3, #180
+ 217              	.LVL20:
+ 159:Core/Src/Park_u_Clark.c **** 	}
+ 218              		.loc 1 159 20 view .LVU62
+ 219 005a 044A     		ldr	r2, .L23
+ 220 005c 52F82300 		ldr	r0, [r2, r3, lsl #2]
+ 159:Core/Src/Park_u_Clark.c **** 	}
+ 221              		.loc 1 159 10 view .LVU63
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cchNnNY1.s 			page 8
+
+
+ 222 0060 4042     		rsbs	r0, r0, #0
+ 223 0062 00B2     		sxth	r0, r0
+ 224 0064 7047     		bx	lr
+ 225              	.LVL21:
+ 226              	.L19:
+ 163:Core/Src/Park_u_Clark.c **** 	}
+ 164:Core/Src/Park_u_Clark.c **** 	else {
+ 165:Core/Src/Park_u_Clark.c **** 		return 0;
+ 227              		.loc 1 165 10 view .LVU64
+ 228 0066 0020     		movs	r0, #0
+ 166:Core/Src/Park_u_Clark.c **** 	}
+ 167:Core/Src/Park_u_Clark.c **** 
+ 168:Core/Src/Park_u_Clark.c **** 
+ 169:Core/Src/Park_u_Clark.c **** }
+ 229              		.loc 1 169 1 view .LVU65
+ 230 0068 7047     		bx	lr
+ 231              	.L24:
+ 232 006a 00BF     		.align	2
+ 233              	.L23:
+ 234 006c 00000000 		.word	SIN_TABLE
+ 235              		.cfi_endproc
+ 236              	.LFE168:
+ 238              		.global	__aeabi_ldivmod
+ 239              		.section	.text.transform_to_Clark_domain,"ax",%progbits
+ 240              		.align	1
+ 241              		.global	transform_to_Clark_domain
+ 242              		.syntax unified
+ 243              		.thumb
+ 244              		.thumb_func
+ 246              	transform_to_Clark_domain:
+ 247              	.LVL22:
+ 248              	.LFB169:
+ 170:Core/Src/Park_u_Clark.c **** 
+ 171:Core/Src/Park_u_Clark.c **** 
+ 172:Core/Src/Park_u_Clark.c **** void transform_to_Clark_domain(int * PhaseCurrents, int * AlphaBetaCurrents){
+ 249              		.loc 1 172 77 is_stmt 1 view -0
+ 250              		.cfi_startproc
+ 251              		@ args = 0, pretend = 0, frame = 0
+ 252              		@ frame_needed = 0, uses_anonymous_args = 0
+ 253              		.loc 1 172 77 is_stmt 0 view .LVU67
+ 254 0000 10B5     		push	{r4, lr}
+ 255              	.LCFI0:
+ 256              		.cfi_def_cfa_offset 8
+ 257              		.cfi_offset 4, -8
+ 258              		.cfi_offset 14, -4
+ 259 0002 0C46     		mov	r4, r1
+ 173:Core/Src/Park_u_Clark.c **** 		// iapha = Ia
+ 174:Core/Src/Park_u_Clark.c **** 		// ibeta = (Ib - Ic)/wurzel(3)
+ 175:Core/Src/Park_u_Clark.c **** 
+ 176:Core/Src/Park_u_Clark.c **** 	//PhaseCurrents[0]= sin_from_table(Motor.rotorphase);
+ 177:Core/Src/Park_u_Clark.c **** 	//PhaseCurrents[1]= sin_from_table(Motor.rotorphase+240);
+ 178:Core/Src/Park_u_Clark.c **** 	//PhaseCurrents[2]= sin_from_table(Motor.rotorphase+120);
+ 179:Core/Src/Park_u_Clark.c **** 	
+ 180:Core/Src/Park_u_Clark.c **** 	AlphaBetaCurrents[0] = PhaseCurrents[0];
+ 260              		.loc 1 180 2 is_stmt 1 view .LVU68
+ 261              		.loc 1 180 38 is_stmt 0 view .LVU69
+ 262 0004 0368     		ldr	r3, [r0]
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cchNnNY1.s 			page 9
+
+
+ 263              		.loc 1 180 23 view .LVU70
+ 264 0006 0B60     		str	r3, [r1]
+ 181:Core/Src/Park_u_Clark.c **** 	AlphaBetaCurrents[1] = (((int64_t)(PhaseCurrents[1] - PhaseCurrents[2])<<10)/1773);
+ 265              		.loc 1 181 2 is_stmt 1 view .LVU71
+ 266              		.loc 1 181 50 is_stmt 0 view .LVU72
+ 267 0008 4168     		ldr	r1, [r0, #4]
+ 268              	.LVL23:
+ 269              		.loc 1 181 69 view .LVU73
+ 270 000a 8368     		ldr	r3, [r0, #8]
+ 271              		.loc 1 181 54 view .LVU74
+ 272 000c C91A     		subs	r1, r1, r3
+ 273              		.loc 1 181 78 view .LVU75
+ 274 000e 40F2ED62 		movw	r2, #1773
+ 275 0012 0023     		movs	r3, #0
+ 276 0014 8802     		lsls	r0, r1, #10
+ 277              	.LVL24:
+ 278              		.loc 1 181 78 view .LVU76
+ 279 0016 8915     		asrs	r1, r1, #22
+ 280 0018 FFF7FEFF 		bl	__aeabi_ldivmod
+ 281              	.LVL25:
+ 282              		.loc 1 181 23 view .LVU77
+ 283 001c 6060     		str	r0, [r4, #4]
+ 182:Core/Src/Park_u_Clark.c **** 
+ 183:Core/Src/Park_u_Clark.c **** 
+ 184:Core/Src/Park_u_Clark.c **** }
+ 284              		.loc 1 184 1 view .LVU78
+ 285 001e 10BD     		pop	{r4, pc}
+ 286              		.loc 1 184 1 view .LVU79
+ 287              		.cfi_endproc
+ 288              	.LFE169:
+ 290              		.section	.text.transform_to_Park_domain,"ax",%progbits
+ 291              		.align	1
+ 292              		.global	transform_to_Park_domain
+ 293              		.syntax unified
+ 294              		.thumb
+ 295              		.thumb_func
+ 297              	transform_to_Park_domain:
+ 298              	.LVL26:
+ 299              	.LFB170:
+ 185:Core/Src/Park_u_Clark.c **** 
+ 186:Core/Src/Park_u_Clark.c **** void transform_to_Park_domain(int * AlphaBetaCurrents,int * DQCurrents, uint32_t phase){
+ 300              		.loc 1 186 88 is_stmt 1 view -0
+ 301              		.cfi_startproc
+ 302              		@ args = 0, pretend = 0, frame = 0
+ 303              		@ frame_needed = 0, uses_anonymous_args = 0
+ 304              		.loc 1 186 88 is_stmt 0 view .LVU81
+ 305 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 306              	.LCFI1:
+ 307              		.cfi_def_cfa_offset 24
+ 308              		.cfi_offset 4, -24
+ 309              		.cfi_offset 5, -20
+ 310              		.cfi_offset 6, -16
+ 311              		.cfi_offset 7, -12
+ 312              		.cfi_offset 8, -8
+ 313              		.cfi_offset 14, -4
+ 314 0004 0746     		mov	r7, r0
+ 315 0006 0D46     		mov	r5, r1
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cchNnNY1.s 			page 10
+
+
+ 187:Core/Src/Park_u_Clark.c **** //		// iq = -sin(phase)*ialpha + cos(phase)*ibeta
+ 188:Core/Src/Park_u_Clark.c **** //		// id =  cos(phase)*ialpha + sin(phase)*ibeta
+ 189:Core/Src/Park_u_Clark.c **** 
+ 190:Core/Src/Park_u_Clark.c **** 
+ 191:Core/Src/Park_u_Clark.c **** 
+ 192:Core/Src/Park_u_Clark.c **** 	DQCurrents[0] = (-(sin_from_table(phase)*AlphaBetaCurrents[0]) + (cos_from_table(phase)*AlphaBetaC
+ 316              		.loc 1 192 2 is_stmt 1 view .LVU82
+ 317              		.loc 1 192 68 is_stmt 0 view .LVU83
+ 318 0008 1FFA82F8 		uxth	r8, r2
+ 319 000c 4046     		mov	r0, r8
+ 320              	.LVL27:
+ 321              		.loc 1 192 68 view .LVU84
+ 322 000e FFF7FEFF 		bl	cos_from_table
+ 323              	.LVL28:
+ 324              		.loc 1 192 68 view .LVU85
+ 325 0012 0646     		mov	r6, r0
+ 326              		.loc 1 192 107 discriminator 1 view .LVU86
+ 327 0014 7C68     		ldr	r4, [r7, #4]
+ 328              		.loc 1 192 89 discriminator 1 view .LVU87
+ 329 0016 00FB04F4 		mul	r4, r0, r4
+ 330              		.loc 1 192 21 discriminator 1 view .LVU88
+ 331 001a 4046     		mov	r0, r8
+ 332 001c FFF7FEFF 		bl	sin_from_table
+ 333              	.LVL29:
+ 334              		.loc 1 192 60 discriminator 2 view .LVU89
+ 335 0020 3B68     		ldr	r3, [r7]
+ 336              		.loc 1 192 65 discriminator 2 view .LVU90
+ 337 0022 03FB1044 		mls	r4, r3, r0, r4
+ 338              		.loc 1 192 112 discriminator 2 view .LVU91
+ 339 0026 A412     		asrs	r4, r4, #10
+ 340              		.loc 1 192 16 discriminator 2 view .LVU92
+ 341 0028 2C60     		str	r4, [r5]
+ 193:Core/Src/Park_u_Clark.c **** 	DQCurrents[1] = ( (cos_from_table(phase)*AlphaBetaCurrents[0]) + (sin_from_table(phase)*AlphaBetaC
+ 342              		.loc 1 193 2 is_stmt 1 view .LVU93
+ 343              		.loc 1 193 60 is_stmt 0 discriminator 1 view .LVU94
+ 344 002a 3B68     		ldr	r3, [r7]
+ 345              		.loc 1 193 107 discriminator 2 view .LVU95
+ 346 002c 7A68     		ldr	r2, [r7, #4]
+ 347              		.loc 1 193 89 discriminator 2 view .LVU96
+ 348 002e 02FB00F0 		mul	r0, r2, r0
+ 349              		.loc 1 193 65 discriminator 2 view .LVU97
+ 350 0032 03FB0600 		mla	r0, r3, r6, r0
+ 351              		.loc 1 193 112 discriminator 2 view .LVU98
+ 352 0036 8012     		asrs	r0, r0, #10
+ 353              		.loc 1 193 16 discriminator 2 view .LVU99
+ 354 0038 6860     		str	r0, [r5, #4]
+ 194:Core/Src/Park_u_Clark.c **** 
+ 195:Core/Src/Park_u_Clark.c **** 
+ 196:Core/Src/Park_u_Clark.c **** 
+ 197:Core/Src/Park_u_Clark.c **** }
+ 355              		.loc 1 197 1 view .LVU100
+ 356 003a BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 357              		.loc 1 197 1 view .LVU101
+ 358              		.cfi_endproc
+ 359              	.LFE170:
+ 361              		.global	SIN_TABLE
+ 362              		.section	.rodata.SIN_TABLE,"a"
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cchNnNY1.s 			page 11
+
+
+ 363              		.align	2
+ 366              	SIN_TABLE:
+ 367 0000 00000000 		.word	0
+ 368 0004 12000000 		.word	18
+ 369 0008 24000000 		.word	36
+ 370 000c 36000000 		.word	54
+ 371 0010 47000000 		.word	71
+ 372 0014 59000000 		.word	89
+ 373 0018 6B000000 		.word	107
+ 374 001c 7D000000 		.word	125
+ 375 0020 8F000000 		.word	143
+ 376 0024 A0000000 		.word	160
+ 377 0028 B2000000 		.word	178
+ 378 002c C3000000 		.word	195
+ 379 0030 D5000000 		.word	213
+ 380 0034 E6000000 		.word	230
+ 381 0038 F8000000 		.word	248
+ 382 003c 09010000 		.word	265
+ 383 0040 1A010000 		.word	282
+ 384 0044 2B010000 		.word	299
+ 385 0048 3C010000 		.word	316
+ 386 004c 4D010000 		.word	333
+ 387 0050 5E010000 		.word	350
+ 388 0054 6F010000 		.word	367
+ 389 0058 80010000 		.word	384
+ 390 005c 90010000 		.word	400
+ 391 0060 A0010000 		.word	416
+ 392 0064 B1010000 		.word	433
+ 393 0068 C1010000 		.word	449
+ 394 006c D1010000 		.word	465
+ 395 0070 E1010000 		.word	481
+ 396 0074 F0010000 		.word	496
+ 397 0078 00020000 		.word	512
+ 398 007c 0F020000 		.word	527
+ 399 0080 1F020000 		.word	543
+ 400 0084 2E020000 		.word	558
+ 401 0088 3D020000 		.word	573
+ 402 008c 4B020000 		.word	587
+ 403 0090 5A020000 		.word	602
+ 404 0094 68020000 		.word	616
+ 405 0098 76020000 		.word	630
+ 406 009c 84020000 		.word	644
+ 407 00a0 92020000 		.word	658
+ 408 00a4 A0020000 		.word	672
+ 409 00a8 AD020000 		.word	685
+ 410 00ac BA020000 		.word	698
+ 411 00b0 C7020000 		.word	711
+ 412 00b4 D4020000 		.word	724
+ 413 00b8 E1020000 		.word	737
+ 414 00bc ED020000 		.word	749
+ 415 00c0 F9020000 		.word	761
+ 416 00c4 05030000 		.word	773
+ 417 00c8 10030000 		.word	784
+ 418 00cc 1C030000 		.word	796
+ 419 00d0 27030000 		.word	807
+ 420 00d4 32030000 		.word	818
+ 421 00d8 3C030000 		.word	828
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cchNnNY1.s 			page 12
+
+
+ 422 00dc 47030000 		.word	839
+ 423 00e0 51030000 		.word	849
+ 424 00e4 5B030000 		.word	859
+ 425 00e8 64030000 		.word	868
+ 426 00ec 6E030000 		.word	878
+ 427 00f0 77030000 		.word	887
+ 428 00f4 80030000 		.word	896
+ 429 00f8 88030000 		.word	904
+ 430 00fc 90030000 		.word	912
+ 431 0100 98030000 		.word	920
+ 432 0104 A0030000 		.word	928
+ 433 0108 A7030000 		.word	935
+ 434 010c AF030000 		.word	943
+ 435 0110 B5030000 		.word	949
+ 436 0114 BC030000 		.word	956
+ 437 0118 C2030000 		.word	962
+ 438 011c C8030000 		.word	968
+ 439 0120 CE030000 		.word	974
+ 440 0124 D3030000 		.word	979
+ 441 0128 D8030000 		.word	984
+ 442 012c DD030000 		.word	989
+ 443 0130 E2030000 		.word	994
+ 444 0134 E6030000 		.word	998
+ 445 0138 EA030000 		.word	1002
+ 446 013c ED030000 		.word	1005
+ 447 0140 F0030000 		.word	1008
+ 448 0144 F3030000 		.word	1011
+ 449 0148 F6030000 		.word	1014
+ 450 014c F8030000 		.word	1016
+ 451 0150 FA030000 		.word	1018
+ 452 0154 FC030000 		.word	1020
+ 453 0158 FE030000 		.word	1022
+ 454 015c FF030000 		.word	1023
+ 455 0160 FF030000 		.word	1023
+ 456 0164 00040000 		.word	1024
+ 457 0168 00040000 		.word	1024
+ 458              		.text
+ 459              	.Letext0:
+ 460              		.file 2 "C:/toolchain/arm_gnu_toolchain/arm-none-eabi/include/machine/_default_types.h"
+ 461              		.file 3 "C:/toolchain/arm_gnu_toolchain/arm-none-eabi/include/sys/_stdint.h"
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cchNnNY1.s 			page 13
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 Park_u_Clark.c
+C:\Users\Simio\AppData\Local\Temp\cchNnNY1.s:21     .text.sin_from_table:00000000 $t
+C:\Users\Simio\AppData\Local\Temp\cchNnNY1.s:27     .text.sin_from_table:00000000 sin_from_table
+C:\Users\Simio\AppData\Local\Temp\cchNnNY1.s:126    .text.sin_from_table:00000064 $d
+C:\Users\Simio\AppData\Local\Temp\cchNnNY1.s:366    .rodata.SIN_TABLE:00000000 SIN_TABLE
+C:\Users\Simio\AppData\Local\Temp\cchNnNY1.s:131    .text.cos_from_table:00000000 $t
+C:\Users\Simio\AppData\Local\Temp\cchNnNY1.s:137    .text.cos_from_table:00000000 cos_from_table
+C:\Users\Simio\AppData\Local\Temp\cchNnNY1.s:234    .text.cos_from_table:0000006c $d
+C:\Users\Simio\AppData\Local\Temp\cchNnNY1.s:240    .text.transform_to_Clark_domain:00000000 $t
+C:\Users\Simio\AppData\Local\Temp\cchNnNY1.s:246    .text.transform_to_Clark_domain:00000000 transform_to_Clark_domain
+C:\Users\Simio\AppData\Local\Temp\cchNnNY1.s:291    .text.transform_to_Park_domain:00000000 $t
+C:\Users\Simio\AppData\Local\Temp\cchNnNY1.s:297    .text.transform_to_Park_domain:00000000 transform_to_Park_domain
+C:\Users\Simio\AppData\Local\Temp\cchNnNY1.s:363    .rodata.SIN_TABLE:00000000 $d
+
+UNDEFINED SYMBOLS
+__aeabi_ldivmod

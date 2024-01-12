@@ -1,0 +1,1352 @@
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"SVM.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Core/Src/SVM.c"
+  20              		.section	.text.initSVM,"ax",%progbits
+  21              		.align	1
+  22              		.global	initSVM
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	initSVM:
+  28              	.LVL0:
+  29              	.LFB126:
+   1:Core/Src/SVM.c **** /**
+   2:Core/Src/SVM.c ****   ******************************************************************************
+   3:Core/Src/SVM.c ****   * @file    adc.c
+   4:Core/Src/SVM.c ****   * @brief   This file provides code for the configuration
+   5:Core/Src/SVM.c ****   *          of the ADC instances.
+   6:Core/Src/SVM.c ****   ******************************************************************************
+   7:Core/Src/SVM.c ****   * @attention
+   8:Core/Src/SVM.c ****   *
+   9:Core/Src/SVM.c ****   * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
+  10:Core/Src/SVM.c ****   * All rights reserved.</center></h2>
+  11:Core/Src/SVM.c ****   *
+  12:Core/Src/SVM.c ****   * This software component is licensed by ST under BSD 3-Clause license,
+  13:Core/Src/SVM.c ****   * the "License"; You may not use this file except in compliance with the
+  14:Core/Src/SVM.c ****   * License. You may obtain a copy of the License at:
+  15:Core/Src/SVM.c ****   *                        opensource.org/licenses/BSD-3-Clause
+  16:Core/Src/SVM.c ****   *
+  17:Core/Src/SVM.c ****   ******************************************************************************
+  18:Core/Src/SVM.c ****   */
+  19:Core/Src/SVM.c **** 
+  20:Core/Src/SVM.c **** /* Includes ------------------------------------------------------------------*/
+  21:Core/Src/SVM.c **** #include "SVM.h"
+  22:Core/Src/SVM.c **** #include "tim.h"
+  23:Core/Src/SVM.c **** #include "adc.h"
+  24:Core/Src/SVM.c **** #include "global_var.h"
+  25:Core/Src/SVM.c **** #include <string.h>
+  26:Core/Src/SVM.c **** #include <stdio.h>
+  27:Core/Src/SVM.c **** #include <stdlib.h>
+  28:Core/Src/SVM.c **** 
+  29:Core/Src/SVM.c **** 
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 2
+
+
+  30:Core/Src/SVM.c **** 
+  31:Core/Src/SVM.c **** 
+  32:Core/Src/SVM.c **** static uint16_t CCR_U=0;
+  33:Core/Src/SVM.c **** static uint16_t CCR_V=0;
+  34:Core/Src/SVM.c **** static uint16_t CCR_W=0;
+  35:Core/Src/SVM.c **** static uint16_t CCR_CURR_AV1=0;
+  36:Core/Src/SVM.c **** static uint16_t CCR_CURR_AV2=0;
+  37:Core/Src/SVM.c **** static uint16_t current_sector=0;
+  38:Core/Src/SVM.c **** 
+  39:Core/Src/SVM.c **** 
+  40:Core/Src/SVM.c **** 
+  41:Core/Src/SVM.c **** const uint16_t SPWM[180] = {
+  42:Core/Src/SVM.c **** 	
+  43:Core/Src/SVM.c **** 0		,
+  44:Core/Src/SVM.c **** 30      ,
+  45:Core/Src/SVM.c **** 61      ,
+  46:Core/Src/SVM.c **** 91      ,
+  47:Core/Src/SVM.c **** 122     ,
+  48:Core/Src/SVM.c **** 152     ,
+  49:Core/Src/SVM.c **** 183     ,
+  50:Core/Src/SVM.c **** 213     ,
+  51:Core/Src/SVM.c **** 243     ,
+  52:Core/Src/SVM.c **** 273     ,
+  53:Core/Src/SVM.c **** 304     ,
+  54:Core/Src/SVM.c **** 334     ,
+  55:Core/Src/SVM.c **** 364     ,
+  56:Core/Src/SVM.c **** 394     ,
+  57:Core/Src/SVM.c **** 424     ,
+  58:Core/Src/SVM.c **** 454     ,
+  59:Core/Src/SVM.c **** 483     ,
+  60:Core/Src/SVM.c **** 513     ,
+  61:Core/Src/SVM.c **** 542     ,
+  62:Core/Src/SVM.c **** 572     ,
+  63:Core/Src/SVM.c **** 601     ,
+  64:Core/Src/SVM.c **** 630     ,
+  65:Core/Src/SVM.c **** 659     ,
+  66:Core/Src/SVM.c **** 688     ,
+  67:Core/Src/SVM.c **** 717     ,
+  68:Core/Src/SVM.c **** 745     ,
+  69:Core/Src/SVM.c **** 774     ,
+  70:Core/Src/SVM.c **** 802     ,
+  71:Core/Src/SVM.c **** 830     ,
+  72:Core/Src/SVM.c **** 858     ,
+  73:Core/Src/SVM.c **** 886     ,
+  74:Core/Src/SVM.c **** 894     ,
+  75:Core/Src/SVM.c **** 902     ,
+  76:Core/Src/SVM.c **** 909     ,
+  77:Core/Src/SVM.c **** 917     ,
+  78:Core/Src/SVM.c **** 924     ,
+  79:Core/Src/SVM.c **** 931     ,
+  80:Core/Src/SVM.c **** 938     ,
+  81:Core/Src/SVM.c **** 944     ,
+  82:Core/Src/SVM.c **** 951     ,
+  83:Core/Src/SVM.c **** 957     ,
+  84:Core/Src/SVM.c **** 963     ,
+  85:Core/Src/SVM.c **** 968     ,
+  86:Core/Src/SVM.c **** 974     ,
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 3
+
+
+  87:Core/Src/SVM.c **** 979     ,
+  88:Core/Src/SVM.c **** 983     ,
+  89:Core/Src/SVM.c **** 988     ,
+  90:Core/Src/SVM.c **** 992     ,
+  91:Core/Src/SVM.c **** 997     ,
+  92:Core/Src/SVM.c **** 1001    ,
+  93:Core/Src/SVM.c **** 1004    ,
+  94:Core/Src/SVM.c **** 1007    ,
+  95:Core/Src/SVM.c **** 1010    ,
+  96:Core/Src/SVM.c **** 1013    ,
+  97:Core/Src/SVM.c **** 1015    ,
+  98:Core/Src/SVM.c **** 1018    ,
+  99:Core/Src/SVM.c **** 1020    ,
+ 100:Core/Src/SVM.c **** 1021    ,
+ 101:Core/Src/SVM.c **** 1022    ,
+ 102:Core/Src/SVM.c **** 1023    ,
+ 103:Core/Src/SVM.c **** 1024    ,
+ 104:Core/Src/SVM.c **** 1024    ,
+ 105:Core/Src/SVM.c **** 1024    ,
+ 106:Core/Src/SVM.c **** 1024    ,
+ 107:Core/Src/SVM.c **** 1024    ,
+ 108:Core/Src/SVM.c **** 1022    ,
+ 109:Core/Src/SVM.c **** 1021    ,
+ 110:Core/Src/SVM.c **** 1020    ,
+ 111:Core/Src/SVM.c **** 1018    ,
+ 112:Core/Src/SVM.c **** 1015    ,
+ 113:Core/Src/SVM.c **** 1013    ,
+ 114:Core/Src/SVM.c **** 1010    ,
+ 115:Core/Src/SVM.c **** 1007    ,
+ 116:Core/Src/SVM.c **** 1003    ,
+ 117:Core/Src/SVM.c **** 999     ,
+ 118:Core/Src/SVM.c **** 995     ,
+ 119:Core/Src/SVM.c **** 990     ,
+ 120:Core/Src/SVM.c **** 985     ,
+ 121:Core/Src/SVM.c **** 980     ,
+ 122:Core/Src/SVM.c **** 974     ,
+ 123:Core/Src/SVM.c **** 968     ,
+ 124:Core/Src/SVM.c **** 961     ,
+ 125:Core/Src/SVM.c **** 954     ,
+ 126:Core/Src/SVM.c **** 948     ,
+ 127:Core/Src/SVM.c **** 940     ,
+ 128:Core/Src/SVM.c **** 932     ,
+ 129:Core/Src/SVM.c **** 924     ,
+ 130:Core/Src/SVM.c **** 915     ,
+ 131:Core/Src/SVM.c **** 906     ,
+ 132:Core/Src/SVM.c **** 897     ,
+ 133:Core/Src/SVM.c **** 887     ,
+ 134:Core/Src/SVM.c **** 897     ,
+ 135:Core/Src/SVM.c **** 906     ,
+ 136:Core/Src/SVM.c **** 915     ,
+ 137:Core/Src/SVM.c **** 924     ,
+ 138:Core/Src/SVM.c **** 932     ,
+ 139:Core/Src/SVM.c **** 940     ,
+ 140:Core/Src/SVM.c **** 948     ,
+ 141:Core/Src/SVM.c **** 954     ,
+ 142:Core/Src/SVM.c **** 961     ,
+ 143:Core/Src/SVM.c **** 968     ,
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 4
+
+
+ 144:Core/Src/SVM.c **** 974     ,
+ 145:Core/Src/SVM.c **** 980     ,
+ 146:Core/Src/SVM.c **** 985     ,
+ 147:Core/Src/SVM.c **** 990     ,
+ 148:Core/Src/SVM.c **** 995     ,
+ 149:Core/Src/SVM.c **** 999     ,
+ 150:Core/Src/SVM.c **** 1003    ,
+ 151:Core/Src/SVM.c **** 1007    ,
+ 152:Core/Src/SVM.c **** 1010    ,
+ 153:Core/Src/SVM.c **** 1013    ,
+ 154:Core/Src/SVM.c **** 1015    ,
+ 155:Core/Src/SVM.c **** 1018    ,
+ 156:Core/Src/SVM.c **** 1020    ,
+ 157:Core/Src/SVM.c **** 1021    ,
+ 158:Core/Src/SVM.c **** 1022    ,
+ 159:Core/Src/SVM.c **** 1024    ,
+ 160:Core/Src/SVM.c **** 1024    ,
+ 161:Core/Src/SVM.c **** 1024    ,
+ 162:Core/Src/SVM.c **** 1024    ,
+ 163:Core/Src/SVM.c **** 1024    ,
+ 164:Core/Src/SVM.c **** 1023    ,
+ 165:Core/Src/SVM.c **** 1022    ,
+ 166:Core/Src/SVM.c **** 1021    ,
+ 167:Core/Src/SVM.c **** 1020    ,
+ 168:Core/Src/SVM.c **** 1018    ,
+ 169:Core/Src/SVM.c **** 1015    ,
+ 170:Core/Src/SVM.c **** 1013    ,
+ 171:Core/Src/SVM.c **** 1010    ,
+ 172:Core/Src/SVM.c **** 1007    ,
+ 173:Core/Src/SVM.c **** 1004    ,
+ 174:Core/Src/SVM.c **** 1001    ,
+ 175:Core/Src/SVM.c **** 997     ,
+ 176:Core/Src/SVM.c **** 992     ,
+ 177:Core/Src/SVM.c **** 988     ,
+ 178:Core/Src/SVM.c **** 983     ,
+ 179:Core/Src/SVM.c **** 979     ,
+ 180:Core/Src/SVM.c **** 974     ,
+ 181:Core/Src/SVM.c **** 968     ,
+ 182:Core/Src/SVM.c **** 963     ,
+ 183:Core/Src/SVM.c **** 957     ,
+ 184:Core/Src/SVM.c **** 951     ,
+ 185:Core/Src/SVM.c **** 944     ,
+ 186:Core/Src/SVM.c **** 938     ,
+ 187:Core/Src/SVM.c **** 931     ,
+ 188:Core/Src/SVM.c **** 924     ,
+ 189:Core/Src/SVM.c **** 917     ,
+ 190:Core/Src/SVM.c **** 909     ,
+ 191:Core/Src/SVM.c **** 902     ,
+ 192:Core/Src/SVM.c **** 894     ,
+ 193:Core/Src/SVM.c **** 886     ,
+ 194:Core/Src/SVM.c **** 858     ,
+ 195:Core/Src/SVM.c **** 830     ,
+ 196:Core/Src/SVM.c **** 802     ,
+ 197:Core/Src/SVM.c **** 774     ,
+ 198:Core/Src/SVM.c **** 745     ,
+ 199:Core/Src/SVM.c **** 717     ,
+ 200:Core/Src/SVM.c **** 688     ,
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 5
+
+
+ 201:Core/Src/SVM.c **** 659     ,
+ 202:Core/Src/SVM.c **** 630     ,
+ 203:Core/Src/SVM.c **** 601     ,
+ 204:Core/Src/SVM.c **** 572     ,
+ 205:Core/Src/SVM.c **** 542     ,
+ 206:Core/Src/SVM.c **** 513     ,
+ 207:Core/Src/SVM.c **** 483     ,
+ 208:Core/Src/SVM.c **** 454     ,
+ 209:Core/Src/SVM.c **** 424     ,
+ 210:Core/Src/SVM.c **** 394     ,
+ 211:Core/Src/SVM.c **** 364     ,
+ 212:Core/Src/SVM.c **** 334     ,
+ 213:Core/Src/SVM.c **** 304     ,
+ 214:Core/Src/SVM.c **** 273     ,
+ 215:Core/Src/SVM.c **** 243     ,
+ 216:Core/Src/SVM.c **** 213     ,
+ 217:Core/Src/SVM.c **** 183     ,
+ 218:Core/Src/SVM.c **** 152     ,
+ 219:Core/Src/SVM.c **** 122     ,
+ 220:Core/Src/SVM.c **** 91      ,
+ 221:Core/Src/SVM.c **** 61      ,
+ 222:Core/Src/SVM.c **** 30
+ 223:Core/Src/SVM.c **** 
+ 224:Core/Src/SVM.c **** };
+ 225:Core/Src/SVM.c **** 
+ 226:Core/Src/SVM.c **** 
+ 227:Core/Src/SVM.c **** void initSVM(uint16_t switching_frequency){
+  30              		.loc 1 227 43 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 227 43 is_stmt 0 view .LVU1
+  35 0000 10B5     		push	{r4, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 8
+  38              		.cfi_offset 4, -8
+  39              		.cfi_offset 14, -4
+ 228:Core/Src/SVM.c **** 	
+ 229:Core/Src/SVM.c **** 	HAL_NVIC_EnableIRQ(TIM1_UP_TIM16_IRQn);
+  40              		.loc 1 229 2 is_stmt 1 view .LVU2
+  41 0002 1920     		movs	r0, #25
+  42              	.LVL1:
+  43              		.loc 1 229 2 is_stmt 0 view .LVU3
+  44 0004 FFF7FEFF 		bl	HAL_NVIC_EnableIRQ
+  45              	.LVL2:
+ 230:Core/Src/SVM.c **** 	HAL_NVIC_SetPriority(TIM1_UP_TIM16_IRQn,0,0);
+  46              		.loc 1 230 2 is_stmt 1 view .LVU4
+  47 0008 0022     		movs	r2, #0
+  48 000a 1146     		mov	r1, r2
+  49 000c 1920     		movs	r0, #25
+  50 000e FFF7FEFF 		bl	HAL_NVIC_SetPriority
+  51              	.LVL3:
+ 231:Core/Src/SVM.c **** 	__HAL_TIM_ENABLE_IT(&htim1,TIM_IT_UPDATE);
+  52              		.loc 1 231 2 view .LVU5
+  53 0012 1A4C     		ldr	r4, .L3
+  54 0014 2268     		ldr	r2, [r4]
+  55 0016 D368     		ldr	r3, [r2, #12]
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 6
+
+
+  56 0018 43F00103 		orr	r3, r3, #1
+  57 001c D360     		str	r3, [r2, #12]
+ 232:Core/Src/SVM.c **** 
+ 233:Core/Src/SVM.c **** 	HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_1); // W
+  58              		.loc 1 233 2 view .LVU6
+  59 001e 0021     		movs	r1, #0
+  60 0020 2046     		mov	r0, r4
+  61 0022 FFF7FEFF 		bl	HAL_TIM_PWM_Start
+  62              	.LVL4:
+ 234:Core/Src/SVM.c **** 	HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_2); // V
+  63              		.loc 1 234 2 view .LVU7
+  64 0026 0421     		movs	r1, #4
+  65 0028 2046     		mov	r0, r4
+  66 002a FFF7FEFF 		bl	HAL_TIM_PWM_Start
+  67              	.LVL5:
+ 235:Core/Src/SVM.c **** 	HAL_TIM_PWM_Start_IT(&htim1,TIM_CHANNEL_3); // U
+  68              		.loc 1 235 2 view .LVU8
+  69 002e 0821     		movs	r1, #8
+  70 0030 2046     		mov	r0, r4
+  71 0032 FFF7FEFF 		bl	HAL_TIM_PWM_Start_IT
+  72              	.LVL6:
+ 236:Core/Src/SVM.c **** 	HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_5);
+  73              		.loc 1 236 2 view .LVU9
+  74 0036 1021     		movs	r1, #16
+  75 0038 2046     		mov	r0, r4
+  76 003a FFF7FEFF 		bl	HAL_TIM_PWM_Start
+  77              	.LVL7:
+ 237:Core/Src/SVM.c **** 	HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_6);
+  78              		.loc 1 237 2 view .LVU10
+  79 003e 1421     		movs	r1, #20
+  80 0040 2046     		mov	r0, r4
+  81 0042 FFF7FEFF 		bl	HAL_TIM_PWM_Start
+  82              	.LVL8:
+ 238:Core/Src/SVM.c **** 	HAL_TIMEx_PWMN_Start(&htim1,TIM_CHANNEL_1);
+  83              		.loc 1 238 2 view .LVU11
+  84 0046 0021     		movs	r1, #0
+  85 0048 2046     		mov	r0, r4
+  86 004a FFF7FEFF 		bl	HAL_TIMEx_PWMN_Start
+  87              	.LVL9:
+ 239:Core/Src/SVM.c **** 	HAL_TIMEx_PWMN_Start(&htim1,TIM_CHANNEL_2);
+  88              		.loc 1 239 2 view .LVU12
+  89 004e 0421     		movs	r1, #4
+  90 0050 2046     		mov	r0, r4
+  91 0052 FFF7FEFF 		bl	HAL_TIMEx_PWMN_Start
+  92              	.LVL10:
+ 240:Core/Src/SVM.c **** 	HAL_TIMEx_PWMN_Start(&htim1,TIM_CHANNEL_3);
+  93              		.loc 1 240 2 view .LVU13
+  94 0056 0821     		movs	r1, #8
+  95 0058 2046     		mov	r0, r4
+  96 005a FFF7FEFF 		bl	HAL_TIMEx_PWMN_Start
+  97              	.LVL11:
+ 241:Core/Src/SVM.c **** 
+ 242:Core/Src/SVM.c **** 
+ 243:Core/Src/SVM.c **** 	PWM_TIM->BDTR&= ~(255);
+  98              		.loc 1 243 2 view .LVU14
+  99              		.loc 1 243 9 is_stmt 0 view .LVU15
+ 100 005e 084B     		ldr	r3, .L3+4
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 7
+
+
+ 101 0060 5A6C     		ldr	r2, [r3, #68]
+ 102              		.loc 1 243 15 view .LVU16
+ 103 0062 22F0FF02 		bic	r2, r2, #255
+ 104 0066 5A64     		str	r2, [r3, #68]
+ 244:Core/Src/SVM.c **** 	PWM_TIM->BDTR|= 128;
+ 105              		.loc 1 244 2 is_stmt 1 view .LVU17
+ 106              		.loc 1 244 9 is_stmt 0 view .LVU18
+ 107 0068 5A6C     		ldr	r2, [r3, #68]
+ 108              		.loc 1 244 15 view .LVU19
+ 109 006a 42F08002 		orr	r2, r2, #128
+ 110 006e 5A64     		str	r2, [r3, #68]
+ 245:Core/Src/SVM.c **** 	PWM_TIM->ARR=PWM_TIM_ARR;
+ 111              		.loc 1 245 2 is_stmt 1 view .LVU20
+ 112              		.loc 1 245 14 is_stmt 0 view .LVU21
+ 113 0070 4FF49662 		mov	r2, #1200
+ 114 0074 DA62     		str	r2, [r3, #44]
+ 246:Core/Src/SVM.c **** 
+ 247:Core/Src/SVM.c **** 	__enable_irq();
+ 115              		.loc 1 247 2 is_stmt 1 view .LVU22
+ 116              	.LBB4:
+ 117              	.LBI4:
+ 118              		.file 2 "Drivers/CMSIS/Include/cmsis_gcc.h"
+   1:Drivers/CMSIS/Include/cmsis_gcc.h **** /**************************************************************************//**
+   2:Drivers/CMSIS/Include/cmsis_gcc.h ****  * @file     cmsis_gcc.h
+   3:Drivers/CMSIS/Include/cmsis_gcc.h ****  * @brief    CMSIS compiler GCC header file
+   4:Drivers/CMSIS/Include/cmsis_gcc.h ****  * @version  V5.0.4
+   5:Drivers/CMSIS/Include/cmsis_gcc.h ****  * @date     09. April 2018
+   6:Drivers/CMSIS/Include/cmsis_gcc.h ****  ******************************************************************************/
+   7:Drivers/CMSIS/Include/cmsis_gcc.h **** /*
+   8:Drivers/CMSIS/Include/cmsis_gcc.h ****  * Copyright (c) 2009-2018 Arm Limited. All rights reserved.
+   9:Drivers/CMSIS/Include/cmsis_gcc.h ****  *
+  10:Drivers/CMSIS/Include/cmsis_gcc.h ****  * SPDX-License-Identifier: Apache-2.0
+  11:Drivers/CMSIS/Include/cmsis_gcc.h ****  *
+  12:Drivers/CMSIS/Include/cmsis_gcc.h ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  13:Drivers/CMSIS/Include/cmsis_gcc.h ****  * not use this file except in compliance with the License.
+  14:Drivers/CMSIS/Include/cmsis_gcc.h ****  * You may obtain a copy of the License at
+  15:Drivers/CMSIS/Include/cmsis_gcc.h ****  *
+  16:Drivers/CMSIS/Include/cmsis_gcc.h ****  * www.apache.org/licenses/LICENSE-2.0
+  17:Drivers/CMSIS/Include/cmsis_gcc.h ****  *
+  18:Drivers/CMSIS/Include/cmsis_gcc.h ****  * Unless required by applicable law or agreed to in writing, software
+  19:Drivers/CMSIS/Include/cmsis_gcc.h ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  20:Drivers/CMSIS/Include/cmsis_gcc.h ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  21:Drivers/CMSIS/Include/cmsis_gcc.h ****  * See the License for the specific language governing permissions and
+  22:Drivers/CMSIS/Include/cmsis_gcc.h ****  * limitations under the License.
+  23:Drivers/CMSIS/Include/cmsis_gcc.h ****  */
+  24:Drivers/CMSIS/Include/cmsis_gcc.h **** 
+  25:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef __CMSIS_GCC_H
+  26:Drivers/CMSIS/Include/cmsis_gcc.h **** #define __CMSIS_GCC_H
+  27:Drivers/CMSIS/Include/cmsis_gcc.h **** 
+  28:Drivers/CMSIS/Include/cmsis_gcc.h **** /* ignore some GCC warnings */
+  29:Drivers/CMSIS/Include/cmsis_gcc.h **** #pragma GCC diagnostic push
+  30:Drivers/CMSIS/Include/cmsis_gcc.h **** #pragma GCC diagnostic ignored "-Wsign-conversion"
+  31:Drivers/CMSIS/Include/cmsis_gcc.h **** #pragma GCC diagnostic ignored "-Wconversion"
+  32:Drivers/CMSIS/Include/cmsis_gcc.h **** #pragma GCC diagnostic ignored "-Wunused-parameter"
+  33:Drivers/CMSIS/Include/cmsis_gcc.h **** 
+  34:Drivers/CMSIS/Include/cmsis_gcc.h **** /* Fallback for __has_builtin */
+  35:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef __has_builtin
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 8
+
+
+  36:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __has_builtin(x) (0)
+  37:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  38:Drivers/CMSIS/Include/cmsis_gcc.h **** 
+  39:Drivers/CMSIS/Include/cmsis_gcc.h **** /* CMSIS compiler specific defines */
+  40:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __ASM
+  41:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __ASM                                  __asm
+  42:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  43:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __INLINE
+  44:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __INLINE                               inline
+  45:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  46:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __STATIC_INLINE
+  47:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __STATIC_INLINE                        static inline
+  48:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  49:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __STATIC_FORCEINLINE                 
+  50:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __STATIC_FORCEINLINE                   __attribute__((always_inline)) static inline
+  51:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif                                           
+  52:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __NO_RETURN
+  53:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __NO_RETURN                            __attribute__((__noreturn__))
+  54:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  55:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __USED
+  56:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __USED                                 __attribute__((used))
+  57:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  58:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __WEAK
+  59:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __WEAK                                 __attribute__((weak))
+  60:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  61:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __PACKED
+  62:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __PACKED                               __attribute__((packed, aligned(1)))
+  63:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  64:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __PACKED_STRUCT
+  65:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __PACKED_STRUCT                        struct __attribute__((packed, aligned(1)))
+  66:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  67:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __PACKED_UNION
+  68:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __PACKED_UNION                         union __attribute__((packed, aligned(1)))
+  69:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  70:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __UNALIGNED_UINT32        /* deprecated */
+  71:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic push
+  72:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wpacked"
+  73:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wattributes"
+  74:Drivers/CMSIS/Include/cmsis_gcc.h ****   struct __attribute__((packed)) T_UINT32 { uint32_t v; };
+  75:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic pop
+  76:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT32(x)                  (((struct T_UINT32 *)(x))->v)
+  77:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  78:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __UNALIGNED_UINT16_WRITE
+  79:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic push
+  80:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wpacked"
+  81:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wattributes"
+  82:Drivers/CMSIS/Include/cmsis_gcc.h ****   __PACKED_STRUCT T_UINT16_WRITE { uint16_t v; };
+  83:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic pop
+  84:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT16_WRITE(addr, val)    (void)((((struct T_UINT16_WRITE *)(void *)(addr))-
+  85:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  86:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __UNALIGNED_UINT16_READ
+  87:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic push
+  88:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wpacked"
+  89:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wattributes"
+  90:Drivers/CMSIS/Include/cmsis_gcc.h ****   __PACKED_STRUCT T_UINT16_READ { uint16_t v; };
+  91:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic pop
+  92:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT16_READ(addr)          (((const struct T_UINT16_READ *)(const void *)(add
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 9
+
+
+  93:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  94:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __UNALIGNED_UINT32_WRITE
+  95:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic push
+  96:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wpacked"
+  97:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wattributes"
+  98:Drivers/CMSIS/Include/cmsis_gcc.h ****   __PACKED_STRUCT T_UINT32_WRITE { uint32_t v; };
+  99:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic pop
+ 100:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT32_WRITE(addr, val)    (void)((((struct T_UINT32_WRITE *)(void *)(addr))-
+ 101:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+ 102:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __UNALIGNED_UINT32_READ
+ 103:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic push
+ 104:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wpacked"
+ 105:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wattributes"
+ 106:Drivers/CMSIS/Include/cmsis_gcc.h ****   __PACKED_STRUCT T_UINT32_READ { uint32_t v; };
+ 107:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic pop
+ 108:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT32_READ(addr)          (((const struct T_UINT32_READ *)(const void *)(add
+ 109:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+ 110:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __ALIGNED
+ 111:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __ALIGNED(x)                           __attribute__((aligned(x)))
+ 112:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+ 113:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __RESTRICT
+ 114:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __RESTRICT                             __restrict
+ 115:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+ 116:Drivers/CMSIS/Include/cmsis_gcc.h **** 
+ 117:Drivers/CMSIS/Include/cmsis_gcc.h **** 
+ 118:Drivers/CMSIS/Include/cmsis_gcc.h **** /* ###########################  Core Function Access  ########################### */
+ 119:Drivers/CMSIS/Include/cmsis_gcc.h **** /** \ingroup  CMSIS_Core_FunctionInterface
+ 120:Drivers/CMSIS/Include/cmsis_gcc.h ****     \defgroup CMSIS_Core_RegAccFunctions CMSIS Core Register Access Functions
+ 121:Drivers/CMSIS/Include/cmsis_gcc.h ****   @{
+ 122:Drivers/CMSIS/Include/cmsis_gcc.h ****  */
+ 123:Drivers/CMSIS/Include/cmsis_gcc.h **** 
+ 124:Drivers/CMSIS/Include/cmsis_gcc.h **** /**
+ 125:Drivers/CMSIS/Include/cmsis_gcc.h ****   \brief   Enable IRQ Interrupts
+ 126:Drivers/CMSIS/Include/cmsis_gcc.h ****   \details Enables IRQ interrupts by clearing the I-bit in the CPSR.
+ 127:Drivers/CMSIS/Include/cmsis_gcc.h ****            Can only be executed in Privileged modes.
+ 128:Drivers/CMSIS/Include/cmsis_gcc.h ****  */
+ 129:Drivers/CMSIS/Include/cmsis_gcc.h **** __STATIC_FORCEINLINE void __enable_irq(void)
+ 119              		.loc 2 129 27 view .LVU23
+ 120              	.LBB5:
+ 130:Drivers/CMSIS/Include/cmsis_gcc.h **** {
+ 131:Drivers/CMSIS/Include/cmsis_gcc.h ****   __ASM volatile ("cpsie i" : : : "memory");
+ 121              		.loc 2 131 3 view .LVU24
+ 122              		.syntax unified
+ 123              	@ 131 "Drivers/CMSIS/Include/cmsis_gcc.h" 1
+ 124 0076 62B6     		cpsie i
+ 125              	@ 0 "" 2
+ 126              		.thumb
+ 127              		.syntax unified
+ 128              	.LBE5:
+ 129              	.LBE4:
+ 248:Core/Src/SVM.c **** }
+ 130              		.loc 1 248 1 is_stmt 0 view .LVU25
+ 131 0078 10BD     		pop	{r4, pc}
+ 132              	.L4:
+ 133 007a 00BF     		.align	2
+ 134              	.L3:
+ 135 007c 00000000 		.word	htim1
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 10
+
+
+ 136 0080 002C0140 		.word	1073818624
+ 137              		.cfi_endproc
+ 138              	.LFE126:
+ 140              		.section	.text.HAL_TIM_PeriodElapsedCallback,"ax",%progbits
+ 141              		.align	1
+ 142              		.global	HAL_TIM_PeriodElapsedCallback
+ 143              		.syntax unified
+ 144              		.thumb
+ 145              		.thumb_func
+ 147              	HAL_TIM_PeriodElapsedCallback:
+ 148              	.LVL12:
+ 149              	.LFB127:
+ 249:Core/Src/SVM.c **** 
+ 250:Core/Src/SVM.c **** void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim){
+ 150              		.loc 1 250 60 is_stmt 1 view -0
+ 151              		.cfi_startproc
+ 152              		@ args = 0, pretend = 0, frame = 0
+ 153              		@ frame_needed = 0, uses_anonymous_args = 0
+ 154              		.loc 1 250 60 is_stmt 0 view .LVU27
+ 155 0000 38B5     		push	{r3, r4, r5, lr}
+ 156              	.LCFI1:
+ 157              		.cfi_def_cfa_offset 16
+ 158              		.cfi_offset 3, -16
+ 159              		.cfi_offset 4, -12
+ 160              		.cfi_offset 5, -8
+ 161              		.cfi_offset 14, -4
+ 251:Core/Src/SVM.c **** 	PWM_U=CCR_U;
+ 162              		.loc 1 251 2 is_stmt 1 view .LVU28
+ 163              		.loc 1 251 7 is_stmt 0 view .LVU29
+ 164 0002 174B     		ldr	r3, .L7
+ 165 0004 1A88     		ldrh	r2, [r3]
+ 166 0006 174B     		ldr	r3, .L7+4
+ 167 0008 DA63     		str	r2, [r3, #60]
+ 252:Core/Src/SVM.c **** 	PWM_V=CCR_V;
+ 168              		.loc 1 252 2 is_stmt 1 view .LVU30
+ 169              		.loc 1 252 7 is_stmt 0 view .LVU31
+ 170 000a 174A     		ldr	r2, .L7+8
+ 171 000c 1288     		ldrh	r2, [r2]
+ 172 000e 9A63     		str	r2, [r3, #56]
+ 253:Core/Src/SVM.c **** 	PWM_W=CCR_W;
+ 173              		.loc 1 253 2 is_stmt 1 view .LVU32
+ 174              		.loc 1 253 7 is_stmt 0 view .LVU33
+ 175 0010 164A     		ldr	r2, .L7+12
+ 176 0012 1288     		ldrh	r2, [r2]
+ 177 0014 5A63     		str	r2, [r3, #52]
+ 254:Core/Src/SVM.c **** 	
+ 255:Core/Src/SVM.c **** 	Motor.MotorCurrents.PhaseCurrents[0] = (((Motor.MotorCurrents.ADC_VAL_PhaseCurrents[0]-1970)*11000
+ 178              		.loc 1 255 2 is_stmt 1 view .LVU34
+ 179              		.loc 1 255 85 is_stmt 0 view .LVU35
+ 180 0016 164C     		ldr	r4, .L7+16
+ 181 0018 238C     		ldrh	r3, [r4, #32]
+ 182              		.loc 1 255 88 view .LVU36
+ 183 001a A3F2B273 		subw	r3, r3, #1970
+ 184              		.loc 1 255 94 view .LVU37
+ 185 001e 154A     		ldr	r2, .L7+20
+ 186 0020 02FB03F3 		mul	r3, r2, r3
+ 187              		.loc 1 255 102 view .LVU38
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 11
+
+
+ 188 0024 1B13     		asrs	r3, r3, #12
+ 189              		.loc 1 255 39 view .LVU39
+ 190 0026 6361     		str	r3, [r4, #20]
+ 256:Core/Src/SVM.c **** 	Motor.MotorCurrents.PhaseCurrents[1] = (((Motor.MotorCurrents.ADC_VAL_PhaseCurrents[1]-1970)*11000
+ 191              		.loc 1 256 2 is_stmt 1 view .LVU40
+ 192              		.loc 1 256 85 is_stmt 0 view .LVU41
+ 193 0028 638C     		ldrh	r3, [r4, #34]
+ 194              		.loc 1 256 88 view .LVU42
+ 195 002a A3F2B273 		subw	r3, r3, #1970
+ 196              		.loc 1 256 94 view .LVU43
+ 197 002e 02FB03F3 		mul	r3, r2, r3
+ 198              		.loc 1 256 102 view .LVU44
+ 199 0032 1B13     		asrs	r3, r3, #12
+ 200              		.loc 1 256 39 view .LVU45
+ 201 0034 A361     		str	r3, [r4, #24]
+ 257:Core/Src/SVM.c **** 	Motor.MotorCurrents.PhaseCurrents[2] = (((Motor.MotorCurrents.ADC_VAL_PhaseCurrents[2]-1970)*11000
+ 202              		.loc 1 257 2 is_stmt 1 view .LVU46
+ 203              		.loc 1 257 85 is_stmt 0 view .LVU47
+ 204 0036 A38C     		ldrh	r3, [r4, #36]
+ 205              		.loc 1 257 88 view .LVU48
+ 206 0038 A3F2B273 		subw	r3, r3, #1970
+ 207              		.loc 1 257 94 view .LVU49
+ 208 003c 02FB03F3 		mul	r3, r2, r3
+ 209              		.loc 1 257 102 view .LVU50
+ 210 0040 1B13     		asrs	r3, r3, #12
+ 211              		.loc 1 257 39 view .LVU51
+ 212 0042 E361     		str	r3, [r4, #28]
+ 258:Core/Src/SVM.c **** 
+ 259:Core/Src/SVM.c **** 	transform_to_Clark_domain(Motor.MotorCurrents.PhaseCurrents, Motor.MotorCurrents.AlphaBetaCurrents
+ 213              		.loc 1 259 2 is_stmt 1 view .LVU52
+ 214 0044 04F10C05 		add	r5, r4, #12
+ 215 0048 2946     		mov	r1, r5
+ 216 004a 04F11400 		add	r0, r4, #20
+ 217              	.LVL13:
+ 218              		.loc 1 259 2 is_stmt 0 view .LVU53
+ 219 004e FFF7FEFF 		bl	transform_to_Clark_domain
+ 220              	.LVL14:
+ 260:Core/Src/SVM.c **** 	transform_to_Park_domain(Motor.MotorCurrents.AlphaBetaCurrents, Motor.MotorCurrents.DQCurrenst, Mo
+ 221              		.loc 1 260 2 is_stmt 1 view .LVU54
+ 222              		.loc 1 260 103 is_stmt 0 view .LVU55
+ 223 0052 2146     		mov	r1, r4
+ 224              		.loc 1 260 2 view .LVU56
+ 225 0054 31F8042B 		ldrh	r2, [r1], #4
+ 226 0058 2846     		mov	r0, r5
+ 227 005a FFF7FEFF 		bl	transform_to_Park_domain
+ 228              	.LVL15:
+ 261:Core/Src/SVM.c **** }
+ 229              		.loc 1 261 1 view .LVU57
+ 230 005e 38BD     		pop	{r3, r4, r5, pc}
+ 231              	.L8:
+ 232              		.align	2
+ 233              	.L7:
+ 234 0060 00000000 		.word	CCR_U
+ 235 0064 002C0140 		.word	1073818624
+ 236 0068 00000000 		.word	CCR_V
+ 237 006c 00000000 		.word	CCR_W
+ 238 0070 00000000 		.word	Motor
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 12
+
+
+ 239 0074 B0AD0100 		.word	110000
+ 240              		.cfi_endproc
+ 241              	.LFE127:
+ 243              		.section	.text.setVoltageVector,"ax",%progbits
+ 244              		.align	1
+ 245              		.global	setVoltageVector
+ 246              		.syntax unified
+ 247              		.thumb
+ 248              		.thumb_func
+ 250              	setVoltageVector:
+ 251              	.LVL16:
+ 252              	.LFB128:
+ 262:Core/Src/SVM.c **** 
+ 263:Core/Src/SVM.c **** 
+ 264:Core/Src/SVM.c **** // setpoint 0..100% => 0..256
+ 265:Core/Src/SVM.c **** 
+ 266:Core/Src/SVM.c **** void setVoltageVector(int phase,int phaseshift, uint16_t setpoint){
+ 253              		.loc 1 266 67 is_stmt 1 view -0
+ 254              		.cfi_startproc
+ 255              		@ args = 0, pretend = 0, frame = 0
+ 256              		@ frame_needed = 0, uses_anonymous_args = 0
+ 257              		@ link register save eliminated.
+ 267:Core/Src/SVM.c **** 	phase=phase+phaseshift;
+ 258              		.loc 1 267 2 view .LVU59
+ 259              		.loc 1 267 7 is_stmt 0 view .LVU60
+ 260 0000 0144     		add	r1, r1, r0
+ 261              	.LVL17:
+ 268:Core/Src/SVM.c **** 	
+ 269:Core/Src/SVM.c **** 	uint16_t active_vectors_time= PWM_TIM_ARR*setpoint>>8;
+ 262              		.loc 1 269 2 is_stmt 1 view .LVU61
+ 270:Core/Src/SVM.c **** 	uint16_t inactive_vector_time= PWM_TIM_ARR-active_vectors_time;
+ 263              		.loc 1 270 2 view .LVU62
+ 271:Core/Src/SVM.c **** 	
+ 272:Core/Src/SVM.c **** 	uint16_t active_vector1_time=0;
+ 264              		.loc 1 272 2 view .LVU63
+ 273:Core/Src/SVM.c **** 	uint16_t active_vector2_time=0;
+ 265              		.loc 1 273 2 view .LVU64
+ 274:Core/Src/SVM.c **** 	
+ 275:Core/Src/SVM.c **** 	uint16_t CCR_AV1=0;
+ 266              		.loc 1 275 2 view .LVU65
+ 276:Core/Src/SVM.c **** 	uint16_t CCR_AV2=0;
+ 267              		.loc 1 276 2 view .LVU66
+ 277:Core/Src/SVM.c **** 	uint16_t CCR_IAV=0;
+ 268              		.loc 1 277 2 view .LVU67
+ 278:Core/Src/SVM.c **** 	
+ 279:Core/Src/SVM.c **** 	if(phase>=360) phase=phase-360;
+ 269              		.loc 1 279 2 view .LVU68
+ 270              		.loc 1 279 4 is_stmt 0 view .LVU69
+ 271 0002 B1F5B47F 		cmp	r1, #360
+ 272 0006 39DB     		blt	.L10
+ 273              		.loc 1 279 17 is_stmt 1 discriminator 1 view .LVU70
+ 274              		.loc 1 279 22 is_stmt 0 discriminator 1 view .LVU71
+ 275 0008 A1F5B471 		sub	r1, r1, #360
+ 276              	.LVL18:
+ 280:Core/Src/SVM.c **** 	if(phase<0) 	phase=phase+360;
+ 277              		.loc 1 280 2 is_stmt 1 view .LVU72
+ 278              	.L11:
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 13
+
+
+ 281:Core/Src/SVM.c **** 	
+ 282:Core/Src/SVM.c **** 	current_sector=(uint16_t)phase/60;
+ 279              		.loc 1 282 2 view .LVU73
+ 280              		.loc 1 282 17 is_stmt 0 view .LVU74
+ 281 000c 8BB2     		uxth	r3, r1
+ 282              		.loc 1 282 16 view .LVU75
+ 283 000e 4748     		ldr	r0, .L20
+ 284 0010 A0FB0303 		umull	r0, r3, r0, r3
+ 285 0014 5B09     		lsrs	r3, r3, #5
+ 286 0016 4648     		ldr	r0, .L20+4
+ 287 0018 0380     		strh	r3, [r0]	@ movhi
+ 283:Core/Src/SVM.c **** 	
+ 284:Core/Src/SVM.c **** //	switch(current_sector){
+ 285:Core/Src/SVM.c **** //		case(0):										// phase 0-59�
+ 286:Core/Src/SVM.c **** //			CCR_AV1= inactive_vector_time>>1;									// start of active vector 1
+ 287:Core/Src/SVM.c **** //			active_vector2_time= ((active_vectors_time * phase)/60);
+ 288:Core/Src/SVM.c **** //			active_vector1_time= active_vectors_time-active_vector2_time;
+ 289:Core/Src/SVM.c **** //			CCR_CURR_AV1=	CCR_AV1+(active_vector1_time>>1);		// middle of active vector 1 to sample curren
+ 290:Core/Src/SVM.c **** //			CCR_AV2= active_vector1_time + CCR_AV1;							// start of active vector 2
+ 291:Core/Src/SVM.c **** //			CCR_CURR_AV2 =CCR_AV2 + (active_vector2_time>>1);	// middle of active vector 2 to sample curre
+ 292:Core/Src/SVM.c **** //			CCR_IAV = active_vector2_time+ CCR_AV2;
+ 293:Core/Src/SVM.c **** //			
+ 294:Core/Src/SVM.c **** //			CCR_U = CCR_AV1;
+ 295:Core/Src/SVM.c **** //			CCR_V = CCR_AV2;
+ 296:Core/Src/SVM.c **** //			CCR_W = CCR_IAV;
+ 297:Core/Src/SVM.c **** //			break;
+ 298:Core/Src/SVM.c **** //		case(1):										// phase 60-119�
+ 299:Core/Src/SVM.c **** //			CCR_AV1= inactive_vector_time>>1;									// start of active vector 1
+ 300:Core/Src/SVM.c **** //			active_vector2_time= ((active_vectors_time * (phase-60))/60);
+ 301:Core/Src/SVM.c **** //			active_vector1_time= active_vectors_time-active_vector2_time;
+ 302:Core/Src/SVM.c **** //			CCR_CURR_AV1=	CCR_AV1+(active_vector2_time>>1);		// middle of active vector 1 to sample curren
+ 303:Core/Src/SVM.c **** //			CCR_AV2= active_vector2_time + CCR_AV1;							// start of active vector 2
+ 304:Core/Src/SVM.c **** //			CCR_CURR_AV2 =CCR_AV2 + (active_vector1_time>>1);	// middle of active vector 2 to sample curre
+ 305:Core/Src/SVM.c **** //			CCR_IAV = active_vector1_time+ CCR_AV2;
+ 306:Core/Src/SVM.c **** //			
+ 307:Core/Src/SVM.c **** //			CCR_U = CCR_AV2;
+ 308:Core/Src/SVM.c **** //			CCR_V = CCR_AV1;
+ 309:Core/Src/SVM.c **** //			CCR_W = CCR_IAV;
+ 310:Core/Src/SVM.c **** //			break;		
+ 311:Core/Src/SVM.c **** //		case(2):										// phase 120-179�
+ 312:Core/Src/SVM.c **** //			CCR_AV1= inactive_vector_time>>1;									// start of active vector 1
+ 313:Core/Src/SVM.c **** //			active_vector2_time= ((active_vectors_time * (phase-120))/60);
+ 314:Core/Src/SVM.c **** //			active_vector1_time= active_vectors_time-active_vector2_time;
+ 315:Core/Src/SVM.c **** //			CCR_CURR_AV1=	CCR_AV1+(active_vector1_time>>1);		// middle of active vector 1 to sample curren
+ 316:Core/Src/SVM.c **** //			CCR_AV2= active_vector1_time + CCR_AV1;							// start of active vector 2
+ 317:Core/Src/SVM.c **** //			CCR_CURR_AV2 =CCR_AV2 + (active_vector2_time>>1);	// middle of active vector 2 to sample curre
+ 318:Core/Src/SVM.c **** //			CCR_IAV = active_vector2_time+ CCR_AV2;
+ 319:Core/Src/SVM.c **** //			
+ 320:Core/Src/SVM.c **** //			CCR_U = CCR_IAV;
+ 321:Core/Src/SVM.c **** //			CCR_V = CCR_AV1;
+ 322:Core/Src/SVM.c **** //			CCR_W = CCR_AV2;
+ 323:Core/Src/SVM.c **** //			break;
+ 324:Core/Src/SVM.c **** //		case(3):										// phase 180-239�
+ 325:Core/Src/SVM.c **** //			CCR_AV1= inactive_vector_time>>1;									// start of active vector 1
+ 326:Core/Src/SVM.c **** //			active_vector2_time= ((active_vectors_time * (phase-180))/60);
+ 327:Core/Src/SVM.c **** //			active_vector1_time= active_vectors_time-active_vector2_time;
+ 328:Core/Src/SVM.c **** //			CCR_CURR_AV1=	CCR_AV1+(active_vector2_time>>1);		// middle of active vector 1 to sample curren
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 14
+
+
+ 329:Core/Src/SVM.c **** //			CCR_AV2= active_vector2_time + CCR_AV1;							// start of active vector 2
+ 330:Core/Src/SVM.c **** //			CCR_CURR_AV2 =CCR_AV2 + (active_vector1_time>>1);	// middle of active vector 2 to sample curre
+ 331:Core/Src/SVM.c **** //			CCR_IAV = active_vector1_time+ CCR_AV2;
+ 332:Core/Src/SVM.c **** //			
+ 333:Core/Src/SVM.c **** //			CCR_U = CCR_IAV;
+ 334:Core/Src/SVM.c **** //			CCR_V = CCR_AV2;
+ 335:Core/Src/SVM.c **** //			CCR_W = CCR_AV1;
+ 336:Core/Src/SVM.c **** //			break;
+ 337:Core/Src/SVM.c **** //		case(4):										// phase 240-299�
+ 338:Core/Src/SVM.c **** //			CCR_AV1= inactive_vector_time>>1;									// start of active vector 1
+ 339:Core/Src/SVM.c **** //			active_vector2_time= ((active_vectors_time * (phase-240))/60);
+ 340:Core/Src/SVM.c **** //			active_vector1_time= active_vectors_time-active_vector2_time;
+ 341:Core/Src/SVM.c **** //			CCR_CURR_AV1=	CCR_AV1+(active_vector1_time>>1);		// middle of active vector 1 to sample curren
+ 342:Core/Src/SVM.c **** //			CCR_AV2= active_vector1_time + CCR_AV1;							// start of active vector 2
+ 343:Core/Src/SVM.c **** //			CCR_CURR_AV2 =CCR_AV2 + (active_vector2_time>>1);	// middle of active vector 2 to sample curre
+ 344:Core/Src/SVM.c **** //			CCR_IAV = active_vector2_time+ CCR_AV2;
+ 345:Core/Src/SVM.c **** //			
+ 346:Core/Src/SVM.c **** //			CCR_U = CCR_AV2;
+ 347:Core/Src/SVM.c **** //			CCR_V = CCR_IAV;
+ 348:Core/Src/SVM.c **** //			CCR_W = CCR_AV1;
+ 349:Core/Src/SVM.c **** //			break;
+ 350:Core/Src/SVM.c **** //		case(5):										// phase 300-359�
+ 351:Core/Src/SVM.c **** //			CCR_AV1= inactive_vector_time>>1;									// start of active vector 1
+ 352:Core/Src/SVM.c **** //			active_vector2_time= ((active_vectors_time * (phase-300))/60);
+ 353:Core/Src/SVM.c **** //			active_vector1_time= active_vectors_time-active_vector2_time;
+ 354:Core/Src/SVM.c **** //			CCR_CURR_AV1=	CCR_AV1+(active_vector2_time>>1);		// middle of active vector 1 to sample curren
+ 355:Core/Src/SVM.c **** //			CCR_AV2= active_vector2_time + CCR_AV1;							// start of active vector 2
+ 356:Core/Src/SVM.c **** //			CCR_CURR_AV2 =CCR_AV2 + (active_vector1_time>>1);	// middle of active vector 2 to sample curre
+ 357:Core/Src/SVM.c **** //			CCR_IAV = active_vector1_time+ CCR_AV2;
+ 358:Core/Src/SVM.c **** //			
+ 359:Core/Src/SVM.c **** //			CCR_U = CCR_AV1;
+ 360:Core/Src/SVM.c **** //			CCR_V = CCR_IAV;
+ 361:Core/Src/SVM.c **** //			CCR_W = CCR_AV2;
+ 362:Core/Src/SVM.c **** //			break;
+ 363:Core/Src/SVM.c **** //	}
+ 364:Core/Src/SVM.c **** 	
+ 365:Core/Src/SVM.c **** 	if(phase<180)									CCR_U=PWM_TIM_ARR_half+((uint32_t)(SPWM[phase]*setpoint*PWM_TIM_ARR_half)>>1
+ 288              		.loc 1 365 2 is_stmt 1 view .LVU76
+ 289              		.loc 1 365 4 is_stmt 0 view .LVU77
+ 290 001a B329     		cmp	r1, #179
+ 291 001c 33DC     		bgt	.L12
+ 292              		.loc 1 365 24 is_stmt 1 discriminator 1 view .LVU78
+ 293              		.loc 1 365 63 is_stmt 0 discriminator 1 view .LVU79
+ 294 001e 454B     		ldr	r3, .L20+8
+ 295 0020 33F81130 		ldrh	r3, [r3, r1, lsl #1]
+ 296              		.loc 1 365 70 discriminator 1 view .LVU80
+ 297 0024 02FB03F3 		mul	r3, r2, r3
+ 298              		.loc 1 365 79 discriminator 1 view .LVU81
+ 299 0028 4FF41670 		mov	r0, #600
+ 300 002c 00FB03F3 		mul	r3, r0, r3
+ 301              		.loc 1 365 97 discriminator 1 view .LVU82
+ 302 0030 9B0C     		lsrs	r3, r3, #18
+ 303              		.loc 1 365 46 discriminator 1 view .LVU83
+ 304 0032 0344     		add	r3, r3, r0
+ 305              		.loc 1 365 29 discriminator 1 view .LVU84
+ 306 0034 4048     		ldr	r0, .L20+12
+ 307 0036 0380     		strh	r3, [r0]	@ movhi
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 15
+
+
+ 308              	.L13:
+ 366:Core/Src/SVM.c **** 	else 											CCR_U=PWM_TIM_ARR_half-((uint32_t)(SPWM[phase-180]*setpoint*PWM_TIM_ARR_half)>>18)
+ 367:Core/Src/SVM.c **** 	
+ 368:Core/Src/SVM.c **** 	if(phase<120)									CCR_V=PWM_TIM_ARR_half-((uint32_t)(SPWM[phase+60]*setpoint*PWM_TIM_ARR_half)
+ 309              		.loc 1 368 2 is_stmt 1 view .LVU85
+ 310              		.loc 1 368 4 is_stmt 0 view .LVU86
+ 311 0038 7729     		cmp	r1, #119
+ 312 003a 34DC     		bgt	.L14
+ 313              		.loc 1 368 24 is_stmt 1 discriminator 1 view .LVU87
+ 314              		.loc 1 368 69 is_stmt 0 discriminator 1 view .LVU88
+ 315 003c 01F13C03 		add	r3, r1, #60
+ 316              		.loc 1 368 63 discriminator 1 view .LVU89
+ 317 0040 3C48     		ldr	r0, .L20+8
+ 318 0042 30F81330 		ldrh	r3, [r0, r3, lsl #1]
+ 319              		.loc 1 368 73 discriminator 1 view .LVU90
+ 320 0046 02FB03F3 		mul	r3, r2, r3
+ 321              		.loc 1 368 82 discriminator 1 view .LVU91
+ 322 004a 4FF41670 		mov	r0, #600
+ 323 004e 00FB03F3 		mul	r3, r0, r3
+ 324              		.loc 1 368 100 discriminator 1 view .LVU92
+ 325 0052 9B0C     		lsrs	r3, r3, #18
+ 326              		.loc 1 368 46 discriminator 1 view .LVU93
+ 327 0054 C31A     		subs	r3, r0, r3
+ 328              		.loc 1 368 29 discriminator 1 view .LVU94
+ 329 0056 3948     		ldr	r0, .L20+16
+ 330 0058 0380     		strh	r3, [r0]	@ movhi
+ 331              	.L15:
+ 369:Core/Src/SVM.c **** 	else if((phase<300)) 							CCR_V=PWM_TIM_ARR_half+((uint32_t)(SPWM[phase-120]*setpoint*PWM_TIM_AR
+ 370:Core/Src/SVM.c **** 	else											CCR_V=PWM_TIM_ARR_half-((uint32_t)(SPWM[phase-300]*setpoint*PWM_TIM_ARR_half)>>18);
+ 371:Core/Src/SVM.c **** 																												 
+ 372:Core/Src/SVM.c **** 	if(phase<60)									CCR_W=PWM_TIM_ARR_half+((uint32_t)(SPWM[phase+120]*setpoint*PWM_TIM_ARR_half)
+ 332              		.loc 1 372 2 is_stmt 1 view .LVU95
+ 333              		.loc 1 372 4 is_stmt 0 view .LVU96
+ 334 005a 3B29     		cmp	r1, #59
+ 335 005c 46DC     		bgt	.L17
+ 336              		.loc 1 372 23 is_stmt 1 discriminator 1 view .LVU97
+ 337              		.loc 1 372 68 is_stmt 0 discriminator 1 view .LVU98
+ 338 005e 7831     		adds	r1, r1, #120
+ 339              	.LVL19:
+ 340              		.loc 1 372 62 discriminator 1 view .LVU99
+ 341 0060 344B     		ldr	r3, .L20+8
+ 342 0062 33F81130 		ldrh	r3, [r3, r1, lsl #1]
+ 343              		.loc 1 372 73 discriminator 1 view .LVU100
+ 344 0066 02FB03F3 		mul	r3, r2, r3
+ 345              		.loc 1 372 82 discriminator 1 view .LVU101
+ 346 006a 4FF41672 		mov	r2, #600
+ 347              	.LVL20:
+ 348              		.loc 1 372 82 discriminator 1 view .LVU102
+ 349 006e 02FB03F3 		mul	r3, r2, r3
+ 350              		.loc 1 372 100 discriminator 1 view .LVU103
+ 351 0072 9B0C     		lsrs	r3, r3, #18
+ 352              		.loc 1 372 45 discriminator 1 view .LVU104
+ 353 0074 1344     		add	r3, r3, r2
+ 354              		.loc 1 372 28 discriminator 1 view .LVU105
+ 355 0076 324A     		ldr	r2, .L20+20
+ 356 0078 1380     		strh	r3, [r2]	@ movhi
+ 357 007a 7047     		bx	lr
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 16
+
+
+ 358              	.LVL21:
+ 359              	.L10:
+ 280:Core/Src/SVM.c **** 	
+ 360              		.loc 1 280 2 is_stmt 1 view .LVU106
+ 280:Core/Src/SVM.c **** 	
+ 361              		.loc 1 280 4 is_stmt 0 view .LVU107
+ 362 007c 0029     		cmp	r1, #0
+ 363 007e C5DA     		bge	.L11
+ 280:Core/Src/SVM.c **** 	
+ 364              		.loc 1 280 15 is_stmt 1 discriminator 1 view .LVU108
+ 280:Core/Src/SVM.c **** 	
+ 365              		.loc 1 280 20 is_stmt 0 discriminator 1 view .LVU109
+ 366 0080 01F5B471 		add	r1, r1, #360
+ 367              	.LVL22:
+ 280:Core/Src/SVM.c **** 	
+ 368              		.loc 1 280 20 discriminator 1 view .LVU110
+ 369 0084 C2E7     		b	.L11
+ 370              	.L12:
+ 366:Core/Src/SVM.c **** 	else 											CCR_U=PWM_TIM_ARR_half-((uint32_t)(SPWM[phase-180]*setpoint*PWM_TIM_ARR_half)>>18)
+ 371              		.loc 1 366 18 is_stmt 1 view .LVU111
+ 366:Core/Src/SVM.c **** 	else 											CCR_U=PWM_TIM_ARR_half-((uint32_t)(SPWM[phase-180]*setpoint*PWM_TIM_ARR_half)>>18)
+ 372              		.loc 1 366 63 is_stmt 0 view .LVU112
+ 373 0086 A1F1B403 		sub	r3, r1, #180
+ 366:Core/Src/SVM.c **** 	else 											CCR_U=PWM_TIM_ARR_half-((uint32_t)(SPWM[phase-180]*setpoint*PWM_TIM_ARR_half)>>18)
+ 374              		.loc 1 366 57 view .LVU113
+ 375 008a 2A48     		ldr	r0, .L20+8
+ 376 008c 30F81330 		ldrh	r3, [r0, r3, lsl #1]
+ 366:Core/Src/SVM.c **** 	else 											CCR_U=PWM_TIM_ARR_half-((uint32_t)(SPWM[phase-180]*setpoint*PWM_TIM_ARR_half)>>18)
+ 377              		.loc 1 366 68 view .LVU114
+ 378 0090 02FB03F3 		mul	r3, r2, r3
+ 366:Core/Src/SVM.c **** 	else 											CCR_U=PWM_TIM_ARR_half-((uint32_t)(SPWM[phase-180]*setpoint*PWM_TIM_ARR_half)>>18)
+ 379              		.loc 1 366 77 view .LVU115
+ 380 0094 4FF41670 		mov	r0, #600
+ 381 0098 00FB03F3 		mul	r3, r0, r3
+ 366:Core/Src/SVM.c **** 	else 											CCR_U=PWM_TIM_ARR_half-((uint32_t)(SPWM[phase-180]*setpoint*PWM_TIM_ARR_half)>>18)
+ 382              		.loc 1 366 95 view .LVU116
+ 383 009c 9B0C     		lsrs	r3, r3, #18
+ 366:Core/Src/SVM.c **** 	else 											CCR_U=PWM_TIM_ARR_half-((uint32_t)(SPWM[phase-180]*setpoint*PWM_TIM_ARR_half)>>18)
+ 384              		.loc 1 366 40 view .LVU117
+ 385 009e C31A     		subs	r3, r0, r3
+ 366:Core/Src/SVM.c **** 	else 											CCR_U=PWM_TIM_ARR_half-((uint32_t)(SPWM[phase-180]*setpoint*PWM_TIM_ARR_half)>>18)
+ 386              		.loc 1 366 23 view .LVU118
+ 387 00a0 2548     		ldr	r0, .L20+12
+ 388 00a2 0380     		strh	r3, [r0]	@ movhi
+ 389 00a4 C8E7     		b	.L13
+ 390              	.L14:
+ 369:Core/Src/SVM.c **** 	else if((phase<300)) 							CCR_V=PWM_TIM_ARR_half+((uint32_t)(SPWM[phase-120]*setpoint*PWM_TIM_AR
+ 391              		.loc 1 369 7 is_stmt 1 view .LVU119
+ 369:Core/Src/SVM.c **** 	else if((phase<300)) 							CCR_V=PWM_TIM_ARR_half+((uint32_t)(SPWM[phase-120]*setpoint*PWM_TIM_AR
+ 392              		.loc 1 369 9 is_stmt 0 view .LVU120
+ 393 00a6 B1F5967F 		cmp	r1, #300
+ 394 00aa 0FDA     		bge	.L16
+ 369:Core/Src/SVM.c **** 	else if((phase<300)) 							CCR_V=PWM_TIM_ARR_half+((uint32_t)(SPWM[phase-120]*setpoint*PWM_TIM_AR
+ 395              		.loc 1 369 30 is_stmt 1 discriminator 1 view .LVU121
+ 369:Core/Src/SVM.c **** 	else if((phase<300)) 							CCR_V=PWM_TIM_ARR_half+((uint32_t)(SPWM[phase-120]*setpoint*PWM_TIM_AR
+ 396              		.loc 1 369 75 is_stmt 0 discriminator 1 view .LVU122
+ 397 00ac A1F17803 		sub	r3, r1, #120
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 17
+
+
+ 369:Core/Src/SVM.c **** 	else if((phase<300)) 							CCR_V=PWM_TIM_ARR_half+((uint32_t)(SPWM[phase-120]*setpoint*PWM_TIM_AR
+ 398              		.loc 1 369 69 discriminator 1 view .LVU123
+ 399 00b0 2048     		ldr	r0, .L20+8
+ 400 00b2 30F81330 		ldrh	r3, [r0, r3, lsl #1]
+ 369:Core/Src/SVM.c **** 	else if((phase<300)) 							CCR_V=PWM_TIM_ARR_half+((uint32_t)(SPWM[phase-120]*setpoint*PWM_TIM_AR
+ 401              		.loc 1 369 80 discriminator 1 view .LVU124
+ 402 00b6 02FB03F3 		mul	r3, r2, r3
+ 369:Core/Src/SVM.c **** 	else if((phase<300)) 							CCR_V=PWM_TIM_ARR_half+((uint32_t)(SPWM[phase-120]*setpoint*PWM_TIM_AR
+ 403              		.loc 1 369 89 discriminator 1 view .LVU125
+ 404 00ba 4FF41670 		mov	r0, #600
+ 405 00be 00FB03F3 		mul	r3, r0, r3
+ 369:Core/Src/SVM.c **** 	else if((phase<300)) 							CCR_V=PWM_TIM_ARR_half+((uint32_t)(SPWM[phase-120]*setpoint*PWM_TIM_AR
+ 406              		.loc 1 369 107 discriminator 1 view .LVU126
+ 407 00c2 9B0C     		lsrs	r3, r3, #18
+ 369:Core/Src/SVM.c **** 	else if((phase<300)) 							CCR_V=PWM_TIM_ARR_half+((uint32_t)(SPWM[phase-120]*setpoint*PWM_TIM_AR
+ 408              		.loc 1 369 52 discriminator 1 view .LVU127
+ 409 00c4 0344     		add	r3, r3, r0
+ 369:Core/Src/SVM.c **** 	else if((phase<300)) 							CCR_V=PWM_TIM_ARR_half+((uint32_t)(SPWM[phase-120]*setpoint*PWM_TIM_AR
+ 410              		.loc 1 369 35 discriminator 1 view .LVU128
+ 411 00c6 1D48     		ldr	r0, .L20+16
+ 412 00c8 0380     		strh	r3, [r0]	@ movhi
+ 413 00ca C6E7     		b	.L15
+ 414              	.L16:
+ 370:Core/Src/SVM.c **** 																												 
+ 415              		.loc 1 370 17 is_stmt 1 view .LVU129
+ 370:Core/Src/SVM.c **** 																												 
+ 416              		.loc 1 370 62 is_stmt 0 view .LVU130
+ 417 00cc A1F59673 		sub	r3, r1, #300
+ 370:Core/Src/SVM.c **** 																												 
+ 418              		.loc 1 370 56 view .LVU131
+ 419 00d0 1848     		ldr	r0, .L20+8
+ 420 00d2 30F81330 		ldrh	r3, [r0, r3, lsl #1]
+ 370:Core/Src/SVM.c **** 																												 
+ 421              		.loc 1 370 67 view .LVU132
+ 422 00d6 02FB03F3 		mul	r3, r2, r3
+ 370:Core/Src/SVM.c **** 																												 
+ 423              		.loc 1 370 76 view .LVU133
+ 424 00da 4FF41670 		mov	r0, #600
+ 425 00de 00FB03F3 		mul	r3, r0, r3
+ 370:Core/Src/SVM.c **** 																												 
+ 426              		.loc 1 370 94 view .LVU134
+ 427 00e2 9B0C     		lsrs	r3, r3, #18
+ 370:Core/Src/SVM.c **** 																												 
+ 428              		.loc 1 370 39 view .LVU135
+ 429 00e4 C31A     		subs	r3, r0, r3
+ 370:Core/Src/SVM.c **** 																												 
+ 430              		.loc 1 370 22 view .LVU136
+ 431 00e6 1548     		ldr	r0, .L20+16
+ 432 00e8 0380     		strh	r3, [r0]	@ movhi
+ 433 00ea B6E7     		b	.L15
+ 434              	.L17:
+ 373:Core/Src/SVM.c **** 	else if((phase<240)) 							CCR_W=PWM_TIM_ARR_half-((uint32_t)(SPWM[phase-60]*setpoint*PWM_TIM_ARR
+ 435              		.loc 1 373 7 is_stmt 1 view .LVU137
+ 436              		.loc 1 373 9 is_stmt 0 view .LVU138
+ 437 00ec EF29     		cmp	r1, #239
+ 438 00ee 0EDC     		bgt	.L19
+ 439              		.loc 1 373 30 is_stmt 1 discriminator 1 view .LVU139
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 18
+
+
+ 440              		.loc 1 373 75 is_stmt 0 discriminator 1 view .LVU140
+ 441 00f0 3C39     		subs	r1, r1, #60
+ 442              	.LVL23:
+ 443              		.loc 1 373 69 discriminator 1 view .LVU141
+ 444 00f2 104B     		ldr	r3, .L20+8
+ 445 00f4 33F81130 		ldrh	r3, [r3, r1, lsl #1]
+ 446              		.loc 1 373 79 discriminator 1 view .LVU142
+ 447 00f8 02FB03F3 		mul	r3, r2, r3
+ 448              		.loc 1 373 88 discriminator 1 view .LVU143
+ 449 00fc 4FF41672 		mov	r2, #600
+ 450              	.LVL24:
+ 451              		.loc 1 373 88 discriminator 1 view .LVU144
+ 452 0100 02FB03F3 		mul	r3, r2, r3
+ 453              		.loc 1 373 106 discriminator 1 view .LVU145
+ 454 0104 9B0C     		lsrs	r3, r3, #18
+ 455              		.loc 1 373 52 discriminator 1 view .LVU146
+ 456 0106 D31A     		subs	r3, r2, r3
+ 457              		.loc 1 373 35 discriminator 1 view .LVU147
+ 458 0108 0D4A     		ldr	r2, .L20+20
+ 459 010a 1380     		strh	r3, [r2]	@ movhi
+ 460 010c 7047     		bx	lr
+ 461              	.LVL25:
+ 462              	.L19:
+ 374:Core/Src/SVM.c **** 	else											CCR_W=PWM_TIM_ARR_half+((uint32_t)(SPWM[phase-240]*setpoint*PWM_TIM_ARR_half)>>18);
+ 463              		.loc 1 374 17 is_stmt 1 view .LVU148
+ 464              		.loc 1 374 62 is_stmt 0 view .LVU149
+ 465 010e F039     		subs	r1, r1, #240
+ 466              	.LVL26:
+ 467              		.loc 1 374 56 view .LVU150
+ 468 0110 084B     		ldr	r3, .L20+8
+ 469 0112 33F81130 		ldrh	r3, [r3, r1, lsl #1]
+ 470              		.loc 1 374 67 view .LVU151
+ 471 0116 02FB03F3 		mul	r3, r2, r3
+ 472              		.loc 1 374 76 view .LVU152
+ 473 011a 4FF41672 		mov	r2, #600
+ 474              	.LVL27:
+ 475              		.loc 1 374 76 view .LVU153
+ 476 011e 02FB03F3 		mul	r3, r2, r3
+ 477              		.loc 1 374 94 view .LVU154
+ 478 0122 9B0C     		lsrs	r3, r3, #18
+ 479              		.loc 1 374 39 view .LVU155
+ 480 0124 1344     		add	r3, r3, r2
+ 481              		.loc 1 374 22 view .LVU156
+ 482 0126 064A     		ldr	r2, .L20+20
+ 483 0128 1380     		strh	r3, [r2]	@ movhi
+ 375:Core/Src/SVM.c **** 	
+ 376:Core/Src/SVM.c **** 	
+ 377:Core/Src/SVM.c **** 	
+ 378:Core/Src/SVM.c **** 	
+ 379:Core/Src/SVM.c **** 	// calculte the CCR5 und CCR6 register to determine when the current is sampled
+ 380:Core/Src/SVM.c **** 	// these CCR registers must be set in die middel of the active vectors
+ 381:Core/Src/SVM.c **** 	
+ 382:Core/Src/SVM.c **** //	if(phase<)
+ 383:Core/Src/SVM.c **** 	
+ 384:Core/Src/SVM.c **** 	
+ 385:Core/Src/SVM.c **** 								
+ 386:Core/Src/SVM.c **** }
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 19
+
+
+ 484              		.loc 1 386 1 view .LVU157
+ 485 012a 7047     		bx	lr
+ 486              	.L21:
+ 487              		.align	2
+ 488              	.L20:
+ 489 012c 89888888 		.word	-2004318071
+ 490 0130 00000000 		.word	current_sector
+ 491 0134 00000000 		.word	SPWM
+ 492 0138 00000000 		.word	CCR_U
+ 493 013c 00000000 		.word	CCR_V
+ 494 0140 00000000 		.word	CCR_W
+ 495              		.cfi_endproc
+ 496              	.LFE128:
+ 498              		.global	SPWM
+ 499              		.section	.rodata.SPWM,"a"
+ 500              		.align	2
+ 503              	SPWM:
+ 504 0000 0000     		.short	0
+ 505 0002 1E00     		.short	30
+ 506 0004 3D00     		.short	61
+ 507 0006 5B00     		.short	91
+ 508 0008 7A00     		.short	122
+ 509 000a 9800     		.short	152
+ 510 000c B700     		.short	183
+ 511 000e D500     		.short	213
+ 512 0010 F300     		.short	243
+ 513 0012 1101     		.short	273
+ 514 0014 3001     		.short	304
+ 515 0016 4E01     		.short	334
+ 516 0018 6C01     		.short	364
+ 517 001a 8A01     		.short	394
+ 518 001c A801     		.short	424
+ 519 001e C601     		.short	454
+ 520 0020 E301     		.short	483
+ 521 0022 0102     		.short	513
+ 522 0024 1E02     		.short	542
+ 523 0026 3C02     		.short	572
+ 524 0028 5902     		.short	601
+ 525 002a 7602     		.short	630
+ 526 002c 9302     		.short	659
+ 527 002e B002     		.short	688
+ 528 0030 CD02     		.short	717
+ 529 0032 E902     		.short	745
+ 530 0034 0603     		.short	774
+ 531 0036 2203     		.short	802
+ 532 0038 3E03     		.short	830
+ 533 003a 5A03     		.short	858
+ 534 003c 7603     		.short	886
+ 535 003e 7E03     		.short	894
+ 536 0040 8603     		.short	902
+ 537 0042 8D03     		.short	909
+ 538 0044 9503     		.short	917
+ 539 0046 9C03     		.short	924
+ 540 0048 A303     		.short	931
+ 541 004a AA03     		.short	938
+ 542 004c B003     		.short	944
+ 543 004e B703     		.short	951
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 20
+
+
+ 544 0050 BD03     		.short	957
+ 545 0052 C303     		.short	963
+ 546 0054 C803     		.short	968
+ 547 0056 CE03     		.short	974
+ 548 0058 D303     		.short	979
+ 549 005a D703     		.short	983
+ 550 005c DC03     		.short	988
+ 551 005e E003     		.short	992
+ 552 0060 E503     		.short	997
+ 553 0062 E903     		.short	1001
+ 554 0064 EC03     		.short	1004
+ 555 0066 EF03     		.short	1007
+ 556 0068 F203     		.short	1010
+ 557 006a F503     		.short	1013
+ 558 006c F703     		.short	1015
+ 559 006e FA03     		.short	1018
+ 560 0070 FC03     		.short	1020
+ 561 0072 FD03     		.short	1021
+ 562 0074 FE03     		.short	1022
+ 563 0076 FF03     		.short	1023
+ 564 0078 0004     		.short	1024
+ 565 007a 0004     		.short	1024
+ 566 007c 0004     		.short	1024
+ 567 007e 0004     		.short	1024
+ 568 0080 0004     		.short	1024
+ 569 0082 FE03     		.short	1022
+ 570 0084 FD03     		.short	1021
+ 571 0086 FC03     		.short	1020
+ 572 0088 FA03     		.short	1018
+ 573 008a F703     		.short	1015
+ 574 008c F503     		.short	1013
+ 575 008e F203     		.short	1010
+ 576 0090 EF03     		.short	1007
+ 577 0092 EB03     		.short	1003
+ 578 0094 E703     		.short	999
+ 579 0096 E303     		.short	995
+ 580 0098 DE03     		.short	990
+ 581 009a D903     		.short	985
+ 582 009c D403     		.short	980
+ 583 009e CE03     		.short	974
+ 584 00a0 C803     		.short	968
+ 585 00a2 C103     		.short	961
+ 586 00a4 BA03     		.short	954
+ 587 00a6 B403     		.short	948
+ 588 00a8 AC03     		.short	940
+ 589 00aa A403     		.short	932
+ 590 00ac 9C03     		.short	924
+ 591 00ae 9303     		.short	915
+ 592 00b0 8A03     		.short	906
+ 593 00b2 8103     		.short	897
+ 594 00b4 7703     		.short	887
+ 595 00b6 8103     		.short	897
+ 596 00b8 8A03     		.short	906
+ 597 00ba 9303     		.short	915
+ 598 00bc 9C03     		.short	924
+ 599 00be A403     		.short	932
+ 600 00c0 AC03     		.short	940
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 21
+
+
+ 601 00c2 B403     		.short	948
+ 602 00c4 BA03     		.short	954
+ 603 00c6 C103     		.short	961
+ 604 00c8 C803     		.short	968
+ 605 00ca CE03     		.short	974
+ 606 00cc D403     		.short	980
+ 607 00ce D903     		.short	985
+ 608 00d0 DE03     		.short	990
+ 609 00d2 E303     		.short	995
+ 610 00d4 E703     		.short	999
+ 611 00d6 EB03     		.short	1003
+ 612 00d8 EF03     		.short	1007
+ 613 00da F203     		.short	1010
+ 614 00dc F503     		.short	1013
+ 615 00de F703     		.short	1015
+ 616 00e0 FA03     		.short	1018
+ 617 00e2 FC03     		.short	1020
+ 618 00e4 FD03     		.short	1021
+ 619 00e6 FE03     		.short	1022
+ 620 00e8 0004     		.short	1024
+ 621 00ea 0004     		.short	1024
+ 622 00ec 0004     		.short	1024
+ 623 00ee 0004     		.short	1024
+ 624 00f0 0004     		.short	1024
+ 625 00f2 FF03     		.short	1023
+ 626 00f4 FE03     		.short	1022
+ 627 00f6 FD03     		.short	1021
+ 628 00f8 FC03     		.short	1020
+ 629 00fa FA03     		.short	1018
+ 630 00fc F703     		.short	1015
+ 631 00fe F503     		.short	1013
+ 632 0100 F203     		.short	1010
+ 633 0102 EF03     		.short	1007
+ 634 0104 EC03     		.short	1004
+ 635 0106 E903     		.short	1001
+ 636 0108 E503     		.short	997
+ 637 010a E003     		.short	992
+ 638 010c DC03     		.short	988
+ 639 010e D703     		.short	983
+ 640 0110 D303     		.short	979
+ 641 0112 CE03     		.short	974
+ 642 0114 C803     		.short	968
+ 643 0116 C303     		.short	963
+ 644 0118 BD03     		.short	957
+ 645 011a B703     		.short	951
+ 646 011c B003     		.short	944
+ 647 011e AA03     		.short	938
+ 648 0120 A303     		.short	931
+ 649 0122 9C03     		.short	924
+ 650 0124 9503     		.short	917
+ 651 0126 8D03     		.short	909
+ 652 0128 8603     		.short	902
+ 653 012a 7E03     		.short	894
+ 654 012c 7603     		.short	886
+ 655 012e 5A03     		.short	858
+ 656 0130 3E03     		.short	830
+ 657 0132 2203     		.short	802
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 22
+
+
+ 658 0134 0603     		.short	774
+ 659 0136 E902     		.short	745
+ 660 0138 CD02     		.short	717
+ 661 013a B002     		.short	688
+ 662 013c 9302     		.short	659
+ 663 013e 7602     		.short	630
+ 664 0140 5902     		.short	601
+ 665 0142 3C02     		.short	572
+ 666 0144 1E02     		.short	542
+ 667 0146 0102     		.short	513
+ 668 0148 E301     		.short	483
+ 669 014a C601     		.short	454
+ 670 014c A801     		.short	424
+ 671 014e 8A01     		.short	394
+ 672 0150 6C01     		.short	364
+ 673 0152 4E01     		.short	334
+ 674 0154 3001     		.short	304
+ 675 0156 1101     		.short	273
+ 676 0158 F300     		.short	243
+ 677 015a D500     		.short	213
+ 678 015c B700     		.short	183
+ 679 015e 9800     		.short	152
+ 680 0160 7A00     		.short	122
+ 681 0162 5B00     		.short	91
+ 682 0164 3D00     		.short	61
+ 683 0166 1E00     		.short	30
+ 684              		.section	.bss.current_sector,"aw",%nobits
+ 685              		.align	1
+ 688              	current_sector:
+ 689 0000 0000     		.space	2
+ 690              		.section	.bss.CCR_W,"aw",%nobits
+ 691              		.align	1
+ 694              	CCR_W:
+ 695 0000 0000     		.space	2
+ 696              		.section	.bss.CCR_V,"aw",%nobits
+ 697              		.align	1
+ 700              	CCR_V:
+ 701 0000 0000     		.space	2
+ 702              		.section	.bss.CCR_U,"aw",%nobits
+ 703              		.align	1
+ 706              	CCR_U:
+ 707 0000 0000     		.space	2
+ 708              		.text
+ 709              	.Letext0:
+ 710              		.file 3 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f302x8.h"
+ 711              		.file 4 "C:/toolchain/arm_gnu_toolchain/arm-none-eabi/include/machine/_default_types.h"
+ 712              		.file 5 "C:/toolchain/arm_gnu_toolchain/arm-none-eabi/include/sys/_stdint.h"
+ 713              		.file 6 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_def.h"
+ 714              		.file 7 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_dma.h"
+ 715              		.file 8 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_tim.h"
+ 716              		.file 9 "Core/Inc/global_var.h"
+ 717              		.file 10 "Core/Inc/tim.h"
+ 718              		.file 11 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_tim_ex.h"
+ 719              		.file 12 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_cortex.h"
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 23
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 SVM.c
+C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s:21     .text.initSVM:00000000 $t
+C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s:27     .text.initSVM:00000000 initSVM
+C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s:135    .text.initSVM:0000007c $d
+C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s:141    .text.HAL_TIM_PeriodElapsedCallback:00000000 $t
+C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s:147    .text.HAL_TIM_PeriodElapsedCallback:00000000 HAL_TIM_PeriodElapsedCallback
+C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s:234    .text.HAL_TIM_PeriodElapsedCallback:00000060 $d
+C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s:706    .bss.CCR_U:00000000 CCR_U
+C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s:700    .bss.CCR_V:00000000 CCR_V
+C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s:694    .bss.CCR_W:00000000 CCR_W
+C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s:244    .text.setVoltageVector:00000000 $t
+C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s:250    .text.setVoltageVector:00000000 setVoltageVector
+C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s:489    .text.setVoltageVector:0000012c $d
+C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s:688    .bss.current_sector:00000000 current_sector
+C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s:503    .rodata.SPWM:00000000 SPWM
+C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s:500    .rodata.SPWM:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s:685    .bss.current_sector:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s:691    .bss.CCR_W:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s:697    .bss.CCR_V:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s:703    .bss.CCR_U:00000000 $d
+
+UNDEFINED SYMBOLS
+HAL_NVIC_EnableIRQ
+HAL_NVIC_SetPriority
+HAL_TIM_PWM_Start
+HAL_TIM_PWM_Start_IT
+HAL_TIMEx_PWMN_Start
+htim1
+transform_to_Clark_domain
+transform_to_Park_domain
+Motor

@@ -50,8 +50,8 @@ int readEncoder(GPIO_TypeDef* PORT_A, uint16_t PIN_A , GPIO_TypeDef* PORT_B, uin
 	if(event_occured("count up")) 	encoder_val++;
 	if(event_occured("count down")) encoder_val--;
 	
-	if(encoder_val > upperboundary) encoder_val=lowerboundary;
-	if(encoder_val < lowerboundary)	encoder_val=upperboundary;
+	if(encoder_val > upperboundary) encoder_val=upperboundary;
+	if(encoder_val < lowerboundary)	encoder_val=lowerboundary;
 
 	
 	iniOK=true;

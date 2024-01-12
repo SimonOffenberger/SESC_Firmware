@@ -1,4 +1,0 @@
-Park_u_Clark.c:124:9:sin_from_table	16	static
-Park_u_Clark.c:146:9:cos_from_table	16	static
-Park_u_Clark.c:172:6:transform_to_Clark_domain	24	static
-Park_u_Clark.c:186:6:transform_to_Park_domain	32	static

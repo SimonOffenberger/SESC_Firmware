@@ -1,0 +1,226 @@
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccrCFPIE.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"eeprom.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Core/Src/eeprom.c"
+  20              		.section	.text.I2C_write_dma,"ax",%progbits
+  21              		.align	1
+  22              		.global	I2C_write_dma
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	I2C_write_dma:
+  28              	.LVL0:
+  29              	.LFB126:
+   1:Core/Src/eeprom.c **** /**
+   2:Core/Src/eeprom.c ****   ******************************************************************************
+   3:Core/Src/eeprom.c ****   * @file    adc.c
+   4:Core/Src/eeprom.c ****   * @brief   This file provides code for the configuration
+   5:Core/Src/eeprom.c ****   *          of the ADC instances.
+   6:Core/Src/eeprom.c ****   ******************************************************************************
+   7:Core/Src/eeprom.c ****   * @attention
+   8:Core/Src/eeprom.c ****   *
+   9:Core/Src/eeprom.c ****   * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
+  10:Core/Src/eeprom.c ****   * All rights reserved.</center></h2>
+  11:Core/Src/eeprom.c ****   *
+  12:Core/Src/eeprom.c ****   * This software component is licensed by ST under BSD 3-Clause license,
+  13:Core/Src/eeprom.c ****   * the "License"; You may not use this file except in compliance with the
+  14:Core/Src/eeprom.c ****   * License. You may obtain a copy of the License at:
+  15:Core/Src/eeprom.c ****   *                        opensource.org/licenses/BSD-3-Clause
+  16:Core/Src/eeprom.c ****   *
+  17:Core/Src/eeprom.c ****   ******************************************************************************
+  18:Core/Src/eeprom.c ****   */
+  19:Core/Src/eeprom.c **** 
+  20:Core/Src/eeprom.c **** /* Includes ------------------------------------------------------------------*/
+  21:Core/Src/eeprom.c **** #include "eeprom.h"
+  22:Core/Src/eeprom.c **** #include "i2c.h"
+  23:Core/Src/eeprom.c **** #include <string.h>
+  24:Core/Src/eeprom.c **** #include <stdio.h>
+  25:Core/Src/eeprom.c **** #include <stdlib.h>
+  26:Core/Src/eeprom.c **** 
+  27:Core/Src/eeprom.c **** 
+  28:Core/Src/eeprom.c **** eeprom_typedef EEPROM = {0};
+  29:Core/Src/eeprom.c **** 
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccrCFPIE.s 			page 2
+
+
+  30:Core/Src/eeprom.c **** uint8_t I2C_write_dma(eeprom_typedef * eeprom_Handle,uint8_t* data,uint16_t datalength){
+  30              		.loc 1 30 88 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 30 88 is_stmt 0 view .LVU1
+  35 0000 10B5     		push	{r4, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 8
+  38              		.cfi_offset 4, -8
+  39              		.cfi_offset 14, -4
+  40 0002 1346     		mov	r3, r2
+  31:Core/Src/eeprom.c **** 	uint8_t state=0;
+  41              		.loc 1 31 2 is_stmt 1 view .LVU2
+  42              	.LVL1:
+  32:Core/Src/eeprom.c **** 
+  33:Core/Src/eeprom.c **** 	for(int i=0; i<datalength; i++){
+  43              		.loc 1 33 2 view .LVU3
+  44              	.LBB2:
+  45              		.loc 1 33 6 view .LVU4
+  46              		.loc 1 33 10 is_stmt 0 view .LVU5
+  47 0004 4FF0000C 		mov	ip, #0
+  48              		.loc 1 33 2 view .LVU6
+  49 0008 07E0     		b	.L2
+  50              	.LVL2:
+  51              	.L3:
+  34:Core/Src/eeprom.c **** 		eeprom_Handle->Writebuffer.write_buffer[i] = data[i];
+  52              		.loc 1 34 3 is_stmt 1 view .LVU7
+  53              		.loc 1 34 52 is_stmt 0 view .LVU8
+  54 000a 11F80C40 		ldrb	r4, [r1, ip]	@ zero_extendqisi2
+  55              		.loc 1 34 46 view .LVU9
+  56 000e 00EB0C0E 		add	lr, r0, ip
+  57 0012 8EF80740 		strb	r4, [lr, #7]
+  33:Core/Src/eeprom.c **** 		eeprom_Handle->Writebuffer.write_buffer[i] = data[i];
+  58              		.loc 1 33 30 is_stmt 1 discriminator 3 view .LVU10
+  59 0016 0CF1010C 		add	ip, ip, #1
+  60              	.LVL3:
+  61              	.L2:
+  33:Core/Src/eeprom.c **** 		eeprom_Handle->Writebuffer.write_buffer[i] = data[i];
+  62              		.loc 1 33 16 discriminator 1 view .LVU11
+  63 001a 6345     		cmp	r3, ip
+  64 001c F5DC     		bgt	.L3
+  65              	.LBE2:
+  35:Core/Src/eeprom.c **** 	}
+  36:Core/Src/eeprom.c **** 
+  37:Core/Src/eeprom.c **** 	HAL_DMA_Start(eeprom_Handle->i2c_handle->hdmatx, eeprom_Handle->Writebuffer.write_buffer ,eeprom_H
+  66              		.loc 1 37 2 view .LVU12
+  67              		.loc 1 37 29 is_stmt 0 view .LVU13
+  68 001e 0146     		mov	r1, r0
+  69              	.LVL4:
+  70              		.loc 1 37 29 view .LVU14
+  71 0020 51F8070B 		ldr	r0, [r1], #7
+  72              	.LVL5:
+  73              		.loc 1 37 117 view .LVU15
+  74 0024 0268     		ldr	r2, [r0]
+  75              	.LVL6:
+  76              		.loc 1 37 127 view .LVU16
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccrCFPIE.s 			page 3
+
+
+  77 0026 926A     		ldr	r2, [r2, #40]
+  78              		.loc 1 37 2 view .LVU17
+  79 0028 806B     		ldr	r0, [r0, #56]
+  80 002a FFF7FEFF 		bl	HAL_DMA_Start
+  81              	.LVL7:
+  38:Core/Src/eeprom.c **** 
+  39:Core/Src/eeprom.c **** 	return state;
+  82              		.loc 1 39 2 is_stmt 1 view .LVU18
+  40:Core/Src/eeprom.c **** }
+  83              		.loc 1 40 1 is_stmt 0 view .LVU19
+  84 002e 0020     		movs	r0, #0
+  85 0030 10BD     		pop	{r4, pc}
+  86              		.cfi_endproc
+  87              	.LFE126:
+  89              		.section	.text.initialize_eeprom,"ax",%progbits
+  90              		.align	1
+  91              		.global	initialize_eeprom
+  92              		.syntax unified
+  93              		.thumb
+  94              		.thumb_func
+  96              	initialize_eeprom:
+  97              	.LVL8:
+  98              	.LFB127:
+  41:Core/Src/eeprom.c **** 
+  42:Core/Src/eeprom.c **** uint8_t initialize_eeprom(eeprom_typedef* eeprom_Handle){
+  99              		.loc 1 42 57 is_stmt 1 view -0
+ 100              		.cfi_startproc
+ 101              		@ args = 0, pretend = 0, frame = 8
+ 102              		@ frame_needed = 0, uses_anonymous_args = 0
+ 103              		.loc 1 42 57 is_stmt 0 view .LVU21
+ 104 0000 10B5     		push	{r4, lr}
+ 105              	.LCFI1:
+ 106              		.cfi_def_cfa_offset 8
+ 107              		.cfi_offset 4, -8
+ 108              		.cfi_offset 14, -4
+ 109 0002 82B0     		sub	sp, sp, #8
+ 110              	.LCFI2:
+ 111              		.cfi_def_cfa_offset 16
+  43:Core/Src/eeprom.c **** 	uint8_t dummy_data=0;
+ 112              		.loc 1 43 2 is_stmt 1 view .LVU22
+ 113              		.loc 1 43 10 is_stmt 0 view .LVU23
+ 114 0004 0024     		movs	r4, #0
+ 115 0006 8DF80740 		strb	r4, [sp, #7]
+  44:Core/Src/eeprom.c **** 	HAL_StatusTypeDef I2C_Status=0;
+ 116              		.loc 1 44 2 is_stmt 1 view .LVU24
+ 117              	.LVL9:
+  45:Core/Src/eeprom.c **** 
+  46:Core/Src/eeprom.c **** 	I2C_write_dma(eeprom_Handle, &dummy_data, 10);
+ 118              		.loc 1 46 2 view .LVU25
+ 119 000a 0A22     		movs	r2, #10
+ 120 000c 0DF10701 		add	r1, sp, #7
+ 121 0010 FFF7FEFF 		bl	I2C_write_dma
+ 122              	.LVL10:
+  47:Core/Src/eeprom.c **** 
+  48:Core/Src/eeprom.c **** 	//I2C_Status = HAL_I2C_Mem_Read_DMA(eeprom_Handle->i2c_handle,EEPROM_DEV_ADR  /*eeprom_Handle->eep
+  49:Core/Src/eeprom.c **** 
+  50:Core/Src/eeprom.c **** 	return I2C_Status;
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccrCFPIE.s 			page 4
+
+
+ 123              		.loc 1 50 2 view .LVU26
+  51:Core/Src/eeprom.c **** }
+ 124              		.loc 1 51 1 is_stmt 0 view .LVU27
+ 125 0014 2046     		mov	r0, r4
+ 126 0016 02B0     		add	sp, sp, #8
+ 127              	.LCFI3:
+ 128              		.cfi_def_cfa_offset 8
+ 129              		@ sp needed
+ 130 0018 10BD     		pop	{r4, pc}
+ 131              		.cfi_endproc
+ 132              	.LFE127:
+ 134              		.global	EEPROM
+ 135              		.section	.bss.EEPROM,"aw",%nobits
+ 136              		.align	2
+ 139              	EEPROM:
+ 140 0000 00000000 		.space	60
+ 140      00000000 
+ 140      00000000 
+ 140      00000000 
+ 140      00000000 
+ 141              		.text
+ 142              	.Letext0:
+ 143              		.file 2 "C:/toolchain/arm_gnu_toolchain/arm-none-eabi/include/machine/_default_types.h"
+ 144              		.file 3 "C:/toolchain/arm_gnu_toolchain/arm-none-eabi/include/sys/_stdint.h"
+ 145              		.file 4 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f302x8.h"
+ 146              		.file 5 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_def.h"
+ 147              		.file 6 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_dma.h"
+ 148              		.file 7 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_i2c.h"
+ 149              		.file 8 "Core/Inc/eeprom.h"
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccrCFPIE.s 			page 5
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 eeprom.c
+C:\Users\Simio\AppData\Local\Temp\ccrCFPIE.s:21     .text.I2C_write_dma:00000000 $t
+C:\Users\Simio\AppData\Local\Temp\ccrCFPIE.s:27     .text.I2C_write_dma:00000000 I2C_write_dma
+C:\Users\Simio\AppData\Local\Temp\ccrCFPIE.s:90     .text.initialize_eeprom:00000000 $t
+C:\Users\Simio\AppData\Local\Temp\ccrCFPIE.s:96     .text.initialize_eeprom:00000000 initialize_eeprom
+C:\Users\Simio\AppData\Local\Temp\ccrCFPIE.s:139    .bss.EEPROM:00000000 EEPROM
+C:\Users\Simio\AppData\Local\Temp\ccrCFPIE.s:136    .bss.EEPROM:00000000 $d
+
+UNDEFINED SYMBOLS
+HAL_DMA_Start

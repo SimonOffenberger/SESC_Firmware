@@ -1,2 +1,0 @@
-eeprom.c:30:9:I2C_write_dma	32	static
-eeprom.c:42:9:initialize_eeprom	24	static

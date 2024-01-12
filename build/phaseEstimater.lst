@@ -1,0 +1,2185 @@
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclpKb17.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"phaseEstimater.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Core/Src/phaseEstimater.c"
+  20              		.section	.text.init_phase_estimater,"ax",%progbits
+  21              		.align	1
+  22              		.global	init_phase_estimater
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	init_phase_estimater:
+  28              	.LFB126:
+   1:Core/Src/phaseEstimater.c **** /**
+   2:Core/Src/phaseEstimater.c ****   ******************************************************************************
+   3:Core/Src/phaseEstimater.c ****   * @file    adc.c
+   4:Core/Src/phaseEstimater.c ****   * @brief   This file provides code for the configuration
+   5:Core/Src/phaseEstimater.c ****   *          of the ADC instances.
+   6:Core/Src/phaseEstimater.c ****   ******************************************************************************
+   7:Core/Src/phaseEstimater.c ****   * @attention
+   8:Core/Src/phaseEstimater.c ****   *
+   9:Core/Src/phaseEstimater.c ****   * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
+  10:Core/Src/phaseEstimater.c ****   * All rights reserved.</center></h2>
+  11:Core/Src/phaseEstimater.c ****   *
+  12:Core/Src/phaseEstimater.c ****   * This software component is licensed by ST under BSD 3-Clause license,
+  13:Core/Src/phaseEstimater.c ****   * the "License"; You may not use this file except in compliance with the
+  14:Core/Src/phaseEstimater.c ****   * License. You may obtain a copy of the License at:
+  15:Core/Src/phaseEstimater.c ****   *                        opensource.org/licenses/BSD-3-Clause
+  16:Core/Src/phaseEstimater.c ****   *
+  17:Core/Src/phaseEstimater.c ****   ******************************************************************************
+  18:Core/Src/phaseEstimater.c ****   */
+  19:Core/Src/phaseEstimater.c **** 
+  20:Core/Src/phaseEstimater.c **** /* Includes ------------------------------------------------------------------*/
+  21:Core/Src/phaseEstimater.c **** #include "phaseEstimater.h"
+  22:Core/Src/phaseEstimater.c **** #include "SVM.h"
+  23:Core/Src/phaseEstimater.c **** #include "encoder.h"
+  24:Core/Src/phaseEstimater.c **** #include "main.h"
+  25:Core/Src/phaseEstimater.c **** #include "tim.h"
+  26:Core/Src/phaseEstimater.c **** #include "global_var.h"
+  27:Core/Src/phaseEstimater.c **** #include <string.h>
+  28:Core/Src/phaseEstimater.c **** #include <stdio.h>
+  29:Core/Src/phaseEstimater.c **** #include <stdlib.h>
+  30:Core/Src/phaseEstimater.c **** #include <math.h>
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclpKb17.s 			page 2
+
+
+  31:Core/Src/phaseEstimater.c ****  
+  32:Core/Src/phaseEstimater.c **** static uint16_t phase=0;
+  33:Core/Src/phaseEstimater.c **** 
+  34:Core/Src/phaseEstimater.c **** //#define SectorA 4 0�   offset
+  35:Core/Src/phaseEstimater.c **** //#define SectorB 6 60�  offset
+  36:Core/Src/phaseEstimater.c **** //#define SectorC 2 120� offset
+  37:Core/Src/phaseEstimater.c **** //#define SectorD 3 180� offset
+  38:Core/Src/phaseEstimater.c **** //#define SectorE 1 240� offset
+  39:Core/Src/phaseEstimater.c **** //#define SectorF 5 300� offset
+  40:Core/Src/phaseEstimater.c **** //																		//E   C   D   A F   B   X   X
+  41:Core/Src/phaseEstimater.c **** //uint16_t HallSecotor_phase_offset[8]={255,240,120,180,0,300,60,255};
+  42:Core/Src/phaseEstimater.c **** 
+  43:Core/Src/phaseEstimater.c **** 																				//E   C   D   A F   B   X   X
+  44:Core/Src/phaseEstimater.c **** //uint16_t HallSector_phase_offset[8]={255,350,230,275,93,35,156,255};
+  45:Core/Src/phaseEstimater.c **** uint16_t  HallSector_Averages[8]={1};
+  46:Core/Src/phaseEstimater.c **** uint16_t HallSector_phase_offset[8]={255};
+  47:Core/Src/phaseEstimater.c **** uint16_t HallSector_phase_span[8]={0};
+  48:Core/Src/phaseEstimater.c **** 
+  49:Core/Src/phaseEstimater.c **** void init_phase_estimater(){
+  29              		.loc 1 49 28 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		@ link register save eliminated.
+  50:Core/Src/phaseEstimater.c **** 	__HAL_TIM_DISABLE(&SectorTIM);
+  34              		.loc 1 50 2 view .LVU1
+  35              		.loc 1 50 2 view .LVU2
+  36 0000 0D4B     		ldr	r3, .L3
+  37 0002 1B68     		ldr	r3, [r3]
+  38 0004 196A     		ldr	r1, [r3, #32]
+  39 0006 41F21112 		movw	r2, #4369
+  40 000a 1142     		tst	r1, r2
+  41 000c 08D1     		bne	.L2
+  42              		.loc 1 50 2 discriminator 1 view .LVU3
+  43 000e 196A     		ldr	r1, [r3, #32]
+  44 0010 40F24442 		movw	r2, #1092
+  45 0014 1142     		tst	r1, r2
+  46 0016 03D1     		bne	.L2
+  47              		.loc 1 50 2 discriminator 3 view .LVU4
+  48 0018 1A68     		ldr	r2, [r3]
+  49 001a 22F00102 		bic	r2, r2, #1
+  50 001e 1A60     		str	r2, [r3]
+  51              	.L2:
+  52              		.loc 1 50 2 discriminator 5 view .LVU5
+  51:Core/Src/phaseEstimater.c **** 	SectorTIM.Instance->ARR=65535;
+  53              		.loc 1 51 2 view .LVU6
+  54              		.loc 1 51 11 is_stmt 0 view .LVU7
+  55 0020 054B     		ldr	r3, .L3
+  56 0022 1B68     		ldr	r3, [r3]
+  57              		.loc 1 51 25 view .LVU8
+  58 0024 4FF6FF72 		movw	r2, #65535
+  59 0028 DA62     		str	r2, [r3, #44]
+  52:Core/Src/phaseEstimater.c **** 	SectorTIM.Instance->PSC=6;
+  60              		.loc 1 52 2 is_stmt 1 view .LVU9
+  61              		.loc 1 52 25 is_stmt 0 view .LVU10
+  62 002a 0622     		movs	r2, #6
+  63 002c 9A62     		str	r2, [r3, #40]
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclpKb17.s 			page 3
+
+
+  53:Core/Src/phaseEstimater.c **** 	__HAL_TIM_ENABLE(&SectorTIM);
+  64              		.loc 1 53 2 is_stmt 1 view .LVU11
+  65 002e 1A68     		ldr	r2, [r3]
+  66 0030 42F00102 		orr	r2, r2, #1
+  67 0034 1A60     		str	r2, [r3]
+  54:Core/Src/phaseEstimater.c **** }
+  68              		.loc 1 54 1 is_stmt 0 view .LVU12
+  69 0036 7047     		bx	lr
+  70              	.L4:
+  71              		.align	2
+  72              	.L3:
+  73 0038 00000000 		.word	htim6
+  74              		.cfi_endproc
+  75              	.LFE126:
+  77              		.section	.text.initialize_Hallsensor_phase_estimator,"ax",%progbits
+  78              		.align	1
+  79              		.global	initialize_Hallsensor_phase_estimator
+  80              		.syntax unified
+  81              		.thumb
+  82              		.thumb_func
+  84              	initialize_Hallsensor_phase_estimator:
+  85              	.LVL0:
+  86              	.LFB127:
+  55:Core/Src/phaseEstimater.c **** 
+  56:Core/Src/phaseEstimater.c **** uint16_t time_between_sectors=0;
+  57:Core/Src/phaseEstimater.c **** 
+  58:Core/Src/phaseEstimater.c **** 
+  59:Core/Src/phaseEstimater.c **** uint16_t initialize_Hallsensor_phase_estimator(uint16_t setpoint){
+  87              		.loc 1 59 66 is_stmt 1 view -0
+  88              		.cfi_startproc
+  89              		@ args = 0, pretend = 0, frame = 0
+  90              		@ frame_needed = 0, uses_anonymous_args = 0
+  91              		.loc 1 59 66 is_stmt 0 view .LVU14
+  92 0000 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
+  93              	.LCFI0:
+  94              		.cfi_def_cfa_offset 32
+  95              		.cfi_offset 3, -32
+  96              		.cfi_offset 4, -28
+  97              		.cfi_offset 5, -24
+  98              		.cfi_offset 6, -20
+  99              		.cfi_offset 7, -16
+ 100              		.cfi_offset 8, -12
+ 101              		.cfi_offset 9, -8
+ 102              		.cfi_offset 14, -4
+ 103 0004 0446     		mov	r4, r0
+  60:Core/Src/phaseEstimater.c **** 	uint16_t init_done=0;
+ 104              		.loc 1 60 2 is_stmt 1 view .LVU15
+ 105              	.LVL1:
+  61:Core/Src/phaseEstimater.c **** 	uint8_t HallSector=0;
+ 106              		.loc 1 61 2 view .LVU16
+  62:Core/Src/phaseEstimater.c **** 	uint16_t in_toleranz_count=0;
+ 107              		.loc 1 62 2 view .LVU17
+  63:Core/Src/phaseEstimater.c **** 
+  64:Core/Src/phaseEstimater.c **** 	static uint16_t voltage_phase=0;
+ 108              		.loc 1 64 2 view .LVU18
+  65:Core/Src/phaseEstimater.c **** 	static uint8_t HALL1 = 0;
+ 109              		.loc 1 65 2 view .LVU19
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclpKb17.s 			page 4
+
+
+  66:Core/Src/phaseEstimater.c **** 	static uint8_t HALL2 = 0;
+ 110              		.loc 1 66 2 view .LVU20
+  67:Core/Src/phaseEstimater.c **** 	static uint8_t HALL3 = 0;
+ 111              		.loc 1 67 2 view .LVU21
+  68:Core/Src/phaseEstimater.c **** 	static uint8_t init=0;
+ 112              		.loc 1 68 2 view .LVU22
+  69:Core/Src/phaseEstimater.c **** 
+  70:Core/Src/phaseEstimater.c **** 	static uint8_t lock_HALL1=0;
+ 113              		.loc 1 70 2 view .LVU23
+  71:Core/Src/phaseEstimater.c **** 	static uint8_t lock_HALL2=0;
+ 114              		.loc 1 71 2 view .LVU24
+  72:Core/Src/phaseEstimater.c **** 	static uint8_t lock_HALL3=0;
+ 115              		.loc 1 72 2 view .LVU25
+  73:Core/Src/phaseEstimater.c **** 
+  74:Core/Src/phaseEstimater.c **** 	static uint16_t phase_old=0;
+ 116              		.loc 1 74 2 view .LVU26
+  75:Core/Src/phaseEstimater.c **** 
+  76:Core/Src/phaseEstimater.c **** 	static uint8_t prev_Sector=0;
+ 117              		.loc 1 76 2 view .LVU27
+  77:Core/Src/phaseEstimater.c **** 
+  78:Core/Src/phaseEstimater.c **** 	if(!init){
+ 118              		.loc 1 78 2 view .LVU28
+ 119              		.loc 1 78 5 is_stmt 0 view .LVU29
+ 120 0006 AB4B     		ldr	r3, .L44
+ 121 0008 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 122              		.loc 1 78 4 view .LVU30
+ 123 000a 53B9     		cbnz	r3, .L6
+  79:Core/Src/phaseEstimater.c **** 		// configure Sector Tim to Output a 10Hz Sinewave;
+  80:Core/Src/phaseEstimater.c **** 		SectorTIM.Instance-> ARR= 360;
+ 124              		.loc 1 80 3 is_stmt 1 view .LVU31
+ 125              		.loc 1 80 12 is_stmt 0 view .LVU32
+ 126 000c AA4B     		ldr	r3, .L44+4
+ 127 000e 1B68     		ldr	r3, [r3]
+ 128              		.loc 1 80 27 view .LVU33
+ 129 0010 4FF4B472 		mov	r2, #360
+ 130 0014 DA62     		str	r2, [r3, #44]
+  81:Core/Src/phaseEstimater.c **** 		SectorTIM.Instance-> PSC = 20000;
+ 131              		.loc 1 81 3 is_stmt 1 view .LVU34
+ 132              		.loc 1 81 28 is_stmt 0 view .LVU35
+ 133 0016 44F62062 		movw	r2, #20000
+ 134 001a 9A62     		str	r2, [r3, #40]
+  82:Core/Src/phaseEstimater.c **** 		init=1;
+ 135              		.loc 1 82 3 is_stmt 1 view .LVU36
+ 136              		.loc 1 82 7 is_stmt 0 view .LVU37
+ 137 001c A54B     		ldr	r3, .L44
+ 138 001e 0122     		movs	r2, #1
+ 139 0020 1A70     		strb	r2, [r3]
+ 140              	.L6:
+  83:Core/Src/phaseEstimater.c **** 	}
+  84:Core/Src/phaseEstimater.c **** 
+  85:Core/Src/phaseEstimater.c **** 	voltage_phase = SectorTIM.Instance->CNT;
+ 141              		.loc 1 85 2 is_stmt 1 view .LVU38
+ 142              		.loc 1 85 27 is_stmt 0 view .LVU39
+ 143 0022 A54B     		ldr	r3, .L44+4
+ 144 0024 1B68     		ldr	r3, [r3]
+ 145              		.loc 1 85 36 view .LVU40
+ 146 0026 5B6A     		ldr	r3, [r3, #36]
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclpKb17.s 			page 5
+
+
+ 147              		.loc 1 85 16 view .LVU41
+ 148 0028 9BB2     		uxth	r3, r3
+ 149 002a A44A     		ldr	r2, .L44+8
+ 150 002c 1380     		strh	r3, [r2]	@ movhi
+  86:Core/Src/phaseEstimater.c **** 	Motor.rotorphase=voltage_phase;
+ 151              		.loc 1 86 2 is_stmt 1 view .LVU42
+ 152              		.loc 1 86 18 is_stmt 0 view .LVU43
+ 153 002e A44A     		ldr	r2, .L44+12
+ 154 0030 1380     		strh	r3, [r2]	@ movhi
+  87:Core/Src/phaseEstimater.c **** 	HALL1 = (HALL1<<1)|HAL_GPIO_ReadPin(HALL1_GPIO_Port,HALL1_Pin);
+ 155              		.loc 1 87 2 is_stmt 1 view .LVU44
+ 156              		.loc 1 87 20 is_stmt 0 view .LVU45
+ 157 0032 A44E     		ldr	r6, .L44+16
+ 158 0034 3578     		ldrb	r5, [r6]	@ zero_extendqisi2
+ 159              		.loc 1 87 21 view .LVU46
+ 160 0036 A44F     		ldr	r7, .L44+20
+ 161 0038 0421     		movs	r1, #4
+ 162 003a 3846     		mov	r0, r7
+ 163              	.LVL2:
+ 164              		.loc 1 87 21 view .LVU47
+ 165 003c FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 166              	.LVL3:
+ 167              		.loc 1 87 20 discriminator 1 view .LVU48
+ 168 0040 40EA4500 		orr	r0, r0, r5, lsl #1
+ 169              		.loc 1 87 8 discriminator 1 view .LVU49
+ 170 0044 3070     		strb	r0, [r6]
+  88:Core/Src/phaseEstimater.c **** 	HALL2 = (HALL2<<1)|HAL_GPIO_ReadPin(HALL2_GPIO_Port,HALL2_Pin);
+ 171              		.loc 1 88 2 is_stmt 1 view .LVU50
+ 172              		.loc 1 88 20 is_stmt 0 view .LVU51
+ 173 0046 A14D     		ldr	r5, .L44+24
+ 174 0048 95F80080 		ldrb	r8, [r5]	@ zero_extendqisi2
+ 175              		.loc 1 88 21 view .LVU52
+ 176 004c 4FF48061 		mov	r1, #1024
+ 177 0050 3846     		mov	r0, r7
+ 178 0052 FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 179              	.LVL4:
+ 180              		.loc 1 88 20 discriminator 1 view .LVU53
+ 181 0056 40EA4800 		orr	r0, r0, r8, lsl #1
+ 182              		.loc 1 88 8 discriminator 1 view .LVU54
+ 183 005a 2870     		strb	r0, [r5]
+  89:Core/Src/phaseEstimater.c **** 	HALL3 = (HALL3<<1)|HAL_GPIO_ReadPin(HALL3_GPIO_Port,HALL3_Pin);
+ 184              		.loc 1 89 2 is_stmt 1 view .LVU55
+ 185              		.loc 1 89 20 is_stmt 0 view .LVU56
+ 186 005c DFF89482 		ldr	r8, .L44+64
+ 187 0060 98F80090 		ldrb	r9, [r8]	@ zero_extendqisi2
+ 188              		.loc 1 89 21 view .LVU57
+ 189 0064 4FF40061 		mov	r1, #2048
+ 190 0068 3846     		mov	r0, r7
+ 191 006a FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 192              	.LVL5:
+ 193              		.loc 1 89 20 discriminator 1 view .LVU58
+ 194 006e 40EA4903 		orr	r3, r0, r9, lsl #1
+ 195 0072 DBB2     		uxtb	r3, r3
+ 196              		.loc 1 89 8 discriminator 1 view .LVU59
+ 197 0074 88F80030 		strb	r3, [r8]
+  90:Core/Src/phaseEstimater.c **** 
+  91:Core/Src/phaseEstimater.c **** 	uint8_t HALL1_rising_edge =		  (HALL1&0x0F)==3;
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclpKb17.s 			page 6
+
+
+ 198              		.loc 1 91 2 is_stmt 1 view .LVU60
+ 199              		.loc 1 91 39 is_stmt 0 view .LVU61
+ 200 0078 3178     		ldrb	r1, [r6]	@ zero_extendqisi2
+ 201 007a 01F00F01 		and	r1, r1, #15
+ 202              		.loc 1 91 45 view .LVU62
+ 203 007e 0329     		cmp	r1, #3
+ 204 0080 14BF     		ite	ne
+ 205 0082 0020     		movne	r0, #0
+ 206 0084 0120     		moveq	r0, #1
+ 207              	.LVL6:
+  92:Core/Src/phaseEstimater.c **** 	uint8_t HALL1_falling_edge=	    (HALL1&0x0F)==14;
+ 208              		.loc 1 92 2 is_stmt 1 view .LVU63
+ 209              		.loc 1 92 46 is_stmt 0 view .LVU64
+ 210 0086 0E29     		cmp	r1, #14
+ 211 0088 14BF     		ite	ne
+ 212 008a 0026     		movne	r6, #0
+ 213 008c 0126     		moveq	r6, #1
+ 214              	.LVL7:
+  93:Core/Src/phaseEstimater.c **** 	uint8_t HALL2_rising_edge =		  (HALL2&0x0F)==3;
+ 215              		.loc 1 93 2 is_stmt 1 view .LVU65
+ 216              		.loc 1 93 39 is_stmt 0 view .LVU66
+ 217 008e 2A78     		ldrb	r2, [r5]	@ zero_extendqisi2
+ 218 0090 02F00F02 		and	r2, r2, #15
+ 219              		.loc 1 93 45 view .LVU67
+ 220 0094 032A     		cmp	r2, #3
+ 221 0096 14BF     		ite	ne
+ 222 0098 0025     		movne	r5, #0
+ 223 009a 0125     		moveq	r5, #1
+ 224              	.LVL8:
+  94:Core/Src/phaseEstimater.c **** 	uint8_t HALL2_falling_edge=	    (HALL2&0x0F)==14;
+ 225              		.loc 1 94 2 is_stmt 1 view .LVU68
+ 226              		.loc 1 94 46 is_stmt 0 view .LVU69
+ 227 009c 0E2A     		cmp	r2, #14
+ 228 009e 14BF     		ite	ne
+ 229 00a0 0027     		movne	r7, #0
+ 230 00a2 0127     		moveq	r7, #1
+ 231              	.LVL9:
+  95:Core/Src/phaseEstimater.c **** 	uint8_t HALL3_rising_edge =		  (HALL3&0x0F)==3;
+ 232              		.loc 1 95 2 is_stmt 1 view .LVU70
+ 233 00a4 03F00F03 		and	r3, r3, #15
+ 234              		.loc 1 95 45 is_stmt 0 view .LVU71
+ 235 00a8 032B     		cmp	r3, #3
+ 236 00aa 14BF     		ite	ne
+ 237 00ac 4FF0000C 		movne	ip, #0
+ 238 00b0 4FF0010C 		moveq	ip, #1
+ 239              	.LVL10:
+  96:Core/Src/phaseEstimater.c **** 	uint8_t HALL3_falling_edge=	    (HALL3&0x0F)==14;
+ 240              		.loc 1 96 2 is_stmt 1 view .LVU72
+ 241              		.loc 1 96 46 is_stmt 0 view .LVU73
+ 242 00b4 0E2B     		cmp	r3, #14
+ 243 00b6 14BF     		ite	ne
+ 244 00b8 4FF0000E 		movne	lr, #0
+ 245 00bc 4FF0010E 		moveq	lr, #1
+ 246              	.LVL11:
+  97:Core/Src/phaseEstimater.c **** 
+  98:Core/Src/phaseEstimater.c **** 	uint8_t valid_signals=0;
+ 247              		.loc 1 98 2 is_stmt 1 view .LVU74
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclpKb17.s 			page 7
+
+
+  99:Core/Src/phaseEstimater.c **** 
+ 100:Core/Src/phaseEstimater.c **** 	//Bei einer Flanke wenn diese nicht gerade gelockt ist
+ 101:Core/Src/phaseEstimater.c **** 	if((HALL1_falling_edge||HALL1_rising_edge)&&!lock_HALL1){
+ 248              		.loc 1 101 2 view .LVU75
+ 249              		.loc 1 101 4 is_stmt 0 view .LVU76
+ 250 00c0 0E29     		cmp	r1, #14
+ 251 00c2 5DD0     		beq	.L7
+ 252              		.loc 1 101 24 discriminator 2 view .LVU77
+ 253 00c4 0329     		cmp	r1, #3
+ 254 00c6 5BD0     		beq	.L7
+  98:Core/Src/phaseEstimater.c **** 
+ 255              		.loc 1 98 10 view .LVU78
+ 256 00c8 0021     		movs	r1, #0
+ 257              	.LVL12:
+ 258              	.L8:
+ 102:Core/Src/phaseEstimater.c **** 		lock_HALL1=1;
+ 103:Core/Src/phaseEstimater.c **** 		lock_HALL2=0;
+ 104:Core/Src/phaseEstimater.c **** 		lock_HALL3=0;
+ 105:Core/Src/phaseEstimater.c **** 		valid_signals = (HALL1_rising_edge<<7) || (HALL1_falling_edge<<6) || (HALL2_rising_edge<<5) || (H
+ 106:Core/Src/phaseEstimater.c **** 	}
+ 107:Core/Src/phaseEstimater.c **** 	//Bei einer Flanke wenn diese nicht gerade gelockt ist
+ 108:Core/Src/phaseEstimater.c **** 	if((HALL2_falling_edge||HALL2_rising_edge)&&!lock_HALL2){
+ 259              		.loc 1 108 2 is_stmt 1 view .LVU79
+ 260              		.loc 1 108 4 is_stmt 0 view .LVU80
+ 261 00ca 0E2A     		cmp	r2, #14
+ 262 00cc 00F08480 		beq	.L10
+ 263              		.loc 1 108 24 discriminator 2 view .LVU81
+ 264 00d0 032A     		cmp	r2, #3
+ 265 00d2 00F08180 		beq	.L10
+ 266              	.L11:
+ 109:Core/Src/phaseEstimater.c **** 		lock_HALL1=0;
+ 110:Core/Src/phaseEstimater.c **** 		lock_HALL2=1;
+ 111:Core/Src/phaseEstimater.c **** 		lock_HALL3=0;
+ 112:Core/Src/phaseEstimater.c **** 		valid_signals = (HALL1_rising_edge<<7) || (HALL1_falling_edge<<6) || (HALL2_rising_edge<<5) || (H
+ 113:Core/Src/phaseEstimater.c **** 	}
+ 114:Core/Src/phaseEstimater.c **** 	//Bei einer Flanke wenn diese nicht gerade gelockt ist
+ 115:Core/Src/phaseEstimater.c **** 	if((HALL3_falling_edge||HALL3_rising_edge)&&!lock_HALL3){
+ 267              		.loc 1 115 2 is_stmt 1 view .LVU82
+ 268              		.loc 1 115 4 is_stmt 0 view .LVU83
+ 269 00d6 0E2B     		cmp	r3, #14
+ 270 00d8 00F0A580 		beq	.L13
+ 271              		.loc 1 115 24 discriminator 2 view .LVU84
+ 272 00dc 032B     		cmp	r3, #3
+ 273 00de 00F0A280 		beq	.L13
+ 274              	.L14:
+ 116:Core/Src/phaseEstimater.c **** 		lock_HALL1=0;
+ 117:Core/Src/phaseEstimater.c **** 		lock_HALL2=0;
+ 118:Core/Src/phaseEstimater.c **** 		lock_HALL3=1;
+ 119:Core/Src/phaseEstimater.c **** 		valid_signals = (HALL1_rising_edge<<7) || (HALL1_falling_edge<<6) || (HALL2_rising_edge<<5) || (H
+ 120:Core/Src/phaseEstimater.c **** 	}
+ 121:Core/Src/phaseEstimater.c **** 
+ 122:Core/Src/phaseEstimater.c **** 
+ 123:Core/Src/phaseEstimater.c **** 	if(valid_signals){
+ 275              		.loc 1 123 2 is_stmt 1 view .LVU85
+ 276              		.loc 1 123 4 is_stmt 0 view .LVU86
+ 277 00e2 0029     		cmp	r1, #0
+ 278 00e4 49D0     		beq	.L16
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclpKb17.s 			page 8
+
+
+ 279              	.L15:
+ 280              	.LVL13:
+ 124:Core/Src/phaseEstimater.c **** 		HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_12);
+ 281              		.loc 1 124 3 is_stmt 1 view .LVU87
+ 282 00e6 4FF48051 		mov	r1, #4096
+ 283 00ea 7748     		ldr	r0, .L44+20
+ 284              	.LVL14:
+ 285              		.loc 1 124 3 is_stmt 0 view .LVU88
+ 286 00ec FFF7FEFF 		bl	HAL_GPIO_TogglePin
+ 287              	.LVL15:
+ 125:Core/Src/phaseEstimater.c **** 
+ 126:Core/Src/phaseEstimater.c **** 		if(phase_old < voltage_phase){
+ 288              		.loc 1 126 3 is_stmt 1 view .LVU89
+ 289              		.loc 1 126 16 is_stmt 0 view .LVU90
+ 290 00f0 774B     		ldr	r3, .L44+28
+ 291 00f2 1B88     		ldrh	r3, [r3]
+ 292 00f4 714A     		ldr	r2, .L44+8
+ 293 00f6 1288     		ldrh	r2, [r2]
+ 294              		.loc 1 126 5 view .LVU91
+ 295 00f8 9342     		cmp	r3, r2
+ 296 00fa 80F0B580 		bcs	.L17
+ 127:Core/Src/phaseEstimater.c **** 			time_between_sectors = voltage_phase - phase_old;
+ 297              		.loc 1 127 4 is_stmt 1 view .LVU92
+ 298              		.loc 1 127 41 is_stmt 0 view .LVU93
+ 299 00fe D31A     		subs	r3, r2, r3
+ 300              		.loc 1 127 25 view .LVU94
+ 301 0100 7449     		ldr	r1, .L44+32
+ 302 0102 0B80     		strh	r3, [r1]	@ movhi
+ 303              	.L18:
+ 128:Core/Src/phaseEstimater.c **** 		}
+ 129:Core/Src/phaseEstimater.c **** 		else{
+ 130:Core/Src/phaseEstimater.c **** 			time_between_sectors =360 - (phase_old - voltage_phase);
+ 131:Core/Src/phaseEstimater.c **** 		}
+ 132:Core/Src/phaseEstimater.c **** 		phase_old = voltage_phase;
+ 304              		.loc 1 132 3 is_stmt 1 view .LVU95
+ 305              		.loc 1 132 13 is_stmt 0 view .LVU96
+ 306 0104 724B     		ldr	r3, .L44+28
+ 307 0106 1A80     		strh	r2, [r3]	@ movhi
+ 133:Core/Src/phaseEstimater.c **** 		HallSector = (HAL_GPIO_ReadPin(HALL3_GPIO_Port,HALL3_Pin)<<2)|(HAL_GPIO_ReadPin(HALL2_GPIO_Port,H
+ 308              		.loc 1 133 3 is_stmt 1 view .LVU97
+ 309              		.loc 1 133 17 is_stmt 0 view .LVU98
+ 310 0108 6F4E     		ldr	r6, .L44+20
+ 311              	.LVL16:
+ 312              		.loc 1 133 17 view .LVU99
+ 313 010a 4FF40061 		mov	r1, #2048
+ 314 010e 3046     		mov	r0, r6
+ 315 0110 FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 316              	.LVL17:
+ 317 0114 0746     		mov	r7, r0
+ 318              	.LVL18:
+ 319              		.loc 1 133 66 discriminator 1 view .LVU100
+ 320 0116 4FF48061 		mov	r1, #1024
+ 321 011a 3046     		mov	r0, r6
+ 322 011c FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 323              	.LVL19:
+ 324              		.loc 1 133 64 discriminator 2 view .LVU101
+ 325 0120 4500     		lsls	r5, r0, #1
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclpKb17.s 			page 9
+
+
+ 326              	.LVL20:
+ 327              		.loc 1 133 64 discriminator 2 view .LVU102
+ 328 0122 45EA8705 		orr	r5, r5, r7, lsl #2
+ 329 0126 6DB2     		sxtb	r5, r5
+ 330              		.loc 1 133 115 discriminator 2 view .LVU103
+ 331 0128 0421     		movs	r1, #4
+ 332 012a 3046     		mov	r0, r6
+ 333 012c FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 334              	.LVL21:
+ 335              		.loc 1 133 14 discriminator 3 view .LVU104
+ 336 0130 2843     		orrs	r0, r0, r5
+ 337 0132 C0B2     		uxtb	r0, r0
+ 338              	.LVL22:
+ 134:Core/Src/phaseEstimater.c **** 
+ 135:Core/Src/phaseEstimater.c **** 		if(time_between_sectors>45 && time_between_sectors <75){
+ 339              		.loc 1 135 3 is_stmt 1 view .LVU105
+ 340              		.loc 1 135 30 is_stmt 0 view .LVU106
+ 341 0134 674B     		ldr	r3, .L44+32
+ 342 0136 1B88     		ldrh	r3, [r3]
+ 343 0138 2E3B     		subs	r3, r3, #46
+ 344 013a 9BB2     		uxth	r3, r3
+ 345              		.loc 1 135 5 view .LVU107
+ 346 013c 1C2B     		cmp	r3, #28
+ 347 013e 1AD8     		bhi	.L19
+ 136:Core/Src/phaseEstimater.c **** 
+ 137:Core/Src/phaseEstimater.c **** 			HallSector_phase_offset[HallSector] = (HallSector_Averages[HallSector] * voltage_phase) /(HallSe
+ 348              		.loc 1 137 4 is_stmt 1 view .LVU108
+ 349              		.loc 1 137 62 is_stmt 0 view .LVU109
+ 350 0140 654D     		ldr	r5, .L44+36
+ 351 0142 35F81020 		ldrh	r2, [r5, r0, lsl #1]
+ 352              		.loc 1 137 75 view .LVU110
+ 353 0146 5D4B     		ldr	r3, .L44+8
+ 354 0148 1B88     		ldrh	r3, [r3]
+ 355 014a 02FB03F3 		mul	r3, r2, r3
+ 356              		.loc 1 137 126 view .LVU111
+ 357 014e 0132     		adds	r2, r2, #1
+ 358              		.loc 1 137 92 view .LVU112
+ 359 0150 93FBF2F3 		sdiv	r3, r3, r2
+ 360              		.loc 1 137 40 view .LVU113
+ 361 0154 9BB2     		uxth	r3, r3
+ 362 0156 6149     		ldr	r1, .L44+40
+ 363 0158 21F81030 		strh	r3, [r1, r0, lsl #1]	@ movhi
+ 138:Core/Src/phaseEstimater.c **** 			HallSector_Averages[HallSector] ++;
+ 364              		.loc 1 138 4 is_stmt 1 view .LVU114
+ 365              		.loc 1 138 36 is_stmt 0 view .LVU115
+ 366 015c 25F81020 		strh	r2, [r5, r0, lsl #1]	@ movhi
+ 139:Core/Src/phaseEstimater.c **** 
+ 140:Core/Src/phaseEstimater.c **** 			if( HallSector_phase_offset[HallSector]>HallSector_phase_offset[prev_Sector]){
+ 367              		.loc 1 140 4 is_stmt 1 view .LVU116
+ 368              		.loc 1 140 67 is_stmt 0 view .LVU117
+ 369 0160 5F4A     		ldr	r2, .L44+44
+ 370 0162 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 371 0164 31F81220 		ldrh	r2, [r1, r2, lsl #1]
+ 372              		.loc 1 140 6 view .LVU118
+ 373 0168 9342     		cmp	r3, r2
+ 374 016a 40F28380 		bls	.L20
+ 141:Core/Src/phaseEstimater.c **** 				HallSector_phase_span[HallSector] = HallSector_phase_offset[HallSector]-HallSector_phase_offset
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclpKb17.s 			page 10
+
+
+ 375              		.loc 1 141 5 is_stmt 1 view .LVU119
+ 376              		.loc 1 141 76 is_stmt 0 view .LVU120
+ 377 016e 9B1A     		subs	r3, r3, r2
+ 378              		.loc 1 141 39 view .LVU121
+ 379 0170 5C4A     		ldr	r2, .L44+48
+ 380 0172 22F81030 		strh	r3, [r2, r0, lsl #1]	@ movhi
+ 381              	.L19:
+ 142:Core/Src/phaseEstimater.c **** 			}
+ 143:Core/Src/phaseEstimater.c **** 			else {
+ 144:Core/Src/phaseEstimater.c **** 				HallSector_phase_span[HallSector] =(360 + HallSector_phase_offset[HallSector]) - HallSector_pha
+ 145:Core/Src/phaseEstimater.c **** 			}
+ 146:Core/Src/phaseEstimater.c **** 
+ 147:Core/Src/phaseEstimater.c **** 
+ 148:Core/Src/phaseEstimater.c **** 		}
+ 149:Core/Src/phaseEstimater.c **** 		prev_Sector = HallSector;
+ 382              		.loc 1 149 3 is_stmt 1 view .LVU122
+ 383              		.loc 1 149 15 is_stmt 0 view .LVU123
+ 384 0176 5A4B     		ldr	r3, .L44+44
+ 385 0178 1870     		strb	r0, [r3]
+ 386              	.LVL23:
+ 387              	.L16:
+ 150:Core/Src/phaseEstimater.c **** 	}
+ 151:Core/Src/phaseEstimater.c **** 
+ 152:Core/Src/phaseEstimater.c **** 	for(int i=0; i<8;i++){
+ 388              		.loc 1 152 2 is_stmt 1 view .LVU124
+ 389              	.LBB2:
+ 390              		.loc 1 152 6 view .LVU125
+ 391              		.loc 1 152 10 is_stmt 0 view .LVU126
+ 392 017a 0023     		movs	r3, #0
+ 393              	.LBE2:
+  62:Core/Src/phaseEstimater.c **** 
+ 394              		.loc 1 62 11 view .LVU127
+ 395 017c 1946     		mov	r1, r3
+ 396              	.LBB3:
+ 397              		.loc 1 152 2 view .LVU128
+ 398 017e 81E0     		b	.L21
+ 399              	.LVL24:
+ 400              	.L7:
+ 401              		.loc 1 152 2 view .LVU129
+ 402              	.LBE3:
+ 101:Core/Src/phaseEstimater.c **** 		lock_HALL1=1;
+ 403              		.loc 1 101 46 discriminator 3 view .LVU130
+ 404 0180 5949     		ldr	r1, .L44+52
+ 405 0182 0978     		ldrb	r1, [r1]	@ zero_extendqisi2
+ 101:Core/Src/phaseEstimater.c **** 		lock_HALL1=1;
+ 406              		.loc 1 101 44 discriminator 3 view .LVU131
+ 407 0184 31BB     		cbnz	r1, .L29
+ 102:Core/Src/phaseEstimater.c **** 		lock_HALL2=0;
+ 408              		.loc 1 102 3 is_stmt 1 view .LVU132
+ 102:Core/Src/phaseEstimater.c **** 		lock_HALL2=0;
+ 409              		.loc 1 102 13 is_stmt 0 view .LVU133
+ 410 0186 5849     		ldr	r1, .L44+52
+ 411 0188 4FF00108 		mov	r8, #1
+ 412 018c 81F80080 		strb	r8, [r1]
+ 103:Core/Src/phaseEstimater.c **** 		lock_HALL3=0;
+ 413              		.loc 1 103 3 is_stmt 1 view .LVU134
+ 103:Core/Src/phaseEstimater.c **** 		lock_HALL3=0;
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclpKb17.s 			page 11
+
+
+ 414              		.loc 1 103 13 is_stmt 0 view .LVU135
+ 415 0190 0021     		movs	r1, #0
+ 416 0192 DFF85881 		ldr	r8, .L44+56
+ 417 0196 88F80010 		strb	r1, [r8]
+ 104:Core/Src/phaseEstimater.c **** 		valid_signals = (HALL1_rising_edge<<7) || (HALL1_falling_edge<<6) || (HALL2_rising_edge<<5) || (H
+ 418              		.loc 1 104 3 is_stmt 1 view .LVU136
+ 104:Core/Src/phaseEstimater.c **** 		valid_signals = (HALL1_rising_edge<<7) || (HALL1_falling_edge<<6) || (HALL2_rising_edge<<5) || (H
+ 419              		.loc 1 104 13 is_stmt 0 view .LVU137
+ 420 019a DFF85481 		ldr	r8, .L44+60
+ 421 019e 88F80010 		strb	r1, [r8]
+ 105:Core/Src/phaseEstimater.c **** 	}
+ 422              		.loc 1 105 3 is_stmt 1 view .LVU138
+ 105:Core/Src/phaseEstimater.c **** 	}
+ 423              		.loc 1 105 148 is_stmt 0 view .LVU139
+ 424 01a2 60B9     		cbnz	r0, .L30
+ 105:Core/Src/phaseEstimater.c **** 	}
+ 425              		.loc 1 105 42 discriminator 2 view .LVU140
+ 426 01a4 76B9     		cbnz	r6, .L31
+ 105:Core/Src/phaseEstimater.c **** 	}
+ 427              		.loc 1 105 69 discriminator 4 view .LVU141
+ 428 01a6 7DB9     		cbnz	r5, .L32
+ 105:Core/Src/phaseEstimater.c **** 	}
+ 429              		.loc 1 105 95 discriminator 6 view .LVU142
+ 430 01a8 87B9     		cbnz	r7, .L33
+ 105:Core/Src/phaseEstimater.c **** 	}
+ 431              		.loc 1 105 122 discriminator 8 view .LVU143
+ 432 01aa BCF1000F 		cmp	ip, #0
+ 433 01ae 0FD1     		bne	.L34
+ 105:Core/Src/phaseEstimater.c **** 	}
+ 434              		.loc 1 105 148 discriminator 10 view .LVU144
+ 435 01b0 4FEA8E01 		lsl	r1, lr, #2
+ 436 01b4 BEF1000F 		cmp	lr, #0
+ 437 01b8 02D0     		beq	.L9
+ 105:Core/Src/phaseEstimater.c **** 	}
+ 438              		.loc 1 105 148 discriminator 11 view .LVU145
+ 439 01ba 0121     		movs	r1, #1
+ 440 01bc 00E0     		b	.L9
+ 441              	.L30:
+ 442 01be 0121     		movs	r1, #1
+ 443              	.L9:
+ 105:Core/Src/phaseEstimater.c **** 	}
+ 444              		.loc 1 105 17 discriminator 14 view .LVU146
+ 445 01c0 C9B2     		uxtb	r1, r1
+ 446              	.LVL25:
+ 105:Core/Src/phaseEstimater.c **** 	}
+ 447              		.loc 1 105 17 discriminator 14 view .LVU147
+ 448 01c2 82E7     		b	.L8
+ 449              	.LVL26:
+ 450              	.L31:
+ 105:Core/Src/phaseEstimater.c **** 	}
+ 451              		.loc 1 105 148 discriminator 11 view .LVU148
+ 452 01c4 0121     		movs	r1, #1
+ 453 01c6 FBE7     		b	.L9
+ 454              	.L32:
+ 455 01c8 0121     		movs	r1, #1
+ 456 01ca F9E7     		b	.L9
+ 457              	.L33:
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclpKb17.s 			page 12
+
+
+ 458 01cc 0121     		movs	r1, #1
+ 459 01ce F7E7     		b	.L9
+ 460              	.L34:
+ 461 01d0 0121     		movs	r1, #1
+ 462 01d2 F5E7     		b	.L9
+ 463              	.L29:
+  98:Core/Src/phaseEstimater.c **** 
+ 464              		.loc 1 98 10 view .LVU149
+ 465 01d4 0021     		movs	r1, #0
+ 466 01d6 78E7     		b	.L8
+ 467              	.LVL27:
+ 468              	.L10:
+ 108:Core/Src/phaseEstimater.c **** 		lock_HALL1=0;
+ 469              		.loc 1 108 46 discriminator 3 view .LVU150
+ 470 01d8 444A     		ldr	r2, .L44+56
+ 471 01da 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 108:Core/Src/phaseEstimater.c **** 		lock_HALL1=0;
+ 472              		.loc 1 108 44 discriminator 3 view .LVU151
+ 473 01dc 002A     		cmp	r2, #0
+ 474 01de 7FF47AAF 		bne	.L11
+ 109:Core/Src/phaseEstimater.c **** 		lock_HALL2=1;
+ 475              		.loc 1 109 3 is_stmt 1 view .LVU152
+ 109:Core/Src/phaseEstimater.c **** 		lock_HALL2=1;
+ 476              		.loc 1 109 13 is_stmt 0 view .LVU153
+ 477 01e2 4149     		ldr	r1, .L44+52
+ 478              	.LVL28:
+ 109:Core/Src/phaseEstimater.c **** 		lock_HALL2=1;
+ 479              		.loc 1 109 13 view .LVU154
+ 480 01e4 0A70     		strb	r2, [r1]
+ 110:Core/Src/phaseEstimater.c **** 		lock_HALL3=0;
+ 481              		.loc 1 110 3 is_stmt 1 view .LVU155
+ 110:Core/Src/phaseEstimater.c **** 		lock_HALL3=0;
+ 482              		.loc 1 110 13 is_stmt 0 view .LVU156
+ 483 01e6 4149     		ldr	r1, .L44+56
+ 484 01e8 4FF00108 		mov	r8, #1
+ 485 01ec 81F80080 		strb	r8, [r1]
+ 111:Core/Src/phaseEstimater.c **** 		valid_signals = (HALL1_rising_edge<<7) || (HALL1_falling_edge<<6) || (HALL2_rising_edge<<5) || (H
+ 486              		.loc 1 111 3 is_stmt 1 view .LVU157
+ 111:Core/Src/phaseEstimater.c **** 		valid_signals = (HALL1_rising_edge<<7) || (HALL1_falling_edge<<6) || (HALL2_rising_edge<<5) || (H
+ 487              		.loc 1 111 13 is_stmt 0 view .LVU158
+ 488 01f0 3F49     		ldr	r1, .L44+60
+ 489 01f2 0A70     		strb	r2, [r1]
+ 112:Core/Src/phaseEstimater.c **** 	}
+ 490              		.loc 1 112 3 is_stmt 1 view .LVU159
+ 112:Core/Src/phaseEstimater.c **** 	}
+ 491              		.loc 1 112 148 is_stmt 0 view .LVU160
+ 492 01f4 60B9     		cbnz	r0, .L35
+ 112:Core/Src/phaseEstimater.c **** 	}
+ 493              		.loc 1 112 42 discriminator 2 view .LVU161
+ 494 01f6 76B9     		cbnz	r6, .L36
+ 112:Core/Src/phaseEstimater.c **** 	}
+ 495              		.loc 1 112 69 discriminator 4 view .LVU162
+ 496 01f8 7DB9     		cbnz	r5, .L37
+ 112:Core/Src/phaseEstimater.c **** 	}
+ 497              		.loc 1 112 95 discriminator 6 view .LVU163
+ 498 01fa 87B9     		cbnz	r7, .L38
+ 112:Core/Src/phaseEstimater.c **** 	}
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclpKb17.s 			page 13
+
+
+ 499              		.loc 1 112 122 discriminator 8 view .LVU164
+ 500 01fc BCF1000F 		cmp	ip, #0
+ 501 0200 0FD1     		bne	.L39
+ 112:Core/Src/phaseEstimater.c **** 	}
+ 502              		.loc 1 112 148 discriminator 10 view .LVU165
+ 503 0202 4FEA8E01 		lsl	r1, lr, #2
+ 504 0206 BEF1000F 		cmp	lr, #0
+ 505 020a 02D0     		beq	.L12
+ 112:Core/Src/phaseEstimater.c **** 	}
+ 506              		.loc 1 112 148 discriminator 11 view .LVU166
+ 507 020c 4146     		mov	r1, r8
+ 508 020e 00E0     		b	.L12
+ 509              	.L35:
+ 510 0210 0121     		movs	r1, #1
+ 511              	.L12:
+ 112:Core/Src/phaseEstimater.c **** 	}
+ 512              		.loc 1 112 17 discriminator 14 view .LVU167
+ 513 0212 C9B2     		uxtb	r1, r1
+ 514              	.LVL29:
+ 112:Core/Src/phaseEstimater.c **** 	}
+ 515              		.loc 1 112 17 discriminator 14 view .LVU168
+ 516 0214 5FE7     		b	.L11
+ 517              	.LVL30:
+ 518              	.L36:
+ 112:Core/Src/phaseEstimater.c **** 	}
+ 519              		.loc 1 112 148 discriminator 11 view .LVU169
+ 520 0216 0121     		movs	r1, #1
+ 521 0218 FBE7     		b	.L12
+ 522              	.L37:
+ 523 021a 0121     		movs	r1, #1
+ 524 021c F9E7     		b	.L12
+ 525              	.L38:
+ 526 021e 0121     		movs	r1, #1
+ 527 0220 F7E7     		b	.L12
+ 528              	.L39:
+ 529 0222 0121     		movs	r1, #1
+ 530 0224 F5E7     		b	.L12
+ 531              	.LVL31:
+ 532              	.L13:
+ 115:Core/Src/phaseEstimater.c **** 		lock_HALL1=0;
+ 533              		.loc 1 115 46 discriminator 3 view .LVU170
+ 534 0226 324B     		ldr	r3, .L44+60
+ 535 0228 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 115:Core/Src/phaseEstimater.c **** 		lock_HALL1=0;
+ 536              		.loc 1 115 44 discriminator 3 view .LVU171
+ 537 022a 002B     		cmp	r3, #0
+ 538 022c 7FF459AF 		bne	.L14
+ 116:Core/Src/phaseEstimater.c **** 		lock_HALL2=0;
+ 539              		.loc 1 116 3 is_stmt 1 view .LVU172
+ 116:Core/Src/phaseEstimater.c **** 		lock_HALL2=0;
+ 540              		.loc 1 116 13 is_stmt 0 view .LVU173
+ 541 0230 2D4A     		ldr	r2, .L44+52
+ 542 0232 1370     		strb	r3, [r2]
+ 117:Core/Src/phaseEstimater.c **** 		lock_HALL3=1;
+ 543              		.loc 1 117 3 is_stmt 1 view .LVU174
+ 117:Core/Src/phaseEstimater.c **** 		lock_HALL3=1;
+ 544              		.loc 1 117 13 is_stmt 0 view .LVU175
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclpKb17.s 			page 14
+
+
+ 545 0234 2D4A     		ldr	r2, .L44+56
+ 546 0236 1370     		strb	r3, [r2]
+ 118:Core/Src/phaseEstimater.c **** 		valid_signals = (HALL1_rising_edge<<7) || (HALL1_falling_edge<<6) || (HALL2_rising_edge<<5) || (H
+ 547              		.loc 1 118 3 is_stmt 1 view .LVU176
+ 118:Core/Src/phaseEstimater.c **** 		valid_signals = (HALL1_rising_edge<<7) || (HALL1_falling_edge<<6) || (HALL2_rising_edge<<5) || (H
+ 548              		.loc 1 118 13 is_stmt 0 view .LVU177
+ 549 0238 2D4B     		ldr	r3, .L44+60
+ 550 023a 0122     		movs	r2, #1
+ 551 023c 1A70     		strb	r2, [r3]
+ 119:Core/Src/phaseEstimater.c **** 	}
+ 552              		.loc 1 119 3 is_stmt 1 view .LVU178
+ 119:Core/Src/phaseEstimater.c **** 	}
+ 553              		.loc 1 119 148 is_stmt 0 view .LVU179
+ 554 023e 0028     		cmp	r0, #0
+ 555 0240 7FF451AF 		bne	.L15
+ 119:Core/Src/phaseEstimater.c **** 	}
+ 556              		.loc 1 119 42 discriminator 2 view .LVU180
+ 557 0244 002E     		cmp	r6, #0
+ 558 0246 7FF44EAF 		bne	.L15
+ 119:Core/Src/phaseEstimater.c **** 	}
+ 559              		.loc 1 119 69 discriminator 4 view .LVU181
+ 560 024a 002D     		cmp	r5, #0
+ 561 024c 7FF44BAF 		bne	.L15
+ 119:Core/Src/phaseEstimater.c **** 	}
+ 562              		.loc 1 119 95 discriminator 6 view .LVU182
+ 563 0250 002F     		cmp	r7, #0
+ 564 0252 7FF448AF 		bne	.L15
+ 119:Core/Src/phaseEstimater.c **** 	}
+ 565              		.loc 1 119 122 discriminator 8 view .LVU183
+ 566 0256 BCF1000F 		cmp	ip, #0
+ 567 025a 7FF444AF 		bne	.L15
+ 119:Core/Src/phaseEstimater.c **** 	}
+ 568              		.loc 1 119 148 discriminator 10 view .LVU184
+ 569 025e BEF1000F 		cmp	lr, #0
+ 570 0262 7FF440AF 		bne	.L15
+ 571 0266 88E7     		b	.L16
+ 572              	.LVL32:
+ 573              	.L17:
+ 130:Core/Src/phaseEstimater.c **** 		}
+ 574              		.loc 1 130 4 is_stmt 1 view .LVU185
+ 130:Core/Src/phaseEstimater.c **** 		}
+ 575              		.loc 1 130 30 is_stmt 0 view .LVU186
+ 576 0268 D31A     		subs	r3, r2, r3
+ 577 026a 03F5B473 		add	r3, r3, #360
+ 130:Core/Src/phaseEstimater.c **** 		}
+ 578              		.loc 1 130 25 view .LVU187
+ 579 026e 1949     		ldr	r1, .L44+32
+ 580 0270 0B80     		strh	r3, [r1]	@ movhi
+ 581 0272 47E7     		b	.L18
+ 582              	.LVL33:
+ 583              	.L20:
+ 144:Core/Src/phaseEstimater.c **** 			}
+ 584              		.loc 1 144 5 is_stmt 1 view .LVU188
+ 144:Core/Src/phaseEstimater.c **** 			}
+ 585              		.loc 1 144 84 is_stmt 0 view .LVU189
+ 586 0274 9B1A     		subs	r3, r3, r2
+ 587 0276 03F5B473 		add	r3, r3, #360
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclpKb17.s 			page 15
+
+
+ 144:Core/Src/phaseEstimater.c **** 			}
+ 588              		.loc 1 144 39 view .LVU190
+ 589 027a 1A4A     		ldr	r2, .L44+48
+ 590 027c 22F81030 		strh	r3, [r2, r0, lsl #1]	@ movhi
+ 591 0280 79E7     		b	.L19
+ 592              	.LVL34:
+ 593              	.L22:
+ 594              	.LBB4:
+ 595              		.loc 1 152 20 is_stmt 1 discriminator 2 view .LVU191
+ 596 0282 0133     		adds	r3, r3, #1
+ 597              	.LVL35:
+ 598              	.L21:
+ 599              		.loc 1 152 16 discriminator 1 view .LVU192
+ 600 0284 072B     		cmp	r3, #7
+ 601 0286 08DC     		bgt	.L42
+ 153:Core/Src/phaseEstimater.c **** 		if(HallSector_Averages[i] >= 256) in_toleranz_count++;
+ 602              		.loc 1 153 3 view .LVU193
+ 603              		.loc 1 153 25 is_stmt 0 view .LVU194
+ 604 0288 134A     		ldr	r2, .L44+36
+ 605 028a 32F813C0 		ldrh	ip, [r2, r3, lsl #1]
+ 606              		.loc 1 153 5 view .LVU195
+ 607 028e BCF1FF0F 		cmp	ip, #255
+ 608 0292 F6D9     		bls	.L22
+ 609              		.loc 1 153 37 is_stmt 1 discriminator 1 view .LVU196
+ 610              		.loc 1 153 54 is_stmt 0 discriminator 1 view .LVU197
+ 611 0294 0131     		adds	r1, r1, #1
+ 612              	.LVL36:
+ 613              		.loc 1 153 54 discriminator 1 view .LVU198
+ 614 0296 89B2     		uxth	r1, r1
+ 615              	.LVL37:
+ 616              		.loc 1 153 54 discriminator 1 view .LVU199
+ 617 0298 F3E7     		b	.L22
+ 618              	.L42:
+ 619              		.loc 1 153 54 discriminator 1 view .LVU200
+ 620              	.LBE4:
+ 154:Core/Src/phaseEstimater.c **** 	}
+ 155:Core/Src/phaseEstimater.c **** 
+ 156:Core/Src/phaseEstimater.c **** 	if(in_toleranz_count==6){
+ 621              		.loc 1 156 2 is_stmt 1 view .LVU201
+ 622              		.loc 1 156 4 is_stmt 0 view .LVU202
+ 623 029a 0629     		cmp	r1, #6
+ 624 029c 39D0     		beq	.L40
+  60:Core/Src/phaseEstimater.c **** 	uint8_t HallSector=0;
+ 625              		.loc 1 60 11 view .LVU203
+ 626 029e 0025     		movs	r5, #0
+ 627              	.LVL38:
+ 628              	.L25:
+ 157:Core/Src/phaseEstimater.c **** 		init_done=1;
+ 158:Core/Src/phaseEstimater.c **** 		for(int i=0;i<8;i++){
+ 159:Core/Src/phaseEstimater.c **** 			if(HallSector_Averages[i]<256){
+ 160:Core/Src/phaseEstimater.c **** 				HallSector_phase_offset[i]=255;	// Für ungültige Sektoren wird die Zahl 255 verwendet
+ 161:Core/Src/phaseEstimater.c **** 			}
+ 162:Core/Src/phaseEstimater.c **** 		}
+ 163:Core/Src/phaseEstimater.c **** 	}
+ 164:Core/Src/phaseEstimater.c **** 
+ 165:Core/Src/phaseEstimater.c **** 	setVoltageVector(voltage_phase, 0, setpoint);
+ 629              		.loc 1 165 2 is_stmt 1 view .LVU204
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclpKb17.s 			page 16
+
+
+ 630 02a0 2246     		mov	r2, r4
+ 631 02a2 0021     		movs	r1, #0
+ 632 02a4 054B     		ldr	r3, .L44+8
+ 633 02a6 1888     		ldrh	r0, [r3]
+ 634 02a8 FFF7FEFF 		bl	setVoltageVector
+ 635              	.LVL39:
+ 166:Core/Src/phaseEstimater.c **** 
+ 167:Core/Src/phaseEstimater.c **** 
+ 168:Core/Src/phaseEstimater.c **** 	return init_done;
+ 636              		.loc 1 168 2 view .LVU205
+ 169:Core/Src/phaseEstimater.c **** }
+ 637              		.loc 1 169 1 is_stmt 0 view .LVU206
+ 638 02ac 2846     		mov	r0, r5
+ 639 02ae BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 640              	.LVL40:
+ 641              	.L45:
+ 642              		.loc 1 169 1 view .LVU207
+ 643 02b2 00BF     		.align	2
+ 644              	.L44:
+ 645 02b4 00000000 		.word	init.20
+ 646 02b8 00000000 		.word	htim6
+ 647 02bc 00000000 		.word	voltage_phase.19
+ 648 02c0 00000000 		.word	Motor
+ 649 02c4 00000000 		.word	HALL1.18
+ 650 02c8 00040048 		.word	1207960576
+ 651 02cc 00000000 		.word	HALL2.17
+ 652 02d0 00000000 		.word	phase_old.12
+ 653 02d4 00000000 		.word	time_between_sectors
+ 654 02d8 00000000 		.word	HallSector_Averages
+ 655 02dc 00000000 		.word	HallSector_phase_offset
+ 656 02e0 00000000 		.word	prev_Sector.11
+ 657 02e4 00000000 		.word	HallSector_phase_span
+ 658 02e8 00000000 		.word	lock_HALL1.15
+ 659 02ec 00000000 		.word	lock_HALL2.14
+ 660 02f0 00000000 		.word	lock_HALL3.13
+ 661 02f4 00000000 		.word	HALL3.16
+ 662              	.LVL41:
+ 663              	.L26:
+ 664              	.LBB5:
+ 158:Core/Src/phaseEstimater.c **** 			if(HallSector_Averages[i]<256){
+ 665              		.loc 1 158 20 is_stmt 1 discriminator 2 view .LVU208
+ 666 02f8 0133     		adds	r3, r3, #1
+ 667              	.LVL42:
+ 668              	.L24:
+ 158:Core/Src/phaseEstimater.c **** 			if(HallSector_Averages[i]<256){
+ 669              		.loc 1 158 16 discriminator 1 view .LVU209
+ 670 02fa 072B     		cmp	r3, #7
+ 671 02fc 0BDC     		bgt	.L43
+ 159:Core/Src/phaseEstimater.c **** 				HallSector_phase_offset[i]=255;	// Für ungültige Sektoren wird die Zahl 255 verwendet
+ 672              		.loc 1 159 4 view .LVU210
+ 159:Core/Src/phaseEstimater.c **** 				HallSector_phase_offset[i]=255;	// Für ungültige Sektoren wird die Zahl 255 verwendet
+ 673              		.loc 1 159 26 is_stmt 0 view .LVU211
+ 674 02fe 074A     		ldr	r2, .L46
+ 675 0300 32F81320 		ldrh	r2, [r2, r3, lsl #1]
+ 159:Core/Src/phaseEstimater.c **** 				HallSector_phase_offset[i]=255;	// Für ungültige Sektoren wird die Zahl 255 verwendet
+ 676              		.loc 1 159 6 view .LVU212
+ 677 0304 FF2A     		cmp	r2, #255
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclpKb17.s 			page 17
+
+
+ 678 0306 F7D8     		bhi	.L26
+ 160:Core/Src/phaseEstimater.c **** 			}
+ 679              		.loc 1 160 5 is_stmt 1 view .LVU213
+ 160:Core/Src/phaseEstimater.c **** 			}
+ 680              		.loc 1 160 31 is_stmt 0 view .LVU214
+ 681 0308 054A     		ldr	r2, .L46+4
+ 682 030a FF21     		movs	r1, #255
+ 683 030c 22F81310 		strh	r1, [r2, r3, lsl #1]	@ movhi
+ 684 0310 F2E7     		b	.L26
+ 685              	.LVL43:
+ 686              	.L40:
+ 158:Core/Src/phaseEstimater.c **** 			if(HallSector_Averages[i]<256){
+ 687              		.loc 1 158 11 view .LVU215
+ 688 0312 0023     		movs	r3, #0
+ 689              	.LVL44:
+ 158:Core/Src/phaseEstimater.c **** 			if(HallSector_Averages[i]<256){
+ 690              		.loc 1 158 11 view .LVU216
+ 691 0314 F1E7     		b	.L24
+ 692              	.LVL45:
+ 693              	.L43:
+ 158:Core/Src/phaseEstimater.c **** 			if(HallSector_Averages[i]<256){
+ 694              		.loc 1 158 11 view .LVU217
+ 695              	.LBE5:
+ 157:Core/Src/phaseEstimater.c **** 		for(int i=0;i<8;i++){
+ 696              		.loc 1 157 12 view .LVU218
+ 697 0316 0125     		movs	r5, #1
+ 698 0318 C2E7     		b	.L25
+ 699              	.L47:
+ 700 031a 00BF     		.align	2
+ 701              	.L46:
+ 702 031c 00000000 		.word	HallSector_Averages
+ 703 0320 00000000 		.word	HallSector_phase_offset
+ 704              		.cfi_endproc
+ 705              	.LFE127:
+ 707              		.section	.text.estimate_rotor_phase,"ax",%progbits
+ 708              		.align	1
+ 709              		.global	estimate_rotor_phase
+ 710              		.syntax unified
+ 711              		.thumb
+ 712              		.thumb_func
+ 714              	estimate_rotor_phase:
+ 715              	.LVL46:
+ 716              	.LFB128:
+ 170:Core/Src/phaseEstimater.c **** 
+ 171:Core/Src/phaseEstimater.c **** 
+ 172:Core/Src/phaseEstimater.c **** static uint8_t block_commutation_active=1;
+ 173:Core/Src/phaseEstimater.c **** static uint16_t Prev_Sector_times[8]={0};
+ 174:Core/Src/phaseEstimater.c **** 
+ 175:Core/Src/phaseEstimater.c **** void estimate_rotor_phase(motor_TypeDef* motor){
+ 717              		.loc 1 175 48 is_stmt 1 view -0
+ 718              		.cfi_startproc
+ 719              		@ args = 0, pretend = 0, frame = 0
+ 720              		@ frame_needed = 0, uses_anonymous_args = 0
+ 721              		.loc 1 175 48 is_stmt 0 view .LVU220
+ 722 0000 2DE9F047 		push	{r4, r5, r6, r7, r8, r9, r10, lr}
+ 723              	.LCFI1:
+ 724              		.cfi_def_cfa_offset 32
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclpKb17.s 			page 18
+
+
+ 725              		.cfi_offset 4, -32
+ 726              		.cfi_offset 5, -28
+ 727              		.cfi_offset 6, -24
+ 728              		.cfi_offset 7, -20
+ 729              		.cfi_offset 8, -16
+ 730              		.cfi_offset 9, -12
+ 731              		.cfi_offset 10, -8
+ 732              		.cfi_offset 14, -4
+ 733 0004 0546     		mov	r5, r0
+ 176:Core/Src/phaseEstimater.c **** 	static uint8_t init=0;
+ 734              		.loc 1 176 2 is_stmt 1 view .LVU221
+ 177:Core/Src/phaseEstimater.c **** 
+ 178:Core/Src/phaseEstimater.c **** 	if(!init){
+ 735              		.loc 1 178 2 view .LVU222
+ 736              		.loc 1 178 5 is_stmt 0 view .LVU223
+ 737 0006 AD4B     		ldr	r3, .L87
+ 738 0008 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 739              		.loc 1 178 4 view .LVU224
+ 740 000a 002B     		cmp	r3, #0
+ 741 000c 00F0AD80 		beq	.L86
+ 742              	.LVL47:
+ 743              	.L49:
+ 179:Core/Src/phaseEstimater.c **** 		//init_phase_estimater();
+ 180:Core/Src/phaseEstimater.c **** 		MX_TIM6_Init();
+ 181:Core/Src/phaseEstimater.c **** 		init=1;
+ 182:Core/Src/phaseEstimater.c **** 	}
+ 183:Core/Src/phaseEstimater.c **** 
+ 184:Core/Src/phaseEstimater.c **** 
+ 185:Core/Src/phaseEstimater.c **** 	static uint8_t HallSector=0;
+ 744              		.loc 1 185 2 is_stmt 1 view .LVU225
+ 186:Core/Src/phaseEstimater.c **** 	uint16_t newSectorTime=0;
+ 745              		.loc 1 186 2 view .LVU226
+ 187:Core/Src/phaseEstimater.c **** 	static uint16_t SectorTime=0;
+ 746              		.loc 1 187 2 view .LVU227
+ 188:Core/Src/phaseEstimater.c **** 	static uint16_t PreviousHallSector=0;
+ 747              		.loc 1 188 2 view .LVU228
+ 189:Core/Src/phaseEstimater.c **** 	uint16_t CurrentSectorTime=SectorTIM.Instance->CNT;
+ 748              		.loc 1 189 2 view .LVU229
+ 749              		.loc 1 189 38 is_stmt 0 view .LVU230
+ 750 0010 AB4B     		ldr	r3, .L87+4
+ 751 0012 1B68     		ldr	r3, [r3]
+ 752              		.loc 1 189 47 view .LVU231
+ 753 0014 5C6A     		ldr	r4, [r3, #36]
+ 754              	.LVL48:
+ 190:Core/Src/phaseEstimater.c **** 	static prev_phase=0;
+ 755              		.loc 1 190 2 is_stmt 1 view .LVU232
+ 191:Core/Src/phaseEstimater.c **** 
+ 192:Core/Src/phaseEstimater.c **** 	
+ 193:Core/Src/phaseEstimater.c **** 	static uint8_t HALL1 = 0;
+ 756              		.loc 1 193 2 view .LVU233
+ 194:Core/Src/phaseEstimater.c **** 	static uint8_t HALL2 = 0;
+ 757              		.loc 1 194 2 view .LVU234
+ 195:Core/Src/phaseEstimater.c **** 	static uint8_t HALL3 = 0;
+ 758              		.loc 1 195 2 view .LVU235
+ 196:Core/Src/phaseEstimater.c **** 	
+ 197:Core/Src/phaseEstimater.c **** /*	static uint8_t HALL1_pinstate = 0;
+ 198:Core/Src/phaseEstimater.c **** 	static uint8_t HALL2_pinstate = 0;
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclpKb17.s 			page 19
+
+
+ 199:Core/Src/phaseEstimater.c **** 	static uint8_t HALL3_pinstate = 0;*/
+ 200:Core/Src/phaseEstimater.c **** 												 
+ 201:Core/Src/phaseEstimater.c ****  HALL1 = (HALL1<<1)|HAL_GPIO_ReadPin(HALL1_GPIO_Port,HALL1_Pin);
+ 759              		.loc 1 201 2 view .LVU236
+ 760              		.loc 1 201 20 is_stmt 0 view .LVU237
+ 761 0016 AB4F     		ldr	r7, .L87+8
+ 762 0018 3E78     		ldrb	r6, [r7]	@ zero_extendqisi2
+ 763              		.loc 1 201 21 view .LVU238
+ 764 001a DFF8B092 		ldr	r9, .L87+16
+ 765 001e 0421     		movs	r1, #4
+ 766 0020 4846     		mov	r0, r9
+ 767 0022 FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 768              	.LVL49:
+ 769              		.loc 1 201 20 discriminator 1 view .LVU239
+ 770 0026 40EA4600 		orr	r0, r0, r6, lsl #1
+ 771              		.loc 1 201 8 discriminator 1 view .LVU240
+ 772 002a 3870     		strb	r0, [r7]
+ 202:Core/Src/phaseEstimater.c ****  HALL2 = (HALL2<<1)|HAL_GPIO_ReadPin(HALL2_GPIO_Port,HALL2_Pin);
+ 773              		.loc 1 202 2 is_stmt 1 view .LVU241
+ 774              		.loc 1 202 20 is_stmt 0 view .LVU242
+ 775 002c A64E     		ldr	r6, .L87+12
+ 776 002e 96F80080 		ldrb	r8, [r6]	@ zero_extendqisi2
+ 777              		.loc 1 202 21 view .LVU243
+ 778 0032 4FF48061 		mov	r1, #1024
+ 779 0036 4846     		mov	r0, r9
+ 780 0038 FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 781              	.LVL50:
+ 782              		.loc 1 202 20 discriminator 1 view .LVU244
+ 783 003c 40EA4800 		orr	r0, r0, r8, lsl #1
+ 784              		.loc 1 202 8 discriminator 1 view .LVU245
+ 785 0040 3070     		strb	r0, [r6]
+ 203:Core/Src/phaseEstimater.c ****  HALL3 = (HALL3<<1)|HAL_GPIO_ReadPin(HALL3_GPIO_Port,HALL3_Pin);
+ 786              		.loc 1 203 2 is_stmt 1 view .LVU246
+ 787              		.loc 1 203 20 is_stmt 0 view .LVU247
+ 788 0042 DFF8B882 		ldr	r8, .L87+64
+ 789 0046 98F800A0 		ldrb	r10, [r8]	@ zero_extendqisi2
+ 790              		.loc 1 203 21 view .LVU248
+ 791 004a 4FF40061 		mov	r1, #2048
+ 792 004e 4846     		mov	r0, r9
+ 793 0050 FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 794              	.LVL51:
+ 795              		.loc 1 203 20 discriminator 1 view .LVU249
+ 796 0054 40EA4A03 		orr	r3, r0, r10, lsl #1
+ 797 0058 DBB2     		uxtb	r3, r3
+ 798              		.loc 1 203 8 discriminator 1 view .LVU250
+ 799 005a 88F80030 		strb	r3, [r8]
+ 204:Core/Src/phaseEstimater.c **** 
+ 205:Core/Src/phaseEstimater.c **** 	uint8_t HALL1_rising_edge =		  (HALL1&0x0F)==3;
+ 800              		.loc 1 205 2 is_stmt 1 view .LVU251
+ 801              		.loc 1 205 39 is_stmt 0 view .LVU252
+ 802 005e 3978     		ldrb	r1, [r7]	@ zero_extendqisi2
+ 803 0060 01F00F01 		and	r1, r1, #15
+ 804              		.loc 1 205 45 view .LVU253
+ 805 0064 0329     		cmp	r1, #3
+ 806 0066 14BF     		ite	ne
+ 807 0068 0020     		movne	r0, #0
+ 808 006a 0120     		moveq	r0, #1
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclpKb17.s 			page 20
+
+
+ 809              	.LVL52:
+ 206:Core/Src/phaseEstimater.c **** 	uint8_t HALL1_falling_edge=	    (HALL1&0x0F)==14;
+ 810              		.loc 1 206 2 is_stmt 1 view .LVU254
+ 811              		.loc 1 206 46 is_stmt 0 view .LVU255
+ 812 006c 0E29     		cmp	r1, #14
+ 813 006e 14BF     		ite	ne
+ 814 0070 0027     		movne	r7, #0
+ 815 0072 0127     		moveq	r7, #1
+ 816              	.LVL53:
+ 207:Core/Src/phaseEstimater.c **** 	uint8_t HALL2_rising_edge =		  (HALL2&0x0F)==3;
+ 817              		.loc 1 207 2 is_stmt 1 view .LVU256
+ 818              		.loc 1 207 39 is_stmt 0 view .LVU257
+ 819 0074 3278     		ldrb	r2, [r6]	@ zero_extendqisi2
+ 820 0076 02F00F02 		and	r2, r2, #15
+ 821              		.loc 1 207 45 view .LVU258
+ 822 007a 032A     		cmp	r2, #3
+ 823 007c 14BF     		ite	ne
+ 824 007e 0026     		movne	r6, #0
+ 825 0080 0126     		moveq	r6, #1
+ 826              	.LVL54:
+ 208:Core/Src/phaseEstimater.c **** 	uint8_t HALL2_falling_edge=	    (HALL2&0x0F)==14;
+ 827              		.loc 1 208 2 is_stmt 1 view .LVU259
+ 828              		.loc 1 208 46 is_stmt 0 view .LVU260
+ 829 0082 0E2A     		cmp	r2, #14
+ 830 0084 14BF     		ite	ne
+ 831 0086 4FF0000C 		movne	ip, #0
+ 832 008a 4FF0010C 		moveq	ip, #1
+ 833              	.LVL55:
+ 209:Core/Src/phaseEstimater.c **** 	uint8_t HALL3_rising_edge =		  (HALL3&0x0F)==3;
+ 834              		.loc 1 209 2 is_stmt 1 view .LVU261
+ 835 008e 03F00F03 		and	r3, r3, #15
+ 836              		.loc 1 209 45 is_stmt 0 view .LVU262
+ 837 0092 032B     		cmp	r3, #3
+ 838 0094 14BF     		ite	ne
+ 839 0096 4FF0000E 		movne	lr, #0
+ 840 009a 4FF0010E 		moveq	lr, #1
+ 841              	.LVL56:
+ 210:Core/Src/phaseEstimater.c **** 	uint8_t HALL3_falling_edge=	    (HALL3&0x0F)==14;
+ 842              		.loc 1 210 2 is_stmt 1 view .LVU263
+ 843              		.loc 1 210 46 is_stmt 0 view .LVU264
+ 844 009e 0E2B     		cmp	r3, #14
+ 845 00a0 14BF     		ite	ne
+ 846 00a2 4FF00008 		movne	r8, #0
+ 847 00a6 4FF00108 		moveq	r8, #1
+ 848              	.LVL57:
+ 211:Core/Src/phaseEstimater.c **** 	
+ 212:Core/Src/phaseEstimater.c **** 	uint8_t valid_signals = 0;// (HALL1_rising_edge<<7) || (HALL1_falling_edge<<6) || (HALL2_rising_ed
+ 849              		.loc 1 212 2 is_stmt 1 view .LVU265
+ 213:Core/Src/phaseEstimater.c **** 
+ 214:Core/Src/phaseEstimater.c **** 	static uint8_t lock_HALL1=0;
+ 850              		.loc 1 214 2 view .LVU266
+ 215:Core/Src/phaseEstimater.c **** 	static uint8_t lock_HALL2=0;
+ 851              		.loc 1 215 2 view .LVU267
+ 216:Core/Src/phaseEstimater.c **** 	static uint8_t lock_HALL3=0;
+ 852              		.loc 1 216 2 view .LVU268
+ 217:Core/Src/phaseEstimater.c **** 
+ 218:Core/Src/phaseEstimater.c **** 	//Bei einer Flanke wenn diese nicht gerade gelockt ist
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclpKb17.s 			page 21
+
+
+ 219:Core/Src/phaseEstimater.c **** 	if((HALL1_falling_edge||HALL1_rising_edge)&&!lock_HALL1){
+ 853              		.loc 1 219 2 view .LVU269
+ 854              		.loc 1 219 4 is_stmt 0 view .LVU270
+ 855 00aa 0E29     		cmp	r1, #14
+ 856 00ac 63D0     		beq	.L50
+ 857              		.loc 1 219 24 discriminator 2 view .LVU271
+ 858 00ae 0329     		cmp	r1, #3
+ 859 00b0 61D0     		beq	.L50
+ 212:Core/Src/phaseEstimater.c **** 
+ 860              		.loc 1 212 10 view .LVU272
+ 861 00b2 0021     		movs	r1, #0
+ 862              	.LVL58:
+ 863              	.L51:
+ 220:Core/Src/phaseEstimater.c **** 		lock_HALL1=1;
+ 221:Core/Src/phaseEstimater.c **** 		lock_HALL2=0;
+ 222:Core/Src/phaseEstimater.c **** 		lock_HALL3=0;
+ 223:Core/Src/phaseEstimater.c **** 		valid_signals = (HALL1_rising_edge<<7) || (HALL1_falling_edge<<6) || (HALL2_rising_edge<<5) || (H
+ 224:Core/Src/phaseEstimater.c **** 	}
+ 225:Core/Src/phaseEstimater.c **** 	//Bei einer Flanke wenn diese nicht gerade gelockt ist
+ 226:Core/Src/phaseEstimater.c **** 	if((HALL2_falling_edge||HALL2_rising_edge)&&!lock_HALL2){
+ 864              		.loc 1 226 2 is_stmt 1 view .LVU273
+ 865              		.loc 1 226 4 is_stmt 0 view .LVU274
+ 866 00b4 0E2A     		cmp	r2, #14
+ 867 00b6 00F08C80 		beq	.L53
+ 868              		.loc 1 226 24 discriminator 2 view .LVU275
+ 869 00ba 032A     		cmp	r2, #3
+ 870 00bc 00F08980 		beq	.L53
+ 871              	.L54:
+ 227:Core/Src/phaseEstimater.c **** 		lock_HALL1=0;
+ 228:Core/Src/phaseEstimater.c **** 		lock_HALL2=1;
+ 229:Core/Src/phaseEstimater.c **** 		lock_HALL3=0;
+ 230:Core/Src/phaseEstimater.c **** 		valid_signals = (HALL1_rising_edge<<7) || (HALL1_falling_edge<<6) || (HALL2_rising_edge<<5) || (H
+ 231:Core/Src/phaseEstimater.c **** 	}
+ 232:Core/Src/phaseEstimater.c **** 	//Bei einer Flanke wenn diese nicht gerade gelockt ist
+ 233:Core/Src/phaseEstimater.c **** 	if((HALL3_falling_edge||HALL3_rising_edge)&&!lock_HALL3){
+ 872              		.loc 1 233 2 is_stmt 1 view .LVU276
+ 873              		.loc 1 233 4 is_stmt 0 view .LVU277
+ 874 00c0 0E2B     		cmp	r3, #14
+ 875 00c2 00F0AF80 		beq	.L56
+ 876              		.loc 1 233 24 discriminator 2 view .LVU278
+ 877 00c6 032B     		cmp	r3, #3
+ 878 00c8 00F0AC80 		beq	.L56
+ 879              	.L57:
+ 234:Core/Src/phaseEstimater.c **** 		lock_HALL1=0;
+ 235:Core/Src/phaseEstimater.c **** 		lock_HALL2=0;
+ 236:Core/Src/phaseEstimater.c **** 		lock_HALL3=1;
+ 237:Core/Src/phaseEstimater.c **** 		valid_signals = (HALL1_rising_edge<<7) || (HALL1_falling_edge<<6) || (HALL2_rising_edge<<5) || (H
+ 238:Core/Src/phaseEstimater.c **** 	}
+ 239:Core/Src/phaseEstimater.c **** 
+ 240:Core/Src/phaseEstimater.c **** 	
+ 241:Core/Src/phaseEstimater.c **** 	if(valid_signals){
+ 880              		.loc 1 241 2 is_stmt 1 view .LVU279
+ 881              		.loc 1 241 4 is_stmt 0 view .LVU280
+ 882 00cc B1B1     		cbz	r1, .L59
+ 883              	.L58:
+ 884              	.LVL59:
+ 242:Core/Src/phaseEstimater.c **** 		HallSector = (HAL_GPIO_ReadPin(HALL3_GPIO_Port,HALL3_Pin)<<2)|(HAL_GPIO_ReadPin(HALL2_GPIO_Port,H
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclpKb17.s 			page 22
+
+
+ 885              		.loc 1 242 3 is_stmt 1 view .LVU281
+ 886              		.loc 1 242 17 is_stmt 0 view .LVU282
+ 887 00ce 7F4F     		ldr	r7, .L87+16
+ 888              	.LVL60:
+ 889              		.loc 1 242 17 view .LVU283
+ 890 00d0 4FF40061 		mov	r1, #2048
+ 891 00d4 3846     		mov	r0, r7
+ 892              	.LVL61:
+ 893              		.loc 1 242 17 view .LVU284
+ 894 00d6 FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 895              	.LVL62:
+ 896              		.loc 1 242 17 view .LVU285
+ 897 00da 8046     		mov	r8, r0
+ 898              	.LVL63:
+ 899              		.loc 1 242 66 discriminator 1 view .LVU286
+ 900 00dc 4FF48061 		mov	r1, #1024
+ 901 00e0 3846     		mov	r0, r7
+ 902 00e2 FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 903              	.LVL64:
+ 904              		.loc 1 242 64 discriminator 2 view .LVU287
+ 905 00e6 4600     		lsls	r6, r0, #1
+ 906              	.LVL65:
+ 907              		.loc 1 242 64 discriminator 2 view .LVU288
+ 908 00e8 46EA8806 		orr	r6, r6, r8, lsl #2
+ 909 00ec 76B2     		sxtb	r6, r6
+ 910              		.loc 1 242 115 discriminator 2 view .LVU289
+ 911 00ee 0421     		movs	r1, #4
+ 912 00f0 3846     		mov	r0, r7
+ 913 00f2 FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 914              	.LVL66:
+ 915              		.loc 1 242 113 discriminator 3 view .LVU290
+ 916 00f6 3043     		orrs	r0, r0, r6
+ 917              		.loc 1 242 14 discriminator 3 view .LVU291
+ 918 00f8 754B     		ldr	r3, .L87+20
+ 919 00fa 1870     		strb	r0, [r3]
+ 920              	.L59:
+ 243:Core/Src/phaseEstimater.c **** 	}
+ 244:Core/Src/phaseEstimater.c **** 	
+ 245:Core/Src/phaseEstimater.c **** 	
+ 246:Core/Src/phaseEstimater.c **** 	uint16_t offset= HallSector_phase_offset[HallSector];
+ 921              		.loc 1 246 2 is_stmt 1 view .LVU292
+ 922              		.loc 1 246 42 is_stmt 0 view .LVU293
+ 923 00fc 744B     		ldr	r3, .L87+20
+ 924 00fe 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 925              		.loc 1 246 11 view .LVU294
+ 926 0100 744B     		ldr	r3, .L87+24
+ 927 0102 33F81210 		ldrh	r1, [r3, r2, lsl #1]
+ 928              	.LVL67:
+ 247:Core/Src/phaseEstimater.c **** 	
+ 248:Core/Src/phaseEstimater.c **** 	if(offset!=255){																				// valid Sector
+ 929              		.loc 1 248 2 is_stmt 1 view .LVU295
+ 930              		.loc 1 248 4 is_stmt 0 view .LVU296
+ 931 0106 FF29     		cmp	r1, #255
+ 932 0108 00F0FA80 		beq	.L60
+ 249:Core/Src/phaseEstimater.c **** 		if(HallSector!=PreviousHallSector){										// Sector changed
+ 933              		.loc 1 249 3 is_stmt 1 view .LVU297
+ 934              		.loc 1 249 16 is_stmt 0 view .LVU298
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclpKb17.s 			page 23
+
+
+ 935 010c 724B     		ldr	r3, .L87+28
+ 936 010e 1B88     		ldrh	r3, [r3]
+ 937              		.loc 1 249 5 view .LVU299
+ 938 0110 9A42     		cmp	r2, r3
+ 939 0112 0ED0     		beq	.L61
+ 250:Core/Src/phaseEstimater.c **** 			if(__HAL_TIM_GET_FLAG(&SectorTIM,TIM_FLAG_UPDATE)){	// Timer overflowed
+ 940              		.loc 1 250 4 is_stmt 1 view .LVU300
+ 941              		.loc 1 250 7 is_stmt 0 view .LVU301
+ 942 0114 6A48     		ldr	r0, .L87+4
+ 943 0116 0068     		ldr	r0, [r0]
+ 944 0118 0669     		ldr	r6, [r0, #16]
+ 945              		.loc 1 250 6 view .LVU302
+ 946 011a 16F0010F 		tst	r6, #1
+ 947 011e 00F0A380 		beq	.L62
+ 251:Core/Src/phaseEstimater.c **** 				__HAL_TIM_CLEAR_FLAG(&SectorTIM,TIM_FLAG_UPDATE);
+ 948              		.loc 1 251 5 is_stmt 1 view .LVU303
+ 949 0122 6FF00103 		mvn	r3, #1
+ 950 0126 0361     		str	r3, [r0, #16]
+ 252:Core/Src/phaseEstimater.c **** 				block_commutation_active=1;
+ 951              		.loc 1 252 5 view .LVU304
+ 952              		.loc 1 252 29 is_stmt 0 view .LVU305
+ 953 0128 6C4B     		ldr	r3, .L87+32
+ 954 012a 0126     		movs	r6, #1
+ 955 012c 1E70     		strb	r6, [r3]
+ 956              	.L63:
+ 253:Core/Src/phaseEstimater.c **** 			}
+ 254:Core/Src/phaseEstimater.c **** 			else{
+ 255:Core/Src/phaseEstimater.c **** 				// inhibit false sectorchanges due to artefacts in the Hall signal.
+ 256:Core/Src/phaseEstimater.c **** 				
+ 257:Core/Src/phaseEstimater.c **** 				// if the sector changes to quickly (artefacts) then don`t reset the hall sector time;
+ 258:Core/Src/phaseEstimater.c **** 				if(SectorTime >= (Prev_Sector_times[PreviousHallSector]>>1)){
+ 259:Core/Src/phaseEstimater.c **** 				SectorTime = SectorTIM.Instance->CNT;							  // Secure the Sector Time
+ 260:Core/Src/phaseEstimater.c **** 				Prev_Sector_times[PreviousHallSector] = SectorTime;				// The Measured Sector Time is form the 
+ 261:Core/Src/phaseEstimater.c **** 				block_commutation_active=0;
+ 262:Core/Src/phaseEstimater.c **** 				}
+ 263:Core/Src/phaseEstimater.c **** 			}
+ 264:Core/Src/phaseEstimater.c **** 			SectorTIM.Instance->CNT=0;													// reset counter
+ 957              		.loc 1 264 4 is_stmt 1 view .LVU306
+ 958              		.loc 1 264 27 is_stmt 0 view .LVU307
+ 959 012e 0023     		movs	r3, #0
+ 960 0130 4362     		str	r3, [r0, #36]
+ 961              	.L61:
+ 265:Core/Src/phaseEstimater.c **** 			//HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+ 266:Core/Src/phaseEstimater.c **** 		}
+ 267:Core/Src/phaseEstimater.c **** 		
+ 268:Core/Src/phaseEstimater.c **** 		
+ 269:Core/Src/phaseEstimater.c **** 		if(block_commutation_active){
+ 962              		.loc 1 269 3 is_stmt 1 view .LVU308
+ 963              		.loc 1 269 6 is_stmt 0 view .LVU309
+ 964 0132 6A4B     		ldr	r3, .L87+32
+ 965 0134 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 966              		.loc 1 269 5 view .LVU310
+ 967 0136 002B     		cmp	r3, #0
+ 968 0138 00F0AA80 		beq	.L64
+ 270:Core/Src/phaseEstimater.c **** 			motor->rotorphase = offset;
+ 969              		.loc 1 270 4 is_stmt 1 view .LVU311
+ 970              		.loc 1 270 22 is_stmt 0 view .LVU312
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclpKb17.s 			page 24
+
+
+ 971 013c 2980     		strh	r1, [r5]	@ movhi
+ 972              	.LVL68:
+ 973              	.L65:
+ 271:Core/Src/phaseEstimater.c **** 		}
+ 272:Core/Src/phaseEstimater.c **** 		else{
+ 273:Core/Src/phaseEstimater.c **** 			motor->rotorphase= offset + (CurrentSectorTime*HallSector_phase_span[HallSector])/Prev_Sector_ti
+ 274:Core/Src/phaseEstimater.c **** 			if(motor->rotorphase > (offset+HallSector_phase_span[HallSector])) motor->rotorphase= offset+Hal
+ 275:Core/Src/phaseEstimater.c **** 		}
+ 276:Core/Src/phaseEstimater.c **** 		PreviousHallSector=HallSector;
+ 974              		.loc 1 276 3 is_stmt 1 view .LVU313
+ 975              		.loc 1 276 21 is_stmt 0 view .LVU314
+ 976 013e 664B     		ldr	r3, .L87+28
+ 977 0140 1A80     		strh	r2, [r3]	@ movhi
+ 978              	.L66:
+ 277:Core/Src/phaseEstimater.c **** 	}
+ 278:Core/Src/phaseEstimater.c **** 	else{
+ 279:Core/Src/phaseEstimater.c **** 		offset = HallSector_phase_offset[PreviousHallSector];
+ 280:Core/Src/phaseEstimater.c **** 		if(block_commutation_active){
+ 281:Core/Src/phaseEstimater.c **** 			motor->rotorphase = offset;
+ 282:Core/Src/phaseEstimater.c **** 		}
+ 283:Core/Src/phaseEstimater.c **** 		else{
+ 284:Core/Src/phaseEstimater.c **** 			motor->rotorphase= offset + (CurrentSectorTime*HallSector_phase_span[HallSector])/Prev_Sector_ti
+ 285:Core/Src/phaseEstimater.c **** 			if(motor->rotorphase > (offset+HallSector_phase_span[HallSector])) motor->rotorphase= offset+Hal
+ 286:Core/Src/phaseEstimater.c **** 		}
+ 287:Core/Src/phaseEstimater.c **** 	}
+ 288:Core/Src/phaseEstimater.c **** 	
+ 289:Core/Src/phaseEstimater.c **** 	// Correct for glitches in the rotorphase
+ 290:Core/Src/phaseEstimater.c **** 
+ 291:Core/Src/phaseEstimater.c **** 	int16_t rate_of_change = 0;
+ 979              		.loc 1 291 2 is_stmt 1 view .LVU315
+ 980              	.LVL69:
+ 292:Core/Src/phaseEstimater.c **** 
+ 293:Core/Src/phaseEstimater.c **** 	// When the rotorphase passes 360° correct for it
+ 294:Core/Src/phaseEstimater.c **** 	if(motor->rotorphase-prev_phase<300){
+ 981              		.loc 1 294 2 view .LVU316
+ 982              		.loc 1 294 10 is_stmt 0 view .LVU317
+ 983 0142 2A88     		ldrh	r2, [r5]
+ 984              		.loc 1 294 22 view .LVU318
+ 985 0144 664B     		ldr	r3, .L87+36
+ 986 0146 1968     		ldr	r1, [r3]
+ 987              	.LVL70:
+ 988              		.loc 1 294 22 view .LVU319
+ 989 0148 531A     		subs	r3, r2, r1
+ 990              		.loc 1 294 4 view .LVU320
+ 991 014a B3F5967F 		cmp	r3, #300
+ 992 014e 80F2F780 		bge	.L68
+ 295:Core/Src/phaseEstimater.c **** 		rate_of_change = (motor->rotorphase+360)-prev_phase;
+ 993              		.loc 1 295 3 is_stmt 1 view .LVU321
+ 994              		.loc 1 295 43 is_stmt 0 view .LVU322
+ 995 0152 03F5B473 		add	r3, r3, #360
+ 996              		.loc 1 295 18 view .LVU323
+ 997 0156 1BB2     		sxth	r3, r3
+ 998              	.LVL71:
+ 999              	.L69:
+ 296:Core/Src/phaseEstimater.c **** 	}
+ 297:Core/Src/phaseEstimater.c **** 	else if(motor->rotorphase - prev_phase >300){
+ 298:Core/Src/phaseEstimater.c **** 		rate_of_change = (motor->rotorphase-360)-prev_phase;
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclpKb17.s 			page 25
+
+
+ 299:Core/Src/phaseEstimater.c **** 	}
+ 300:Core/Src/phaseEstimater.c **** 	else{
+ 301:Core/Src/phaseEstimater.c **** 		rate_of_change = motor->rotorphase-prev_phase;
+ 302:Core/Src/phaseEstimater.c **** 	}
+ 303:Core/Src/phaseEstimater.c **** 
+ 304:Core/Src/phaseEstimater.c **** 	if(rate_of_change>5) motor->corr_rotor_phase = prev_phase + 5;
+ 1000              		.loc 1 304 2 is_stmt 1 view .LVU324
+ 1001              		.loc 1 304 4 is_stmt 0 view .LVU325
+ 1002 0158 052B     		cmp	r3, #5
+ 1003 015a 40F3FC80 		ble	.L71
+ 1004              		.loc 1 304 23 is_stmt 1 discriminator 1 view .LVU326
+ 1005              		.loc 1 304 60 is_stmt 0 discriminator 1 view .LVU327
+ 1006 015e 0531     		adds	r1, r1, #5
+ 1007              		.loc 1 304 47 discriminator 1 view .LVU328
+ 1008 0160 6980     		strh	r1, [r5, #2]	@ movhi
+ 1009              	.L72:
+ 305:Core/Src/phaseEstimater.c **** 	else{ motor->corr_rotor_phase=motor->rotorphase;}
+ 306:Core/Src/phaseEstimater.c **** 
+ 307:Core/Src/phaseEstimater.c **** 	prev_phase = motor->rotorphase;
+ 1010              		.loc 1 307 2 is_stmt 1 view .LVU329
+ 1011              		.loc 1 307 13 is_stmt 0 view .LVU330
+ 1012 0162 5F4B     		ldr	r3, .L87+36
+ 1013              	.LVL72:
+ 1014              		.loc 1 307 13 view .LVU331
+ 1015 0164 1A60     		str	r2, [r3]
+ 308:Core/Src/phaseEstimater.c **** }
+ 1016              		.loc 1 308 1 view .LVU332
+ 1017 0166 BDE8F087 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ 1018              	.LVL73:
+ 1019              	.L86:
+ 180:Core/Src/phaseEstimater.c **** 		init=1;
+ 1020              		.loc 1 180 3 is_stmt 1 view .LVU333
+ 1021 016a FFF7FEFF 		bl	MX_TIM6_Init
+ 1022              	.LVL74:
+ 181:Core/Src/phaseEstimater.c **** 	}
+ 1023              		.loc 1 181 3 view .LVU334
+ 181:Core/Src/phaseEstimater.c **** 	}
+ 1024              		.loc 1 181 7 is_stmt 0 view .LVU335
+ 1025 016e 534B     		ldr	r3, .L87
+ 1026 0170 0122     		movs	r2, #1
+ 1027 0172 1A70     		strb	r2, [r3]
+ 1028 0174 4CE7     		b	.L49
+ 1029              	.LVL75:
+ 1030              	.L50:
+ 219:Core/Src/phaseEstimater.c **** 		lock_HALL1=1;
+ 1031              		.loc 1 219 46 discriminator 3 view .LVU336
+ 1032 0176 5B49     		ldr	r1, .L87+40
+ 1033 0178 0978     		ldrb	r1, [r1]	@ zero_extendqisi2
+ 219:Core/Src/phaseEstimater.c **** 		lock_HALL1=1;
+ 1034              		.loc 1 219 44 discriminator 3 view .LVU337
+ 1035 017a 41BB     		cbnz	r1, .L74
+ 220:Core/Src/phaseEstimater.c **** 		lock_HALL2=0;
+ 1036              		.loc 1 220 3 is_stmt 1 view .LVU338
+ 220:Core/Src/phaseEstimater.c **** 		lock_HALL2=0;
+ 1037              		.loc 1 220 13 is_stmt 0 view .LVU339
+ 1038 017c 5949     		ldr	r1, .L87+40
+ 1039 017e 4FF00109 		mov	r9, #1
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclpKb17.s 			page 26
+
+
+ 1040 0182 81F80090 		strb	r9, [r1]
+ 221:Core/Src/phaseEstimater.c **** 		lock_HALL3=0;
+ 1041              		.loc 1 221 3 is_stmt 1 view .LVU340
+ 221:Core/Src/phaseEstimater.c **** 		lock_HALL3=0;
+ 1042              		.loc 1 221 13 is_stmt 0 view .LVU341
+ 1043 0186 0021     		movs	r1, #0
+ 1044 0188 DFF85C91 		ldr	r9, .L87+44
+ 1045 018c 89F80010 		strb	r1, [r9]
+ 222:Core/Src/phaseEstimater.c **** 		valid_signals = (HALL1_rising_edge<<7) || (HALL1_falling_edge<<6) || (HALL2_rising_edge<<5) || (H
+ 1046              		.loc 1 222 3 is_stmt 1 view .LVU342
+ 222:Core/Src/phaseEstimater.c **** 		valid_signals = (HALL1_rising_edge<<7) || (HALL1_falling_edge<<6) || (HALL2_rising_edge<<5) || (H
+ 1047              		.loc 1 222 13 is_stmt 0 view .LVU343
+ 1048 0190 DFF85891 		ldr	r9, .L87+48
+ 1049 0194 89F80010 		strb	r1, [r9]
+ 223:Core/Src/phaseEstimater.c **** 	}
+ 1050              		.loc 1 223 3 is_stmt 1 view .LVU344
+ 223:Core/Src/phaseEstimater.c **** 	}
+ 1051              		.loc 1 223 148 is_stmt 0 view .LVU345
+ 1052 0198 70B9     		cbnz	r0, .L75
+ 223:Core/Src/phaseEstimater.c **** 	}
+ 1053              		.loc 1 223 42 discriminator 2 view .LVU346
+ 1054 019a 87B9     		cbnz	r7, .L76
+ 223:Core/Src/phaseEstimater.c **** 	}
+ 1055              		.loc 1 223 69 discriminator 4 view .LVU347
+ 1056 019c 8EB9     		cbnz	r6, .L77
+ 223:Core/Src/phaseEstimater.c **** 	}
+ 1057              		.loc 1 223 95 discriminator 6 view .LVU348
+ 1058 019e BCF1000F 		cmp	ip, #0
+ 1059 01a2 10D1     		bne	.L78
+ 223:Core/Src/phaseEstimater.c **** 	}
+ 1060              		.loc 1 223 122 discriminator 8 view .LVU349
+ 1061 01a4 BEF1000F 		cmp	lr, #0
+ 1062 01a8 0FD1     		bne	.L79
+ 223:Core/Src/phaseEstimater.c **** 	}
+ 1063              		.loc 1 223 148 discriminator 10 view .LVU350
+ 1064 01aa 4FEA8801 		lsl	r1, r8, #2
+ 1065 01ae B8F1000F 		cmp	r8, #0
+ 1066 01b2 02D0     		beq	.L52
+ 223:Core/Src/phaseEstimater.c **** 	}
+ 1067              		.loc 1 223 148 discriminator 11 view .LVU351
+ 1068 01b4 0121     		movs	r1, #1
+ 1069 01b6 00E0     		b	.L52
+ 1070              	.L75:
+ 1071 01b8 0121     		movs	r1, #1
+ 1072              	.L52:
+ 223:Core/Src/phaseEstimater.c **** 	}
+ 1073              		.loc 1 223 17 discriminator 14 view .LVU352
+ 1074 01ba C9B2     		uxtb	r1, r1
+ 1075              	.LVL76:
+ 223:Core/Src/phaseEstimater.c **** 	}
+ 1076              		.loc 1 223 17 discriminator 14 view .LVU353
+ 1077 01bc 7AE7     		b	.L51
+ 1078              	.LVL77:
+ 1079              	.L76:
+ 223:Core/Src/phaseEstimater.c **** 	}
+ 1080              		.loc 1 223 148 discriminator 11 view .LVU354
+ 1081 01be 0121     		movs	r1, #1
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclpKb17.s 			page 27
+
+
+ 1082 01c0 FBE7     		b	.L52
+ 1083              	.L77:
+ 1084 01c2 0121     		movs	r1, #1
+ 1085 01c4 F9E7     		b	.L52
+ 1086              	.L78:
+ 1087 01c6 0121     		movs	r1, #1
+ 1088 01c8 F7E7     		b	.L52
+ 1089              	.L79:
+ 1090 01ca 0121     		movs	r1, #1
+ 1091 01cc F5E7     		b	.L52
+ 1092              	.L74:
+ 212:Core/Src/phaseEstimater.c **** 
+ 1093              		.loc 1 212 10 view .LVU355
+ 1094 01ce 0021     		movs	r1, #0
+ 1095 01d0 70E7     		b	.L51
+ 1096              	.LVL78:
+ 1097              	.L53:
+ 226:Core/Src/phaseEstimater.c **** 		lock_HALL1=0;
+ 1098              		.loc 1 226 46 discriminator 3 view .LVU356
+ 1099 01d2 454A     		ldr	r2, .L87+44
+ 1100 01d4 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 226:Core/Src/phaseEstimater.c **** 		lock_HALL1=0;
+ 1101              		.loc 1 226 44 discriminator 3 view .LVU357
+ 1102 01d6 002A     		cmp	r2, #0
+ 1103 01d8 7FF472AF 		bne	.L54
+ 227:Core/Src/phaseEstimater.c **** 		lock_HALL2=1;
+ 1104              		.loc 1 227 3 is_stmt 1 view .LVU358
+ 227:Core/Src/phaseEstimater.c **** 		lock_HALL2=1;
+ 1105              		.loc 1 227 13 is_stmt 0 view .LVU359
+ 1106 01dc 4149     		ldr	r1, .L87+40
+ 1107              	.LVL79:
+ 227:Core/Src/phaseEstimater.c **** 		lock_HALL2=1;
+ 1108              		.loc 1 227 13 view .LVU360
+ 1109 01de 0A70     		strb	r2, [r1]
+ 228:Core/Src/phaseEstimater.c **** 		lock_HALL3=0;
+ 1110              		.loc 1 228 3 is_stmt 1 view .LVU361
+ 228:Core/Src/phaseEstimater.c **** 		lock_HALL3=0;
+ 1111              		.loc 1 228 13 is_stmt 0 view .LVU362
+ 1112 01e0 4149     		ldr	r1, .L87+44
+ 1113 01e2 4FF00109 		mov	r9, #1
+ 1114 01e6 81F80090 		strb	r9, [r1]
+ 229:Core/Src/phaseEstimater.c **** 		valid_signals = (HALL1_rising_edge<<7) || (HALL1_falling_edge<<6) || (HALL2_rising_edge<<5) || (H
+ 1115              		.loc 1 229 3 is_stmt 1 view .LVU363
+ 229:Core/Src/phaseEstimater.c **** 		valid_signals = (HALL1_rising_edge<<7) || (HALL1_falling_edge<<6) || (HALL2_rising_edge<<5) || (H
+ 1116              		.loc 1 229 13 is_stmt 0 view .LVU364
+ 1117 01ea 4049     		ldr	r1, .L87+48
+ 1118 01ec 0A70     		strb	r2, [r1]
+ 230:Core/Src/phaseEstimater.c **** 	}
+ 1119              		.loc 1 230 3 is_stmt 1 view .LVU365
+ 230:Core/Src/phaseEstimater.c **** 	}
+ 1120              		.loc 1 230 148 is_stmt 0 view .LVU366
+ 1121 01ee 70B9     		cbnz	r0, .L80
+ 230:Core/Src/phaseEstimater.c **** 	}
+ 1122              		.loc 1 230 42 discriminator 2 view .LVU367
+ 1123 01f0 87B9     		cbnz	r7, .L81
+ 230:Core/Src/phaseEstimater.c **** 	}
+ 1124              		.loc 1 230 69 discriminator 4 view .LVU368
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclpKb17.s 			page 28
+
+
+ 1125 01f2 8EB9     		cbnz	r6, .L82
+ 230:Core/Src/phaseEstimater.c **** 	}
+ 1126              		.loc 1 230 95 discriminator 6 view .LVU369
+ 1127 01f4 BCF1000F 		cmp	ip, #0
+ 1128 01f8 10D1     		bne	.L83
+ 230:Core/Src/phaseEstimater.c **** 	}
+ 1129              		.loc 1 230 122 discriminator 8 view .LVU370
+ 1130 01fa BEF1000F 		cmp	lr, #0
+ 1131 01fe 0FD1     		bne	.L84
+ 230:Core/Src/phaseEstimater.c **** 	}
+ 1132              		.loc 1 230 148 discriminator 10 view .LVU371
+ 1133 0200 4FEA8801 		lsl	r1, r8, #2
+ 1134 0204 B8F1000F 		cmp	r8, #0
+ 1135 0208 02D0     		beq	.L55
+ 230:Core/Src/phaseEstimater.c **** 	}
+ 1136              		.loc 1 230 148 discriminator 11 view .LVU372
+ 1137 020a 4946     		mov	r1, r9
+ 1138 020c 00E0     		b	.L55
+ 1139              	.L80:
+ 1140 020e 0121     		movs	r1, #1
+ 1141              	.L55:
+ 230:Core/Src/phaseEstimater.c **** 	}
+ 1142              		.loc 1 230 17 discriminator 14 view .LVU373
+ 1143 0210 C9B2     		uxtb	r1, r1
+ 1144              	.LVL80:
+ 230:Core/Src/phaseEstimater.c **** 	}
+ 1145              		.loc 1 230 17 discriminator 14 view .LVU374
+ 1146 0212 55E7     		b	.L54
+ 1147              	.LVL81:
+ 1148              	.L81:
+ 230:Core/Src/phaseEstimater.c **** 	}
+ 1149              		.loc 1 230 148 discriminator 11 view .LVU375
+ 1150 0214 0121     		movs	r1, #1
+ 1151 0216 FBE7     		b	.L55
+ 1152              	.L82:
+ 1153 0218 0121     		movs	r1, #1
+ 1154 021a F9E7     		b	.L55
+ 1155              	.L83:
+ 1156 021c 0121     		movs	r1, #1
+ 1157 021e F7E7     		b	.L55
+ 1158              	.L84:
+ 1159 0220 0121     		movs	r1, #1
+ 1160 0222 F5E7     		b	.L55
+ 1161              	.LVL82:
+ 1162              	.L56:
+ 233:Core/Src/phaseEstimater.c **** 		lock_HALL1=0;
+ 1163              		.loc 1 233 46 discriminator 3 view .LVU376
+ 1164 0224 314B     		ldr	r3, .L87+48
+ 1165 0226 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 233:Core/Src/phaseEstimater.c **** 		lock_HALL1=0;
+ 1166              		.loc 1 233 44 discriminator 3 view .LVU377
+ 1167 0228 002B     		cmp	r3, #0
+ 1168 022a 7FF44FAF 		bne	.L57
+ 234:Core/Src/phaseEstimater.c **** 		lock_HALL2=0;
+ 1169              		.loc 1 234 3 is_stmt 1 view .LVU378
+ 234:Core/Src/phaseEstimater.c **** 		lock_HALL2=0;
+ 1170              		.loc 1 234 13 is_stmt 0 view .LVU379
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclpKb17.s 			page 29
+
+
+ 1171 022e 2D4A     		ldr	r2, .L87+40
+ 1172 0230 1370     		strb	r3, [r2]
+ 235:Core/Src/phaseEstimater.c **** 		lock_HALL3=1;
+ 1173              		.loc 1 235 3 is_stmt 1 view .LVU380
+ 235:Core/Src/phaseEstimater.c **** 		lock_HALL3=1;
+ 1174              		.loc 1 235 13 is_stmt 0 view .LVU381
+ 1175 0232 2D4A     		ldr	r2, .L87+44
+ 1176 0234 1370     		strb	r3, [r2]
+ 236:Core/Src/phaseEstimater.c **** 		valid_signals = (HALL1_rising_edge<<7) || (HALL1_falling_edge<<6) || (HALL2_rising_edge<<5) || (H
+ 1177              		.loc 1 236 3 is_stmt 1 view .LVU382
+ 236:Core/Src/phaseEstimater.c **** 		valid_signals = (HALL1_rising_edge<<7) || (HALL1_falling_edge<<6) || (HALL2_rising_edge<<5) || (H
+ 1178              		.loc 1 236 13 is_stmt 0 view .LVU383
+ 1179 0236 2D4B     		ldr	r3, .L87+48
+ 1180 0238 0122     		movs	r2, #1
+ 1181 023a 1A70     		strb	r2, [r3]
+ 237:Core/Src/phaseEstimater.c **** 	}
+ 1182              		.loc 1 237 3 is_stmt 1 view .LVU384
+ 237:Core/Src/phaseEstimater.c **** 	}
+ 1183              		.loc 1 237 148 is_stmt 0 view .LVU385
+ 1184 023c 0028     		cmp	r0, #0
+ 1185 023e 7FF446AF 		bne	.L58
+ 237:Core/Src/phaseEstimater.c **** 	}
+ 1186              		.loc 1 237 42 discriminator 2 view .LVU386
+ 1187 0242 002F     		cmp	r7, #0
+ 1188 0244 7FF443AF 		bne	.L58
+ 237:Core/Src/phaseEstimater.c **** 	}
+ 1189              		.loc 1 237 69 discriminator 4 view .LVU387
+ 1190 0248 002E     		cmp	r6, #0
+ 1191 024a 7FF440AF 		bne	.L58
+ 237:Core/Src/phaseEstimater.c **** 	}
+ 1192              		.loc 1 237 95 discriminator 6 view .LVU388
+ 1193 024e BCF1000F 		cmp	ip, #0
+ 1194 0252 7FF43CAF 		bne	.L58
+ 237:Core/Src/phaseEstimater.c **** 	}
+ 1195              		.loc 1 237 122 discriminator 8 view .LVU389
+ 1196 0256 BEF1000F 		cmp	lr, #0
+ 1197 025a 7FF438AF 		bne	.L58
+ 237:Core/Src/phaseEstimater.c **** 	}
+ 1198              		.loc 1 237 148 discriminator 10 view .LVU390
+ 1199 025e B8F1000F 		cmp	r8, #0
+ 1200 0262 7FF434AF 		bne	.L58
+ 1201 0266 49E7     		b	.L59
+ 1202              	.LVL83:
+ 1203              	.L62:
+ 258:Core/Src/phaseEstimater.c **** 				SectorTime = SectorTIM.Instance->CNT;							  // Secure the Sector Time
+ 1204              		.loc 1 258 5 is_stmt 1 view .LVU391
+ 258:Core/Src/phaseEstimater.c **** 				SectorTime = SectorTIM.Instance->CNT;							  // Secure the Sector Time
+ 1205              		.loc 1 258 40 is_stmt 0 view .LVU392
+ 1206 0268 214E     		ldr	r6, .L87+52
+ 1207 026a 36F81370 		ldrh	r7, [r6, r3, lsl #1]
+ 258:Core/Src/phaseEstimater.c **** 				SectorTime = SectorTIM.Instance->CNT;							  // Secure the Sector Time
+ 1208              		.loc 1 258 19 view .LVU393
+ 1209 026e 214E     		ldr	r6, .L87+56
+ 1210 0270 3688     		ldrh	r6, [r6]
+ 258:Core/Src/phaseEstimater.c **** 				SectorTime = SectorTIM.Instance->CNT;							  // Secure the Sector Time
+ 1211              		.loc 1 258 7 view .LVU394
+ 1212 0272 B6EB570F 		cmp	r6, r7, lsr #1
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclpKb17.s 			page 30
+
+
+ 1213 0276 FFF45AAF 		bcc	.L63
+ 259:Core/Src/phaseEstimater.c **** 				Prev_Sector_times[PreviousHallSector] = SectorTime;				// The Measured Sector Time is form the 
+ 1214              		.loc 1 259 5 is_stmt 1 view .LVU395
+ 259:Core/Src/phaseEstimater.c **** 				Prev_Sector_times[PreviousHallSector] = SectorTime;				// The Measured Sector Time is form the 
+ 1215              		.loc 1 259 36 is_stmt 0 view .LVU396
+ 1216 027a 466A     		ldr	r6, [r0, #36]
+ 259:Core/Src/phaseEstimater.c **** 				Prev_Sector_times[PreviousHallSector] = SectorTime;				// The Measured Sector Time is form the 
+ 1217              		.loc 1 259 16 view .LVU397
+ 1218 027c B6B2     		uxth	r6, r6
+ 1219 027e 1D4F     		ldr	r7, .L87+56
+ 1220 0280 3E80     		strh	r6, [r7]	@ movhi
+ 260:Core/Src/phaseEstimater.c **** 				block_commutation_active=0;
+ 1221              		.loc 1 260 5 is_stmt 1 view .LVU398
+ 260:Core/Src/phaseEstimater.c **** 				block_commutation_active=0;
+ 1222              		.loc 1 260 43 is_stmt 0 view .LVU399
+ 1223 0282 1B4F     		ldr	r7, .L87+52
+ 1224 0284 27F81360 		strh	r6, [r7, r3, lsl #1]	@ movhi
+ 261:Core/Src/phaseEstimater.c **** 				}
+ 1225              		.loc 1 261 5 is_stmt 1 view .LVU400
+ 261:Core/Src/phaseEstimater.c **** 				}
+ 1226              		.loc 1 261 29 is_stmt 0 view .LVU401
+ 1227 0288 144B     		ldr	r3, .L87+32
+ 1228 028a 0026     		movs	r6, #0
+ 1229 028c 1E70     		strb	r6, [r3]
+ 1230 028e 4EE7     		b	.L63
+ 1231              	.L64:
+ 273:Core/Src/phaseEstimater.c **** 			if(motor->rotorphase > (offset+HallSector_phase_span[HallSector])) motor->rotorphase= offset+Hal
+ 1232              		.loc 1 273 4 is_stmt 1 view .LVU402
+ 273:Core/Src/phaseEstimater.c **** 			if(motor->rotorphase > (offset+HallSector_phase_span[HallSector])) motor->rotorphase= offset+Hal
+ 1233              		.loc 1 273 72 is_stmt 0 view .LVU403
+ 1234 0290 1948     		ldr	r0, .L87+60
+ 1235 0292 30F81260 		ldrh	r6, [r0, r2, lsl #1]
+ 273:Core/Src/phaseEstimater.c **** 			if(motor->rotorphase > (offset+HallSector_phase_span[HallSector])) motor->rotorphase= offset+Hal
+ 1236              		.loc 1 273 50 view .LVU404
+ 1237 0296 A3B2     		uxth	r3, r4
+ 1238 0298 06FB03F3 		mul	r3, r6, r3
+ 273:Core/Src/phaseEstimater.c **** 			if(motor->rotorphase > (offset+HallSector_phase_span[HallSector])) motor->rotorphase= offset+Hal
+ 1239              		.loc 1 273 103 view .LVU405
+ 1240 029c 144C     		ldr	r4, .L87+52
+ 1241              	.LVL84:
+ 273:Core/Src/phaseEstimater.c **** 			if(motor->rotorphase > (offset+HallSector_phase_span[HallSector])) motor->rotorphase= offset+Hal
+ 1242              		.loc 1 273 103 view .LVU406
+ 1243 029e 34F81240 		ldrh	r4, [r4, r2, lsl #1]
+ 273:Core/Src/phaseEstimater.c **** 			if(motor->rotorphase > (offset+HallSector_phase_span[HallSector])) motor->rotorphase= offset+Hal
+ 1244              		.loc 1 273 85 view .LVU407
+ 1245 02a2 93FBF4F3 		sdiv	r3, r3, r4
+ 273:Core/Src/phaseEstimater.c **** 			if(motor->rotorphase > (offset+HallSector_phase_span[HallSector])) motor->rotorphase= offset+Hal
+ 1246              		.loc 1 273 30 view .LVU408
+ 1247 02a6 0B44     		add	r3, r3, r1
+ 1248 02a8 9BB2     		uxth	r3, r3
+ 273:Core/Src/phaseEstimater.c **** 			if(motor->rotorphase > (offset+HallSector_phase_span[HallSector])) motor->rotorphase= offset+Hal
+ 1249              		.loc 1 273 21 view .LVU409
+ 1250 02aa 2B80     		strh	r3, [r5]	@ movhi
+ 274:Core/Src/phaseEstimater.c **** 		}
+ 1251              		.loc 1 274 4 is_stmt 1 view .LVU410
+ 274:Core/Src/phaseEstimater.c **** 		}
+ 1252              		.loc 1 274 56 is_stmt 0 view .LVU411
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclpKb17.s 			page 31
+
+
+ 1253 02ac 30F81200 		ldrh	r0, [r0, r2, lsl #1]
+ 274:Core/Src/phaseEstimater.c **** 		}
+ 1254              		.loc 1 274 34 view .LVU412
+ 1255 02b0 0C18     		adds	r4, r1, r0
+ 274:Core/Src/phaseEstimater.c **** 		}
+ 1256              		.loc 1 274 6 view .LVU413
+ 1257 02b2 A342     		cmp	r3, r4
+ 1258 02b4 7FF743AF 		ble	.L65
+ 274:Core/Src/phaseEstimater.c **** 		}
+ 1259              		.loc 1 274 71 is_stmt 1 discriminator 1 view .LVU414
+ 274:Core/Src/phaseEstimater.c **** 		}
+ 1260              		.loc 1 274 88 is_stmt 0 discriminator 1 view .LVU415
+ 1261 02b8 2C80     		strh	r4, [r5]	@ movhi
+ 1262 02ba 40E7     		b	.L65
+ 1263              	.L88:
+ 1264              		.align	2
+ 1265              	.L87:
+ 1266 02bc 00000000 		.word	init.10
+ 1267 02c0 00000000 		.word	htim6
+ 1268 02c4 00000000 		.word	HALL1.9
+ 1269 02c8 00000000 		.word	HALL2.8
+ 1270 02cc 00040048 		.word	1207960576
+ 1271 02d0 00000000 		.word	HallSector.3
+ 1272 02d4 00000000 		.word	HallSector_phase_offset
+ 1273 02d8 00000000 		.word	PreviousHallSector.2
+ 1274 02dc 00000000 		.word	block_commutation_active
+ 1275 02e0 00000000 		.word	prev_phase.0
+ 1276 02e4 00000000 		.word	lock_HALL1.6
+ 1277 02e8 00000000 		.word	lock_HALL2.5
+ 1278 02ec 00000000 		.word	lock_HALL3.4
+ 1279 02f0 00000000 		.word	Prev_Sector_times
+ 1280 02f4 00000000 		.word	SectorTime.1
+ 1281 02f8 00000000 		.word	HallSector_phase_span
+ 1282 02fc 00000000 		.word	HALL3.7
+ 1283              	.LVL85:
+ 1284              	.L60:
+ 279:Core/Src/phaseEstimater.c **** 		if(block_commutation_active){
+ 1285              		.loc 1 279 3 is_stmt 1 view .LVU416
+ 279:Core/Src/phaseEstimater.c **** 		if(block_commutation_active){
+ 1286              		.loc 1 279 35 is_stmt 0 view .LVU417
+ 1287 0300 164B     		ldr	r3, .L89
+ 1288 0302 1988     		ldrh	r1, [r3]
+ 1289              	.LVL86:
+ 279:Core/Src/phaseEstimater.c **** 		if(block_commutation_active){
+ 1290              		.loc 1 279 10 view .LVU418
+ 1291 0304 164B     		ldr	r3, .L89+4
+ 1292              	.LVL87:
+ 279:Core/Src/phaseEstimater.c **** 		if(block_commutation_active){
+ 1293              		.loc 1 279 10 view .LVU419
+ 1294 0306 33F81110 		ldrh	r1, [r3, r1, lsl #1]
+ 1295              	.LVL88:
+ 280:Core/Src/phaseEstimater.c **** 			motor->rotorphase = offset;
+ 1296              		.loc 1 280 3 is_stmt 1 view .LVU420
+ 280:Core/Src/phaseEstimater.c **** 			motor->rotorphase = offset;
+ 1297              		.loc 1 280 6 is_stmt 0 view .LVU421
+ 1298 030a 164B     		ldr	r3, .L89+8
+ 1299 030c 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclpKb17.s 			page 32
+
+
+ 280:Core/Src/phaseEstimater.c **** 			motor->rotorphase = offset;
+ 1300              		.loc 1 280 5 view .LVU422
+ 1301 030e 0BB1     		cbz	r3, .L67
+ 281:Core/Src/phaseEstimater.c **** 		}
+ 1302              		.loc 1 281 4 is_stmt 1 view .LVU423
+ 281:Core/Src/phaseEstimater.c **** 		}
+ 1303              		.loc 1 281 22 is_stmt 0 view .LVU424
+ 1304 0310 2980     		strh	r1, [r5]	@ movhi
+ 1305 0312 16E7     		b	.L66
+ 1306              	.L67:
+ 284:Core/Src/phaseEstimater.c **** 			if(motor->rotorphase > (offset+HallSector_phase_span[HallSector])) motor->rotorphase= offset+Hal
+ 1307              		.loc 1 284 4 is_stmt 1 view .LVU425
+ 284:Core/Src/phaseEstimater.c **** 			if(motor->rotorphase > (offset+HallSector_phase_span[HallSector])) motor->rotorphase= offset+Hal
+ 1308              		.loc 1 284 72 is_stmt 0 view .LVU426
+ 1309 0314 1448     		ldr	r0, .L89+12
+ 1310 0316 30F81260 		ldrh	r6, [r0, r2, lsl #1]
+ 284:Core/Src/phaseEstimater.c **** 			if(motor->rotorphase > (offset+HallSector_phase_span[HallSector])) motor->rotorphase= offset+Hal
+ 1311              		.loc 1 284 50 view .LVU427
+ 1312 031a A3B2     		uxth	r3, r4
+ 1313 031c 06FB03F3 		mul	r3, r6, r3
+ 284:Core/Src/phaseEstimater.c **** 			if(motor->rotorphase > (offset+HallSector_phase_span[HallSector])) motor->rotorphase= offset+Hal
+ 1314              		.loc 1 284 103 view .LVU428
+ 1315 0320 124C     		ldr	r4, .L89+16
+ 1316              	.LVL89:
+ 284:Core/Src/phaseEstimater.c **** 			if(motor->rotorphase > (offset+HallSector_phase_span[HallSector])) motor->rotorphase= offset+Hal
+ 1317              		.loc 1 284 103 view .LVU429
+ 1318 0322 34F81240 		ldrh	r4, [r4, r2, lsl #1]
+ 284:Core/Src/phaseEstimater.c **** 			if(motor->rotorphase > (offset+HallSector_phase_span[HallSector])) motor->rotorphase= offset+Hal
+ 1319              		.loc 1 284 85 view .LVU430
+ 1320 0326 93FBF4F3 		sdiv	r3, r3, r4
+ 284:Core/Src/phaseEstimater.c **** 			if(motor->rotorphase > (offset+HallSector_phase_span[HallSector])) motor->rotorphase= offset+Hal
+ 1321              		.loc 1 284 30 view .LVU431
+ 1322 032a 0B44     		add	r3, r3, r1
+ 1323 032c 9BB2     		uxth	r3, r3
+ 284:Core/Src/phaseEstimater.c **** 			if(motor->rotorphase > (offset+HallSector_phase_span[HallSector])) motor->rotorphase= offset+Hal
+ 1324              		.loc 1 284 21 view .LVU432
+ 1325 032e 2B80     		strh	r3, [r5]	@ movhi
+ 285:Core/Src/phaseEstimater.c **** 		}
+ 1326              		.loc 1 285 4 is_stmt 1 view .LVU433
+ 285:Core/Src/phaseEstimater.c **** 		}
+ 1327              		.loc 1 285 56 is_stmt 0 view .LVU434
+ 1328 0330 30F81220 		ldrh	r2, [r0, r2, lsl #1]
+ 285:Core/Src/phaseEstimater.c **** 		}
+ 1329              		.loc 1 285 34 view .LVU435
+ 1330 0334 8818     		adds	r0, r1, r2
+ 285:Core/Src/phaseEstimater.c **** 		}
+ 1331              		.loc 1 285 6 view .LVU436
+ 1332 0336 8342     		cmp	r3, r0
+ 1333 0338 7FF703AF 		ble	.L66
+ 285:Core/Src/phaseEstimater.c **** 		}
+ 1334              		.loc 1 285 71 is_stmt 1 discriminator 1 view .LVU437
+ 285:Core/Src/phaseEstimater.c **** 		}
+ 1335              		.loc 1 285 88 is_stmt 0 discriminator 1 view .LVU438
+ 1336 033c 2880     		strh	r0, [r5]	@ movhi
+ 1337 033e 00E7     		b	.L66
+ 1338              	.LVL90:
+ 1339              	.L68:
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclpKb17.s 			page 33
+
+
+ 297:Core/Src/phaseEstimater.c **** 		rate_of_change = (motor->rotorphase-360)-prev_phase;
+ 1340              		.loc 1 297 7 is_stmt 1 view .LVU439
+ 297:Core/Src/phaseEstimater.c **** 		rate_of_change = (motor->rotorphase-360)-prev_phase;
+ 1341              		.loc 1 297 9 is_stmt 0 view .LVU440
+ 1342 0340 B3F5967F 		cmp	r3, #300
+ 1343 0344 04DD     		ble	.L70
+ 298:Core/Src/phaseEstimater.c **** 	}
+ 1344              		.loc 1 298 3 is_stmt 1 view .LVU441
+ 298:Core/Src/phaseEstimater.c **** 	}
+ 1345              		.loc 1 298 43 is_stmt 0 view .LVU442
+ 1346 0346 531A     		subs	r3, r2, r1
+ 1347 0348 A3F5B473 		sub	r3, r3, #360
+ 298:Core/Src/phaseEstimater.c **** 	}
+ 1348              		.loc 1 298 18 view .LVU443
+ 1349 034c 1BB2     		sxth	r3, r3
+ 1350              	.LVL91:
+ 298:Core/Src/phaseEstimater.c **** 	}
+ 1351              		.loc 1 298 18 view .LVU444
+ 1352 034e 03E7     		b	.L69
+ 1353              	.LVL92:
+ 1354              	.L70:
+ 301:Core/Src/phaseEstimater.c **** 	}
+ 1355              		.loc 1 301 3 is_stmt 1 view .LVU445
+ 301:Core/Src/phaseEstimater.c **** 	}
+ 1356              		.loc 1 301 37 is_stmt 0 view .LVU446
+ 1357 0350 531A     		subs	r3, r2, r1
+ 301:Core/Src/phaseEstimater.c **** 	}
+ 1358              		.loc 1 301 18 view .LVU447
+ 1359 0352 1BB2     		sxth	r3, r3
+ 1360              	.LVL93:
+ 301:Core/Src/phaseEstimater.c **** 	}
+ 1361              		.loc 1 301 18 view .LVU448
+ 1362 0354 00E7     		b	.L69
+ 1363              	.L71:
+ 305:Core/Src/phaseEstimater.c **** 
+ 1364              		.loc 1 305 8 is_stmt 1 view .LVU449
+ 305:Core/Src/phaseEstimater.c **** 
+ 1365              		.loc 1 305 31 is_stmt 0 view .LVU450
+ 1366 0356 6A80     		strh	r2, [r5, #2]	@ movhi
+ 1367 0358 03E7     		b	.L72
+ 1368              	.L90:
+ 1369 035a 00BF     		.align	2
+ 1370              	.L89:
+ 1371 035c 00000000 		.word	PreviousHallSector.2
+ 1372 0360 00000000 		.word	HallSector_phase_offset
+ 1373 0364 00000000 		.word	block_commutation_active
+ 1374 0368 00000000 		.word	HallSector_phase_span
+ 1375 036c 00000000 		.word	Prev_Sector_times
+ 1376              		.cfi_endproc
+ 1377              	.LFE128:
+ 1379              		.section	.bss.prev_phase.0,"aw",%nobits
+ 1380              		.align	2
+ 1383              	prev_phase.0:
+ 1384 0000 00000000 		.space	4
+ 1385              		.section	.bss.SectorTime.1,"aw",%nobits
+ 1386              		.align	1
+ 1389              	SectorTime.1:
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclpKb17.s 			page 34
+
+
+ 1390 0000 0000     		.space	2
+ 1391              		.section	.bss.PreviousHallSector.2,"aw",%nobits
+ 1392              		.align	1
+ 1395              	PreviousHallSector.2:
+ 1396 0000 0000     		.space	2
+ 1397              		.section	.bss.HallSector.3,"aw",%nobits
+ 1400              	HallSector.3:
+ 1401 0000 00       		.space	1
+ 1402              		.section	.bss.lock_HALL3.4,"aw",%nobits
+ 1405              	lock_HALL3.4:
+ 1406 0000 00       		.space	1
+ 1407              		.section	.bss.lock_HALL2.5,"aw",%nobits
+ 1410              	lock_HALL2.5:
+ 1411 0000 00       		.space	1
+ 1412              		.section	.bss.lock_HALL1.6,"aw",%nobits
+ 1415              	lock_HALL1.6:
+ 1416 0000 00       		.space	1
+ 1417              		.section	.bss.HALL3.7,"aw",%nobits
+ 1420              	HALL3.7:
+ 1421 0000 00       		.space	1
+ 1422              		.section	.bss.HALL2.8,"aw",%nobits
+ 1425              	HALL2.8:
+ 1426 0000 00       		.space	1
+ 1427              		.section	.bss.HALL1.9,"aw",%nobits
+ 1430              	HALL1.9:
+ 1431 0000 00       		.space	1
+ 1432              		.section	.bss.init.10,"aw",%nobits
+ 1435              	init.10:
+ 1436 0000 00       		.space	1
+ 1437              		.section	.bss.prev_Sector.11,"aw",%nobits
+ 1440              	prev_Sector.11:
+ 1441 0000 00       		.space	1
+ 1442              		.section	.bss.phase_old.12,"aw",%nobits
+ 1443              		.align	1
+ 1446              	phase_old.12:
+ 1447 0000 0000     		.space	2
+ 1448              		.section	.bss.lock_HALL3.13,"aw",%nobits
+ 1451              	lock_HALL3.13:
+ 1452 0000 00       		.space	1
+ 1453              		.section	.bss.lock_HALL2.14,"aw",%nobits
+ 1456              	lock_HALL2.14:
+ 1457 0000 00       		.space	1
+ 1458              		.section	.bss.lock_HALL1.15,"aw",%nobits
+ 1461              	lock_HALL1.15:
+ 1462 0000 00       		.space	1
+ 1463              		.section	.bss.HALL3.16,"aw",%nobits
+ 1466              	HALL3.16:
+ 1467 0000 00       		.space	1
+ 1468              		.section	.bss.HALL2.17,"aw",%nobits
+ 1471              	HALL2.17:
+ 1472 0000 00       		.space	1
+ 1473              		.section	.bss.HALL1.18,"aw",%nobits
+ 1476              	HALL1.18:
+ 1477 0000 00       		.space	1
+ 1478              		.section	.bss.voltage_phase.19,"aw",%nobits
+ 1479              		.align	1
+ 1482              	voltage_phase.19:
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclpKb17.s 			page 35
+
+
+ 1483 0000 0000     		.space	2
+ 1484              		.section	.bss.init.20,"aw",%nobits
+ 1487              	init.20:
+ 1488 0000 00       		.space	1
+ 1489              		.section	.bss.Prev_Sector_times,"aw",%nobits
+ 1490              		.align	2
+ 1493              	Prev_Sector_times:
+ 1494 0000 00000000 		.space	16
+ 1494      00000000 
+ 1494      00000000 
+ 1494      00000000 
+ 1495              		.section	.data.block_commutation_active,"aw"
+ 1498              	block_commutation_active:
+ 1499 0000 01       		.byte	1
+ 1500              		.global	time_between_sectors
+ 1501              		.section	.bss.time_between_sectors,"aw",%nobits
+ 1502              		.align	1
+ 1505              	time_between_sectors:
+ 1506 0000 0000     		.space	2
+ 1507              		.global	HallSector_phase_span
+ 1508              		.section	.bss.HallSector_phase_span,"aw",%nobits
+ 1509              		.align	2
+ 1512              	HallSector_phase_span:
+ 1513 0000 00000000 		.space	16
+ 1513      00000000 
+ 1513      00000000 
+ 1513      00000000 
+ 1514              		.global	HallSector_phase_offset
+ 1515              		.section	.data.HallSector_phase_offset,"aw"
+ 1516              		.align	2
+ 1519              	HallSector_phase_offset:
+ 1520 0000 FF00     		.short	255
+ 1521 0002 00000000 		.space	14
+ 1521      00000000 
+ 1521      00000000 
+ 1521      0000
+ 1522              		.global	HallSector_Averages
+ 1523              		.section	.data.HallSector_Averages,"aw"
+ 1524              		.align	2
+ 1527              	HallSector_Averages:
+ 1528 0000 0100     		.short	1
+ 1529 0002 00000000 		.space	14
+ 1529      00000000 
+ 1529      00000000 
+ 1529      0000
+ 1530              		.text
+ 1531              	.Letext0:
+ 1532              		.file 2 "C:/toolchain/arm_gnu_toolchain/arm-none-eabi/include/machine/_default_types.h"
+ 1533              		.file 3 "C:/toolchain/arm_gnu_toolchain/arm-none-eabi/include/sys/_stdint.h"
+ 1534              		.file 4 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f302x8.h"
+ 1535              		.file 5 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_def.h"
+ 1536              		.file 6 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_gpio.h"
+ 1537              		.file 7 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_dma.h"
+ 1538              		.file 8 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_tim.h"
+ 1539              		.file 9 "Core/Inc/global_var.h"
+ 1540              		.file 10 "Core/Inc/tim.h"
+ 1541              		.file 11 "Core/Inc/SVM.h"
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclpKb17.s 			page 36
+
+
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclpKb17.s 			page 37
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 phaseEstimater.c
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:21     .text.init_phase_estimater:00000000 $t
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:27     .text.init_phase_estimater:00000000 init_phase_estimater
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:73     .text.init_phase_estimater:00000038 $d
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:78     .text.initialize_Hallsensor_phase_estimator:00000000 $t
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:84     .text.initialize_Hallsensor_phase_estimator:00000000 initialize_Hallsensor_phase_estimator
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:645    .text.initialize_Hallsensor_phase_estimator:000002b4 $d
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1487   .bss.init.20:00000000 init.20
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1482   .bss.voltage_phase.19:00000000 voltage_phase.19
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1476   .bss.HALL1.18:00000000 HALL1.18
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1471   .bss.HALL2.17:00000000 HALL2.17
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1446   .bss.phase_old.12:00000000 phase_old.12
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1505   .bss.time_between_sectors:00000000 time_between_sectors
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1527   .data.HallSector_Averages:00000000 HallSector_Averages
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1519   .data.HallSector_phase_offset:00000000 HallSector_phase_offset
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1440   .bss.prev_Sector.11:00000000 prev_Sector.11
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1512   .bss.HallSector_phase_span:00000000 HallSector_phase_span
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1461   .bss.lock_HALL1.15:00000000 lock_HALL1.15
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1456   .bss.lock_HALL2.14:00000000 lock_HALL2.14
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1451   .bss.lock_HALL3.13:00000000 lock_HALL3.13
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1466   .bss.HALL3.16:00000000 HALL3.16
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:666    .text.initialize_Hallsensor_phase_estimator:000002f8 $t
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:702    .text.initialize_Hallsensor_phase_estimator:0000031c $d
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:708    .text.estimate_rotor_phase:00000000 $t
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:714    .text.estimate_rotor_phase:00000000 estimate_rotor_phase
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1266   .text.estimate_rotor_phase:000002bc $d
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1435   .bss.init.10:00000000 init.10
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1430   .bss.HALL1.9:00000000 HALL1.9
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1425   .bss.HALL2.8:00000000 HALL2.8
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1400   .bss.HallSector.3:00000000 HallSector.3
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1395   .bss.PreviousHallSector.2:00000000 PreviousHallSector.2
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1498   .data.block_commutation_active:00000000 block_commutation_active
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1383   .bss.prev_phase.0:00000000 prev_phase.0
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1415   .bss.lock_HALL1.6:00000000 lock_HALL1.6
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1410   .bss.lock_HALL2.5:00000000 lock_HALL2.5
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1405   .bss.lock_HALL3.4:00000000 lock_HALL3.4
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1493   .bss.Prev_Sector_times:00000000 Prev_Sector_times
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1389   .bss.SectorTime.1:00000000 SectorTime.1
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1420   .bss.HALL3.7:00000000 HALL3.7
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1287   .text.estimate_rotor_phase:00000300 $t
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1371   .text.estimate_rotor_phase:0000035c $d
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1380   .bss.prev_phase.0:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1386   .bss.SectorTime.1:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1392   .bss.PreviousHallSector.2:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1401   .bss.HallSector.3:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1406   .bss.lock_HALL3.4:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1411   .bss.lock_HALL2.5:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1416   .bss.lock_HALL1.6:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1421   .bss.HALL3.7:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1426   .bss.HALL2.8:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1431   .bss.HALL1.9:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1436   .bss.init.10:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1441   .bss.prev_Sector.11:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1443   .bss.phase_old.12:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1452   .bss.lock_HALL3.13:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1457   .bss.lock_HALL2.14:00000000 $d
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\cclpKb17.s 			page 38
+
+
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1462   .bss.lock_HALL1.15:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1467   .bss.HALL3.16:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1472   .bss.HALL2.17:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1477   .bss.HALL1.18:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1479   .bss.voltage_phase.19:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1488   .bss.init.20:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1490   .bss.Prev_Sector_times:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1502   .bss.time_between_sectors:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1509   .bss.HallSector_phase_span:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1516   .data.HallSector_phase_offset:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\cclpKb17.s:1524   .data.HallSector_Averages:00000000 $d
+
+UNDEFINED SYMBOLS
+htim6
+HAL_GPIO_ReadPin
+HAL_GPIO_TogglePin
+setVoltageVector
+Motor
+MX_TIM6_Init

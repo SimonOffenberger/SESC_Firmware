@@ -1,7 +1,0 @@
-uart_debug.c:35:6:UART_transmit_string	24	static
-uart_debug.c:46:6:UART_writeLine	24	static
-uart_debug.c:65:6:UART_transmit_ui32	16	static
-uart_debug.c:74:6:UART_transmit_crlf	4	static
-uart_debug.c:83:6:UART_transmit_buffer	16	static
-uart_debug.c:93:6:reverse	32	static
-uart_debug.c:104:10:ui32toa	24	static

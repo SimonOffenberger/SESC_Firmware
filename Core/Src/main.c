@@ -126,13 +126,10 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	 static uint32_t i=0;
 	 static uint8_t init_done = 0;
 
 	setpoint = (uint16_t) readEncoder(EncoderA_GPIO_Port, EncoderA_Pin,
 			EncoderB_GPIO_Port, EncoderB_Pin, 255, 0);
-
-
 
 	if(!init_done) {
 		init_done = initialize_Hallsensor_phase_estimator(setpoint);
@@ -141,8 +138,6 @@ int main(void)
 
 	estimate_rotor_phase(&Motor);
 
-
-
 	phaseshift += PI_control(-Motor.MotorCurrents.DQCurrenst[1]);
 
 	if(phaseshift>100) phaseshift=80;
@@ -150,16 +145,18 @@ int main(void)
 
 	setVoltageVector(Motor.rotorphase, phaseshift, setpoint);
 
-
-
+  // Signalisierung ob schon die zuordnung der Hallsektoren zu den Spannungsvektoren erfolt ist
 	if (init_done)
 		HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
 	else
 		HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
 	}
-
-	TIM_PSC=SectorTIM.Instance->ARR;
+	  TIM_PSC=SectorTIM.Instance->ARR;
   }
+
+  // Funktion zum Übertragen des Uart Buffers.
+  UART_transmit_buffer();
+
   /* USER CODE END 3 */
 }
 

@@ -32,7 +32,7 @@ typedef struct{
 	int DQCurrenst[2];
 	int AlphaBetaCurrents[2];
 	int32_t PhaseCurrents[3];
-	uint16_t ADC_VAL_PhaseCurrents[3];
+	uint32_t ADC_VAL_PhaseCurrents[3];
 }currents_typedef;	
 	
 typedef struct{

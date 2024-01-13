@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 1
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccMyiXVx.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -19,16 +19,16 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 1
   16              		.text
   17              	.Ltext0:
   18              		.cfi_sections	.debug_frame
-  19              		.file 1 "Core/Src/uart_debug.c"
-  20              		.section	.text.UART_transmit_string,"ax",%progbits
-  21              		.align	1
-  22              		.global	UART_transmit_string
-  23              		.syntax unified
-  24              		.thumb
-  25              		.thumb_func
-  27              	UART_transmit_string:
-  28              	.LVL0:
-  29              	.LFB126:
+  19              		.section	.text.UART_transmit_string,"ax",%progbits
+  20              		.align	1
+  21              		.global	UART_transmit_string
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	UART_transmit_string:
+  27              	.LVL0:
+  28              	.LFB126:
+  29              		.file 1 "Core/Src/uart_debug.c"
    1:Core/Src/uart_debug.c **** /**
    2:Core/Src/uart_debug.c ****   ******************************************************************************
    3:Core/Src/uart_debug.c ****   * @file    adc.c
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 1
   27:Core/Src/uart_debug.c **** extern UART_HandleTypeDef huart1;
   28:Core/Src/uart_debug.c **** static char UART_TX_Buffer[UART_TX_BUFFER_SIZE]={0};
   29:Core/Src/uart_debug.c **** static char UART_TX_Buffer_DMA_only[UART_TX_BUFFER_SIZE]={0};
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 2
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccMyiXVx.s 			page 2
 
 
   30:Core/Src/uart_debug.c **** static uint16_t tx_buffer_end_pos=0;
@@ -92,688 +92,698 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 1
   38:Core/Src/uart_debug.c **** 		if(tx_buffer_end_pos >= UART_TX_BUFFER_SIZE)break;
   39:Core/Src/uart_debug.c **** 
   40:Core/Src/uart_debug.c **** 		UART_TX_Buffer[tx_buffer_end_pos]=payload[size];
-  50              		.loc 1 40 3 is_stmt 1 view .LVU6
-  51              		.loc 1 40 36 is_stmt 0 view .LVU7
+  50              		.loc 1 40 3 is_stmt 1 discriminator 2 view .LVU6
+  51              		.loc 1 40 36 is_stmt 0 discriminator 2 view .LVU7
   52 0006 0A4C     		ldr	r4, .L7
   53 0008 E154     		strb	r1, [r4, r3]
   41:Core/Src/uart_debug.c **** 		tx_buffer_end_pos++;
-  54              		.loc 1 41 3 is_stmt 1 view .LVU8
-  55              		.loc 1 41 20 is_stmt 0 view .LVU9
+  54              		.loc 1 41 3 is_stmt 1 discriminator 2 view .LVU8
+  55              		.loc 1 41 20 is_stmt 0 discriminator 2 view .LVU9
   56 000a 0133     		adds	r3, r3, #1
   57 000c 0949     		ldr	r1, .L7+4
   58 000e 0B80     		strh	r3, [r1]	@ movhi
   36:Core/Src/uart_debug.c **** 	for(uint16_t size=0;payload[size]!='\0';size++){
-  59              		.loc 1 36 46 is_stmt 1 discriminator 2 view .LVU10
-  60 0010 0132     		adds	r2, r2, #1
-  61              	.LVL3:
+  59              		.loc 1 36 42 is_stmt 1 discriminator 2 view .LVU10
   36:Core/Src/uart_debug.c **** 	for(uint16_t size=0;payload[size]!='\0';size++){
-  62              		.loc 1 36 46 is_stmt 0 discriminator 2 view .LVU11
-  63 0012 92B2     		uxth	r2, r2
-  64              	.LVL4:
-  65              	.L2:
+  60              		.loc 1 36 46 is_stmt 0 discriminator 2 view .LVU11
+  61 0010 0132     		adds	r2, r2, #1
+  62              	.LVL3:
   36:Core/Src/uart_debug.c **** 	for(uint16_t size=0;payload[size]!='\0';size++){
-  66              		.loc 1 36 35 is_stmt 1 discriminator 1 view .LVU12
+  63              		.loc 1 36 46 discriminator 2 view .LVU12
+  64 0012 92B2     		uxth	r2, r2
+  65              	.LVL4:
+  66              	.L2:
   36:Core/Src/uart_debug.c **** 	for(uint16_t size=0;payload[size]!='\0';size++){
-  67              		.loc 1 36 29 is_stmt 0 discriminator 1 view .LVU13
-  68 0014 815C     		ldrb	r1, [r0, r2]	@ zero_extendqisi2
+  67              		.loc 1 36 22 is_stmt 1 discriminator 1 view .LVU13
   36:Core/Src/uart_debug.c **** 	for(uint16_t size=0;payload[size]!='\0';size++){
-  69              		.loc 1 36 35 discriminator 1 view .LVU14
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 3
+  68              		.loc 1 36 29 is_stmt 0 discriminator 1 view .LVU14
+  69 0014 815C     		ldrb	r1, [r0, r2]	@ zero_extendqisi2
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccMyiXVx.s 			page 3
 
 
-  70 0016 19B1     		cbz	r1, .L3
+  36:Core/Src/uart_debug.c **** 	for(uint16_t size=0;payload[size]!='\0';size++){
+  70              		.loc 1 36 2 discriminator 1 view .LVU15
+  71 0016 19B1     		cbz	r1, .L3
   38:Core/Src/uart_debug.c **** 
-  71              		.loc 1 38 3 is_stmt 1 view .LVU15
+  72              		.loc 1 38 3 is_stmt 1 view .LVU16
   38:Core/Src/uart_debug.c **** 
-  72              		.loc 1 38 24 is_stmt 0 view .LVU16
-  73 0018 064B     		ldr	r3, .L7+4
-  74 001a 1B88     		ldrh	r3, [r3]
+  73              		.loc 1 38 24 is_stmt 0 view .LVU17
+  74 0018 064B     		ldr	r3, .L7+4
+  75 001a 1B88     		ldrh	r3, [r3]
   38:Core/Src/uart_debug.c **** 
-  75              		.loc 1 38 5 view .LVU17
-  76 001c 7F2B     		cmp	r3, #127
-  77 001e F2D9     		bls	.L6
-  78              	.L3:
-  79              	.LBE2:
+  76              		.loc 1 38 5 view .LVU18
+  77 001c 7F2B     		cmp	r3, #127
+  78 001e F2D9     		bls	.L6
+  79              	.L3:
+  80              	.LBE2:
   42:Core/Src/uart_debug.c **** 	}
   43:Core/Src/uart_debug.c **** 	UART_TX_Buffer[tx_buffer_end_pos] = '\0';
-  80              		.loc 1 43 2 is_stmt 1 view .LVU18
-  81              		.loc 1 43 16 is_stmt 0 view .LVU19
-  82 0020 044B     		ldr	r3, .L7+4
-  83 0022 1B88     		ldrh	r3, [r3]
-  84              		.loc 1 43 36 view .LVU20
-  85 0024 024A     		ldr	r2, .L7
-  86              	.LVL5:
-  87              		.loc 1 43 36 view .LVU21
-  88 0026 0021     		movs	r1, #0
-  89 0028 D154     		strb	r1, [r2, r3]
+  81              		.loc 1 43 2 is_stmt 1 view .LVU19
+  82              		.loc 1 43 16 is_stmt 0 view .LVU20
+  83 0020 044B     		ldr	r3, .L7+4
+  84 0022 1B88     		ldrh	r3, [r3]
+  85              		.loc 1 43 36 view .LVU21
+  86 0024 024A     		ldr	r2, .L7
+  87              	.LVL5:
+  88              		.loc 1 43 36 view .LVU22
+  89 0026 0021     		movs	r1, #0
+  90 0028 D154     		strb	r1, [r2, r3]
   44:Core/Src/uart_debug.c **** }
-  90              		.loc 1 44 1 view .LVU22
-  91 002a 5DF8044B 		ldr	r4, [sp], #4
-  92              	.LCFI1:
-  93              		.cfi_restore 4
-  94              		.cfi_def_cfa_offset 0
-  95 002e 7047     		bx	lr
-  96              	.L8:
-  97              		.align	2
-  98              	.L7:
-  99 0030 00000000 		.word	UART_TX_Buffer
- 100 0034 00000000 		.word	tx_buffer_end_pos
- 101              		.cfi_endproc
- 102              	.LFE126:
- 104              		.section	.text.UART_writeLine,"ax",%progbits
- 105              		.align	1
- 106              		.global	UART_writeLine
- 107              		.syntax unified
- 108              		.thumb
- 109              		.thumb_func
- 111              	UART_writeLine:
- 112              	.LVL6:
- 113              	.LFB127:
+  91              		.loc 1 44 1 view .LVU23
+  92 002a 5DF8044B 		ldr	r4, [sp], #4
+  93              	.LCFI1:
+  94              		.cfi_restore 4
+  95              		.cfi_def_cfa_offset 0
+  96 002e 7047     		bx	lr
+  97              	.L8:
+  98              		.align	2
+  99              	.L7:
+ 100 0030 00000000 		.word	.LANCHOR1
+ 101 0034 00000000 		.word	.LANCHOR0
+ 102              		.cfi_endproc
+ 103              	.LFE126:
+ 105              		.section	.text.UART_writeLine,"ax",%progbits
+ 106              		.align	1
+ 107              		.global	UART_writeLine
+ 108              		.syntax unified
+ 109              		.thumb
+ 110              		.thumb_func
+ 112              	UART_writeLine:
+ 113              	.LVL6:
+ 114              	.LFB127:
   45:Core/Src/uart_debug.c **** 
   46:Core/Src/uart_debug.c **** void UART_writeLine(char payload[]){
- 114              		.loc 1 46 36 is_stmt 1 view -0
- 115              		.cfi_startproc
- 116              		@ args = 0, pretend = 0, frame = 0
- 117              		@ frame_needed = 0, uses_anonymous_args = 0
- 118              		@ link register save eliminated.
- 119              		.loc 1 46 36 is_stmt 0 view .LVU24
- 120 0000 10B4     		push	{r4}
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 4
+ 115              		.loc 1 46 36 is_stmt 1 view -0
+ 116              		.cfi_startproc
+ 117              		@ args = 0, pretend = 0, frame = 0
+ 118              		@ frame_needed = 0, uses_anonymous_args = 0
+ 119              		@ link register save eliminated.
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccMyiXVx.s 			page 4
 
 
- 121              	.LCFI2:
- 122              		.cfi_def_cfa_offset 4
- 123              		.cfi_offset 4, -4
+ 120              		.loc 1 46 36 is_stmt 0 view .LVU25
+ 121 0000 10B4     		push	{r4}
+ 122              	.LCFI2:
+ 123              		.cfi_def_cfa_offset 4
+ 124              		.cfi_offset 4, -4
   47:Core/Src/uart_debug.c **** 
   48:Core/Src/uart_debug.c **** 	for(uint16_t size=0;payload[size]!='\0';size++){
- 124              		.loc 1 48 2 is_stmt 1 view .LVU25
- 125              	.LBB3:
- 126              		.loc 1 48 6 view .LVU26
- 127              	.LVL7:
- 128              		.loc 1 48 15 is_stmt 0 view .LVU27
- 129 0002 0022     		movs	r2, #0
- 130              		.loc 1 48 2 view .LVU28
- 131 0004 06E0     		b	.L10
- 132              	.LVL8:
- 133              	.L15:
+ 125              		.loc 1 48 2 is_stmt 1 view .LVU26
+ 126              	.LBB3:
+ 127              		.loc 1 48 6 view .LVU27
+ 128              	.LVL7:
+ 129              		.loc 1 48 15 is_stmt 0 view .LVU28
+ 130 0002 0022     		movs	r2, #0
+ 131              		.loc 1 48 2 view .LVU29
+ 132 0004 06E0     		b	.L10
+ 133              	.LVL8:
+ 134              	.L15:
   49:Core/Src/uart_debug.c **** 
   50:Core/Src/uart_debug.c **** 		if(tx_buffer_end_pos >= UART_TX_BUFFER_SIZE)break;
   51:Core/Src/uart_debug.c **** 
   52:Core/Src/uart_debug.c **** 		UART_TX_Buffer[tx_buffer_end_pos]=payload[size];
- 134              		.loc 1 52 3 is_stmt 1 view .LVU29
- 135              		.loc 1 52 36 is_stmt 0 view .LVU30
- 136 0006 124C     		ldr	r4, .L16
- 137 0008 E154     		strb	r1, [r4, r3]
+ 135              		.loc 1 52 3 is_stmt 1 discriminator 2 view .LVU30
+ 136              		.loc 1 52 36 is_stmt 0 discriminator 2 view .LVU31
+ 137 0006 124C     		ldr	r4, .L16
+ 138 0008 E154     		strb	r1, [r4, r3]
   53:Core/Src/uart_debug.c **** 		tx_buffer_end_pos++;
- 138              		.loc 1 53 3 is_stmt 1 view .LVU31
- 139              		.loc 1 53 20 is_stmt 0 view .LVU32
- 140 000a 0133     		adds	r3, r3, #1
- 141 000c 1149     		ldr	r1, .L16+4
- 142 000e 0B80     		strh	r3, [r1]	@ movhi
+ 139              		.loc 1 53 3 is_stmt 1 discriminator 2 view .LVU32
+ 140              		.loc 1 53 20 is_stmt 0 discriminator 2 view .LVU33
+ 141 000a 0133     		adds	r3, r3, #1
+ 142 000c 1149     		ldr	r1, .L16+4
+ 143 000e 0B80     		strh	r3, [r1]	@ movhi
   48:Core/Src/uart_debug.c **** 
- 143              		.loc 1 48 46 is_stmt 1 discriminator 2 view .LVU33
- 144 0010 0132     		adds	r2, r2, #1
- 145              	.LVL9:
+ 144              		.loc 1 48 42 is_stmt 1 discriminator 2 view .LVU34
   48:Core/Src/uart_debug.c **** 
- 146              		.loc 1 48 46 is_stmt 0 discriminator 2 view .LVU34
- 147 0012 92B2     		uxth	r2, r2
- 148              	.LVL10:
- 149              	.L10:
+ 145              		.loc 1 48 46 is_stmt 0 discriminator 2 view .LVU35
+ 146 0010 0132     		adds	r2, r2, #1
+ 147              	.LVL9:
   48:Core/Src/uart_debug.c **** 
- 150              		.loc 1 48 35 is_stmt 1 discriminator 1 view .LVU35
+ 148              		.loc 1 48 46 discriminator 2 view .LVU36
+ 149 0012 92B2     		uxth	r2, r2
+ 150              	.LVL10:
+ 151              	.L10:
   48:Core/Src/uart_debug.c **** 
- 151              		.loc 1 48 29 is_stmt 0 discriminator 1 view .LVU36
- 152 0014 815C     		ldrb	r1, [r0, r2]	@ zero_extendqisi2
+ 152              		.loc 1 48 22 is_stmt 1 discriminator 1 view .LVU37
   48:Core/Src/uart_debug.c **** 
- 153              		.loc 1 48 35 discriminator 1 view .LVU37
- 154 0016 19B1     		cbz	r1, .L11
+ 153              		.loc 1 48 29 is_stmt 0 discriminator 1 view .LVU38
+ 154 0014 815C     		ldrb	r1, [r0, r2]	@ zero_extendqisi2
+  48:Core/Src/uart_debug.c **** 
+ 155              		.loc 1 48 2 discriminator 1 view .LVU39
+ 156 0016 19B1     		cbz	r1, .L11
   50:Core/Src/uart_debug.c **** 
- 155              		.loc 1 50 3 is_stmt 1 view .LVU38
+ 157              		.loc 1 50 3 is_stmt 1 view .LVU40
   50:Core/Src/uart_debug.c **** 
- 156              		.loc 1 50 24 is_stmt 0 view .LVU39
- 157 0018 0E4B     		ldr	r3, .L16+4
- 158 001a 1B88     		ldrh	r3, [r3]
+ 158              		.loc 1 50 24 is_stmt 0 view .LVU41
+ 159 0018 0E4B     		ldr	r3, .L16+4
+ 160 001a 1B88     		ldrh	r3, [r3]
   50:Core/Src/uart_debug.c **** 
- 159              		.loc 1 50 5 view .LVU40
- 160 001c 7F2B     		cmp	r3, #127
- 161 001e F2D9     		bls	.L15
- 162              	.L11:
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 5
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccMyiXVx.s 			page 5
 
 
- 163              	.LBE3:
+ 161              		.loc 1 50 5 view .LVU42
+ 162 001c 7F2B     		cmp	r3, #127
+ 163 001e F2D9     		bls	.L15
+ 164              	.L11:
+ 165              	.LBE3:
   54:Core/Src/uart_debug.c **** 	}
   55:Core/Src/uart_debug.c **** 	
   56:Core/Src/uart_debug.c **** 	if((tx_buffer_end_pos) < UART_TX_BUFFER_SIZE-2){
- 164              		.loc 1 56 2 is_stmt 1 view .LVU41
- 165              		.loc 1 56 25 is_stmt 0 view .LVU42
- 166 0020 0C4B     		ldr	r3, .L16+4
- 167 0022 1B88     		ldrh	r3, [r3]
- 168              		.loc 1 56 4 view .LVU43
- 169 0024 7D2B     		cmp	r3, #125
- 170 0026 0AD8     		bhi	.L13
+ 166              		.loc 1 56 2 is_stmt 1 view .LVU43
+ 167              		.loc 1 56 25 is_stmt 0 view .LVU44
+ 168 0020 0C4B     		ldr	r3, .L16+4
+ 169 0022 1B88     		ldrh	r3, [r3]
+ 170              		.loc 1 56 4 view .LVU45
+ 171 0024 7D2B     		cmp	r3, #125
+ 172 0026 0AD8     		bhi	.L13
   57:Core/Src/uart_debug.c **** 		UART_TX_Buffer[tx_buffer_end_pos++]='\r';
- 171              		.loc 1 57 3 is_stmt 1 view .LVU44
- 172              		.loc 1 57 35 is_stmt 0 view .LVU45
- 173 0028 5A1C     		adds	r2, r3, #1
- 174              	.LVL11:
- 175              		.loc 1 57 35 view .LVU46
- 176 002a 92B2     		uxth	r2, r2
- 177 002c 0948     		ldr	r0, .L16+4
- 178              	.LVL12:
- 179              		.loc 1 57 35 view .LVU47
- 180 002e 0280     		strh	r2, [r0]	@ movhi
- 181              		.loc 1 57 38 view .LVU48
- 182 0030 0749     		ldr	r1, .L16
- 183 0032 0D24     		movs	r4, #13
- 184 0034 CC54     		strb	r4, [r1, r3]
+ 173              		.loc 1 57 3 is_stmt 1 view .LVU46
+ 174              		.loc 1 57 35 is_stmt 0 view .LVU47
+ 175 0028 5A1C     		adds	r2, r3, #1
+ 176              	.LVL11:
+ 177              		.loc 1 57 35 view .LVU48
+ 178 002a 92B2     		uxth	r2, r2
+ 179 002c 0948     		ldr	r0, .L16+4
+ 180              	.LVL12:
+ 181              		.loc 1 57 35 view .LVU49
+ 182 002e 0280     		strh	r2, [r0]	@ movhi
+ 183              		.loc 1 57 38 view .LVU50
+ 184 0030 0749     		ldr	r1, .L16
+ 185 0032 0D24     		movs	r4, #13
+ 186 0034 CC54     		strb	r4, [r1, r3]
   58:Core/Src/uart_debug.c **** 		UART_TX_Buffer[tx_buffer_end_pos++]='\n';
- 185              		.loc 1 58 3 is_stmt 1 view .LVU49
- 186              		.loc 1 58 35 is_stmt 0 view .LVU50
- 187 0036 0233     		adds	r3, r3, #2
- 188 0038 0380     		strh	r3, [r0]	@ movhi
- 189              		.loc 1 58 38 view .LVU51
- 190 003a 0A23     		movs	r3, #10
- 191 003c 8B54     		strb	r3, [r1, r2]
- 192              	.L13:
+ 187              		.loc 1 58 3 is_stmt 1 view .LVU51
+ 188              		.loc 1 58 35 is_stmt 0 view .LVU52
+ 189 0036 531C     		adds	r3, r2, #1
+ 190 0038 0380     		strh	r3, [r0]	@ movhi
+ 191              		.loc 1 58 38 view .LVU53
+ 192 003a 0A23     		movs	r3, #10
+ 193 003c 8B54     		strb	r3, [r1, r2]
+ 194              	.L13:
   59:Core/Src/uart_debug.c **** 	}
   60:Core/Src/uart_debug.c **** 
   61:Core/Src/uart_debug.c **** 	UART_TX_Buffer[tx_buffer_end_pos] = '\0';	 // place zero terminator at the end of the string
- 193              		.loc 1 61 2 is_stmt 1 view .LVU52
- 194              		.loc 1 61 16 is_stmt 0 view .LVU53
- 195 003e 054B     		ldr	r3, .L16+4
- 196 0040 1B88     		ldrh	r3, [r3]
- 197              		.loc 1 61 36 view .LVU54
- 198 0042 034A     		ldr	r2, .L16
- 199 0044 0021     		movs	r1, #0
- 200 0046 D154     		strb	r1, [r2, r3]
+ 195              		.loc 1 61 2 is_stmt 1 view .LVU54
+ 196              		.loc 1 61 16 is_stmt 0 view .LVU55
+ 197 003e 054B     		ldr	r3, .L16+4
+ 198 0040 1B88     		ldrh	r3, [r3]
+ 199              		.loc 1 61 36 view .LVU56
+ 200 0042 034A     		ldr	r2, .L16
+ 201 0044 0021     		movs	r1, #0
+ 202 0046 D154     		strb	r1, [r2, r3]
   62:Core/Src/uart_debug.c **** 	//HAL_UART_Transmit_DMA(&huart1,(uint8_t*)UART_TX_Buffer,size);
   63:Core/Src/uart_debug.c **** }
- 201              		.loc 1 63 1 view .LVU55
- 202 0048 5DF8044B 		ldr	r4, [sp], #4
- 203              	.LCFI3:
- 204              		.cfi_restore 4
- 205              		.cfi_def_cfa_offset 0
- 206 004c 7047     		bx	lr
- 207              	.L17:
- 208 004e 00BF     		.align	2
- 209              	.L16:
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 6
+ 203              		.loc 1 63 1 view .LVU57
+ 204 0048 5DF8044B 		ldr	r4, [sp], #4
+ 205              	.LCFI3:
+ 206              		.cfi_restore 4
+ 207              		.cfi_def_cfa_offset 0
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccMyiXVx.s 			page 6
 
 
- 210 0050 00000000 		.word	UART_TX_Buffer
- 211 0054 00000000 		.word	tx_buffer_end_pos
- 212              		.cfi_endproc
- 213              	.LFE127:
- 215              		.section	.text.UART_transmit_crlf,"ax",%progbits
- 216              		.align	1
- 217              		.global	UART_transmit_crlf
- 218              		.syntax unified
- 219              		.thumb
- 220              		.thumb_func
- 222              	UART_transmit_crlf:
- 223              	.LFB129:
+ 208 004c 7047     		bx	lr
+ 209              	.L17:
+ 210 004e 00BF     		.align	2
+ 211              	.L16:
+ 212 0050 00000000 		.word	.LANCHOR1
+ 213 0054 00000000 		.word	.LANCHOR0
+ 214              		.cfi_endproc
+ 215              	.LFE127:
+ 217              		.section	.text.UART_transmit_crlf,"ax",%progbits
+ 218              		.align	1
+ 219              		.global	UART_transmit_crlf
+ 220              		.syntax unified
+ 221              		.thumb
+ 222              		.thumb_func
+ 224              	UART_transmit_crlf:
+ 225              	.LFB129:
   64:Core/Src/uart_debug.c **** 
   65:Core/Src/uart_debug.c **** void UART_transmit_ui32(uint32_t num){
   66:Core/Src/uart_debug.c **** 
   67:Core/Src/uart_debug.c **** 	if((tx_buffer_end_pos) < UART_TX_BUFFER_SIZE-10){
-  68:Core/Src/uart_debug.c **** 		tx_buffer_end_pos+= ui32toa(num, &UART_TX_Buffer[tx_buffer_end_pos]);
+  68:Core/Src/uart_debug.c **** 		tx_buffer_end_pos+= ui32toa(num, (uint8_t *) &UART_TX_Buffer[tx_buffer_end_pos]);
   69:Core/Src/uart_debug.c **** 	}
   70:Core/Src/uart_debug.c **** 
   71:Core/Src/uart_debug.c **** 	UART_TX_Buffer[tx_buffer_end_pos] = '\0';	 // place zero terminator at the end of the string
   72:Core/Src/uart_debug.c **** }
   73:Core/Src/uart_debug.c **** 
   74:Core/Src/uart_debug.c **** void UART_transmit_crlf(){
- 224              		.loc 1 74 26 is_stmt 1 view -0
- 225              		.cfi_startproc
- 226              		@ args = 0, pretend = 0, frame = 0
- 227              		@ frame_needed = 0, uses_anonymous_args = 0
- 228              		@ link register save eliminated.
+ 226              		.loc 1 74 26 is_stmt 1 view -0
+ 227              		.cfi_startproc
+ 228              		@ args = 0, pretend = 0, frame = 0
+ 229              		@ frame_needed = 0, uses_anonymous_args = 0
+ 230              		@ link register save eliminated.
   75:Core/Src/uart_debug.c **** 
   76:Core/Src/uart_debug.c **** 	if((tx_buffer_end_pos) < UART_TX_BUFFER_SIZE-2){
- 229              		.loc 1 76 2 view .LVU57
- 230              		.loc 1 76 25 is_stmt 0 view .LVU58
- 231 0000 0B4B     		ldr	r3, .L20
- 232 0002 1B88     		ldrh	r3, [r3]
- 233              		.loc 1 76 4 view .LVU59
- 234 0004 7D2B     		cmp	r3, #125
- 235 0006 0CD8     		bhi	.L19
+ 231              		.loc 1 76 2 view .LVU59
+ 232              		.loc 1 76 25 is_stmt 0 view .LVU60
+ 233 0000 0B4B     		ldr	r3, .L20
+ 234 0002 1A88     		ldrh	r2, [r3]
+ 235              		.loc 1 76 4 view .LVU61
+ 236 0004 7D2A     		cmp	r2, #125
+ 237 0006 0CD8     		bhi	.L19
   77:Core/Src/uart_debug.c **** 		UART_TX_Buffer[tx_buffer_end_pos++]='\r';
- 236              		.loc 1 77 3 is_stmt 1 view .LVU60
- 237              		.loc 1 77 35 is_stmt 0 view .LVU61
- 238 0008 5A1C     		adds	r2, r3, #1
- 239 000a 92B2     		uxth	r2, r2
- 240 000c 0848     		ldr	r0, .L20
- 241 000e 0280     		strh	r2, [r0]	@ movhi
- 242              		.loc 1 77 38 view .LVU62
- 243 0010 0849     		ldr	r1, .L20+4
- 244 0012 4FF00D0C 		mov	ip, #13
- 245 0016 01F803C0 		strb	ip, [r1, r3]
+ 238              		.loc 1 77 3 is_stmt 1 view .LVU62
+ 239              		.loc 1 77 35 is_stmt 0 view .LVU63
+ 240 0008 531C     		adds	r3, r2, #1
+ 241 000a 9BB2     		uxth	r3, r3
+ 242 000c 0848     		ldr	r0, .L20
+ 243 000e 0380     		strh	r3, [r0]	@ movhi
+ 244              		.loc 1 77 38 view .LVU64
+ 245 0010 0849     		ldr	r1, .L20+4
+ 246 0012 4FF00D0C 		mov	ip, #13
+ 247 0016 01F802C0 		strb	ip, [r1, r2]
   78:Core/Src/uart_debug.c **** 		UART_TX_Buffer[tx_buffer_end_pos++]='\n';
- 246              		.loc 1 78 3 is_stmt 1 view .LVU63
- 247              		.loc 1 78 35 is_stmt 0 view .LVU64
- 248 001a 0233     		adds	r3, r3, #2
- 249 001c 0380     		strh	r3, [r0]	@ movhi
- 250              		.loc 1 78 38 view .LVU65
- 251 001e 0A23     		movs	r3, #10
- 252 0020 8B54     		strb	r3, [r1, r2]
- 253              	.L19:
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 7
+ 248              		.loc 1 78 3 is_stmt 1 view .LVU65
+ 249              		.loc 1 78 35 is_stmt 0 view .LVU66
+ 250 001a 5A1C     		adds	r2, r3, #1
+ 251 001c 0280     		strh	r2, [r0]	@ movhi
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccMyiXVx.s 			page 7
 
 
+ 252              		.loc 1 78 38 view .LVU67
+ 253 001e 0A22     		movs	r2, #10
+ 254 0020 CA54     		strb	r2, [r1, r3]
+ 255              	.L19:
   79:Core/Src/uart_debug.c **** 	}
   80:Core/Src/uart_debug.c **** 	UART_TX_Buffer[tx_buffer_end_pos] = '\0';	 // place zero terminator at the end of the string
- 254              		.loc 1 80 2 is_stmt 1 view .LVU66
- 255              		.loc 1 80 16 is_stmt 0 view .LVU67
- 256 0022 034B     		ldr	r3, .L20
- 257 0024 1B88     		ldrh	r3, [r3]
- 258              		.loc 1 80 36 view .LVU68
- 259 0026 034A     		ldr	r2, .L20+4
- 260 0028 0021     		movs	r1, #0
- 261 002a D154     		strb	r1, [r2, r3]
+ 256              		.loc 1 80 2 is_stmt 1 view .LVU68
+ 257              		.loc 1 80 16 is_stmt 0 view .LVU69
+ 258 0022 034B     		ldr	r3, .L20
+ 259 0024 1B88     		ldrh	r3, [r3]
+ 260              		.loc 1 80 36 view .LVU70
+ 261 0026 034A     		ldr	r2, .L20+4
+ 262 0028 0021     		movs	r1, #0
+ 263 002a D154     		strb	r1, [r2, r3]
   81:Core/Src/uart_debug.c **** }
- 262              		.loc 1 81 1 view .LVU69
- 263 002c 7047     		bx	lr
- 264              	.L21:
- 265 002e 00BF     		.align	2
- 266              	.L20:
- 267 0030 00000000 		.word	tx_buffer_end_pos
- 268 0034 00000000 		.word	UART_TX_Buffer
- 269              		.cfi_endproc
- 270              	.LFE129:
- 272              		.section	.text.UART_transmit_buffer,"ax",%progbits
- 273              		.align	1
- 274              		.global	UART_transmit_buffer
- 275              		.syntax unified
- 276              		.thumb
- 277              		.thumb_func
- 279              	UART_transmit_buffer:
- 280              	.LFB130:
+ 264              		.loc 1 81 1 view .LVU71
+ 265 002c 7047     		bx	lr
+ 266              	.L21:
+ 267 002e 00BF     		.align	2
+ 268              	.L20:
+ 269 0030 00000000 		.word	.LANCHOR0
+ 270 0034 00000000 		.word	.LANCHOR1
+ 271              		.cfi_endproc
+ 272              	.LFE129:
+ 274              		.section	.text.UART_transmit_buffer,"ax",%progbits
+ 275              		.align	1
+ 276              		.global	UART_transmit_buffer
+ 277              		.syntax unified
+ 278              		.thumb
+ 279              		.thumb_func
+ 281              	UART_transmit_buffer:
+ 282              	.LFB130:
   82:Core/Src/uart_debug.c **** 
   83:Core/Src/uart_debug.c **** void UART_transmit_buffer(){
- 281              		.loc 1 83 28 is_stmt 1 view -0
- 282              		.cfi_startproc
- 283              		@ args = 0, pretend = 0, frame = 0
- 284              		@ frame_needed = 0, uses_anonymous_args = 0
- 285 0000 10B5     		push	{r4, lr}
- 286              	.LCFI4:
- 287              		.cfi_def_cfa_offset 8
- 288              		.cfi_offset 4, -8
- 289              		.cfi_offset 14, -4
+ 283              		.loc 1 83 28 is_stmt 1 view -0
+ 284              		.cfi_startproc
+ 285              		@ args = 0, pretend = 0, frame = 0
+ 286              		@ frame_needed = 0, uses_anonymous_args = 0
+ 287 0000 10B5     		push	{r4, lr}
+ 288              	.LCFI4:
+ 289              		.cfi_def_cfa_offset 8
+ 290              		.cfi_offset 4, -8
+ 291              		.cfi_offset 14, -4
   84:Core/Src/uart_debug.c **** 
   85:Core/Src/uart_debug.c **** 	for(uint32_t size=0;UART_TX_Buffer[size]!='\0';size++){
- 290              		.loc 1 85 2 view .LVU71
- 291              	.LBB4:
- 292              		.loc 1 85 6 view .LVU72
- 293              	.LVL13:
- 294              		.loc 1 85 15 is_stmt 0 view .LVU73
- 295 0002 0023     		movs	r3, #0
- 296              		.loc 1 85 2 view .LVU74
- 297 0004 02E0     		b	.L23
- 298              	.LVL14:
- 299              	.L24:
+ 292              		.loc 1 85 2 view .LVU73
+ 293              	.LBB4:
+ 294              		.loc 1 85 6 view .LVU74
+ 295              	.LVL13:
+ 296              		.loc 1 85 15 is_stmt 0 view .LVU75
+ 297 0002 0023     		movs	r3, #0
+ 298              		.loc 1 85 2 view .LVU76
+ 299 0004 02E0     		b	.L23
+ 300              	.LVL14:
+ 301              	.L24:
   86:Core/Src/uart_debug.c **** 		UART_TX_Buffer_DMA_only[size] = UART_TX_Buffer[size];
- 300              		.loc 1 86 3 is_stmt 1 view .LVU75
- 301              		.loc 1 86 33 is_stmt 0 view .LVU76
- 302 0006 0849     		ldr	r1, .L26
- 303 0008 CA54     		strb	r2, [r1, r3]
-  85:Core/Src/uart_debug.c **** 		UART_TX_Buffer_DMA_only[size] = UART_TX_Buffer[size];
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 8
+ 302              		.loc 1 86 3 is_stmt 1 discriminator 3 view .LVU77
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccMyiXVx.s 			page 8
 
 
- 304              		.loc 1 85 53 is_stmt 1 discriminator 3 view .LVU77
- 305 000a 0133     		adds	r3, r3, #1
- 306              	.LVL15:
- 307              	.L23:
+ 303              		.loc 1 86 33 is_stmt 0 discriminator 3 view .LVU78
+ 304 0006 0849     		ldr	r1, .L26
+ 305 0008 CA54     		strb	r2, [r1, r3]
   85:Core/Src/uart_debug.c **** 		UART_TX_Buffer_DMA_only[size] = UART_TX_Buffer[size];
- 308              		.loc 1 85 42 discriminator 1 view .LVU78
+ 306              		.loc 1 85 49 is_stmt 1 discriminator 3 view .LVU79
   85:Core/Src/uart_debug.c **** 		UART_TX_Buffer_DMA_only[size] = UART_TX_Buffer[size];
- 309              		.loc 1 85 36 is_stmt 0 discriminator 1 view .LVU79
- 310 000c 074A     		ldr	r2, .L26+4
- 311 000e D25C     		ldrb	r2, [r2, r3]	@ zero_extendqisi2
+ 307              		.loc 1 85 53 is_stmt 0 discriminator 3 view .LVU80
+ 308 000a 0133     		adds	r3, r3, #1
+ 309              	.LVL15:
+ 310              	.L23:
   85:Core/Src/uart_debug.c **** 		UART_TX_Buffer_DMA_only[size] = UART_TX_Buffer[size];
- 312              		.loc 1 85 42 discriminator 1 view .LVU80
- 313 0010 002A     		cmp	r2, #0
- 314 0012 F8D1     		bne	.L24
- 315              	.LBE4:
+ 311              		.loc 1 85 22 is_stmt 1 discriminator 1 view .LVU81
+  85:Core/Src/uart_debug.c **** 		UART_TX_Buffer_DMA_only[size] = UART_TX_Buffer[size];
+ 312              		.loc 1 85 36 is_stmt 0 discriminator 1 view .LVU82
+ 313 000c 074A     		ldr	r2, .L26+4
+ 314 000e D25C     		ldrb	r2, [r2, r3]	@ zero_extendqisi2
+  85:Core/Src/uart_debug.c **** 		UART_TX_Buffer_DMA_only[size] = UART_TX_Buffer[size];
+ 315              		.loc 1 85 2 discriminator 1 view .LVU83
+ 316 0010 002A     		cmp	r2, #0
+ 317 0012 F8D1     		bne	.L24
+ 318              	.LBE4:
   87:Core/Src/uart_debug.c **** 	}
   88:Core/Src/uart_debug.c **** 	HAL_UART_Transmit_DMA(&huart1,(uint8_t*)UART_TX_Buffer_DMA_only,tx_buffer_end_pos);
- 316              		.loc 1 88 2 is_stmt 1 view .LVU81
- 317 0014 064C     		ldr	r4, .L26+8
- 318 0016 2288     		ldrh	r2, [r4]
- 319 0018 0349     		ldr	r1, .L26
- 320 001a 0648     		ldr	r0, .L26+12
- 321 001c FFF7FEFF 		bl	HAL_UART_Transmit_DMA
- 322              	.LVL16:
+ 319              		.loc 1 88 2 is_stmt 1 view .LVU84
+ 320 0014 064C     		ldr	r4, .L26+8
+ 321 0016 2288     		ldrh	r2, [r4]
+ 322 0018 0349     		ldr	r1, .L26
+ 323 001a 0648     		ldr	r0, .L26+12
+ 324 001c FFF7FEFF 		bl	HAL_UART_Transmit_DMA
+ 325              	.LVL16:
   89:Core/Src/uart_debug.c **** 	tx_buffer_end_pos=0;
- 323              		.loc 1 89 2 view .LVU82
- 324              		.loc 1 89 19 is_stmt 0 view .LVU83
- 325 0020 0023     		movs	r3, #0
- 326 0022 2380     		strh	r3, [r4]	@ movhi
+ 326              		.loc 1 89 2 view .LVU85
+ 327              		.loc 1 89 19 is_stmt 0 view .LVU86
+ 328 0020 0023     		movs	r3, #0
+ 329 0022 2380     		strh	r3, [r4]	@ movhi
   90:Core/Src/uart_debug.c **** }
- 327              		.loc 1 90 1 view .LVU84
- 328 0024 10BD     		pop	{r4, pc}
- 329              	.L27:
- 330 0026 00BF     		.align	2
- 331              	.L26:
- 332 0028 00000000 		.word	UART_TX_Buffer_DMA_only
- 333 002c 00000000 		.word	UART_TX_Buffer
- 334 0030 00000000 		.word	tx_buffer_end_pos
- 335 0034 00000000 		.word	huart1
- 336              		.cfi_endproc
- 337              	.LFE130:
- 339              		.section	.text.reverse,"ax",%progbits
- 340              		.align	1
- 341              		.global	reverse
- 342              		.syntax unified
- 343              		.thumb
- 344              		.thumb_func
- 346              	reverse:
- 347              	.LVL17:
- 348              	.LFB131:
+ 330              		.loc 1 90 1 view .LVU87
+ 331 0024 10BD     		pop	{r4, pc}
+ 332              	.L27:
+ 333 0026 00BF     		.align	2
+ 334              	.L26:
+ 335 0028 00000000 		.word	.LANCHOR2
+ 336 002c 00000000 		.word	.LANCHOR1
+ 337 0030 00000000 		.word	.LANCHOR0
+ 338 0034 00000000 		.word	huart1
+ 339              		.cfi_endproc
+ 340              	.LFE130:
+ 342              		.section	.text.reverse,"ax",%progbits
+ 343              		.align	1
+ 344              		.global	reverse
+ 345              		.syntax unified
+ 346              		.thumb
+ 347              		.thumb_func
+ 349              	reverse:
+ 350              	.LVL17:
+ 351              	.LFB131:
   91:Core/Src/uart_debug.c **** 
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccMyiXVx.s 			page 9
+
+
   92:Core/Src/uart_debug.c **** // UART1 reverse
   93:Core/Src/uart_debug.c **** void reverse(uint8_t *s){
- 349              		.loc 1 93 25 is_stmt 1 view -0
- 350              		.cfi_startproc
- 351              		@ args = 0, pretend = 0, frame = 0
- 352              		@ frame_needed = 0, uses_anonymous_args = 0
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 9
-
-
- 353              		.loc 1 93 25 is_stmt 0 view .LVU86
- 354 0000 10B5     		push	{r4, lr}
- 355              	.LCFI5:
- 356              		.cfi_def_cfa_offset 8
- 357              		.cfi_offset 4, -8
- 358              		.cfi_offset 14, -4
- 359 0002 0446     		mov	r4, r0
+ 352              		.loc 1 93 25 is_stmt 1 view -0
+ 353              		.cfi_startproc
+ 354              		@ args = 0, pretend = 0, frame = 0
+ 355              		@ frame_needed = 0, uses_anonymous_args = 0
+ 356              		.loc 1 93 25 is_stmt 0 view .LVU89
+ 357 0000 10B5     		push	{r4, lr}
+ 358              	.LCFI5:
+ 359              		.cfi_def_cfa_offset 8
+ 360              		.cfi_offset 4, -8
+ 361              		.cfi_offset 14, -4
+ 362 0002 0446     		mov	r4, r0
   94:Core/Src/uart_debug.c **** 	uint32_t c, i, j;
- 360              		.loc 1 94 2 is_stmt 1 view .LVU87
+ 363              		.loc 1 94 2 is_stmt 1 view .LVU90
   95:Core/Src/uart_debug.c **** 
   96:Core/Src/uart_debug.c **** 	for (i = 0, j = strlen((char*)s)-1; i<j; i++, j--) {
- 361              		.loc 1 96 2 view .LVU88
- 362              	.LVL18:
- 363              		.loc 1 96 18 is_stmt 0 view .LVU89
- 364 0004 FFF7FEFF 		bl	strlen
- 365              	.LVL19:
- 366              		.loc 1 96 16 discriminator 1 view .LVU90
- 367 0008 431E     		subs	r3, r0, #1
- 368              	.LVL20:
- 369              		.loc 1 96 9 view .LVU91
- 370 000a 0022     		movs	r2, #0
- 371              		.loc 1 96 2 view .LVU92
- 372 000c 05E0     		b	.L29
- 373              	.LVL21:
- 374              	.L30:
+ 364              		.loc 1 96 2 view .LVU91
+ 365              	.LVL18:
+ 366              		.loc 1 96 18 is_stmt 0 view .LVU92
+ 367 0004 FFF7FEFF 		bl	strlen
+ 368              	.LVL19:
+ 369              		.loc 1 96 16 view .LVU93
+ 370 0008 431E     		subs	r3, r0, #1
+ 371              	.LVL20:
+ 372              		.loc 1 96 9 view .LVU94
+ 373 000a 0022     		movs	r2, #0
+ 374              		.loc 1 96 2 view .LVU95
+ 375 000c 05E0     		b	.L29
+ 376              	.LVL21:
+ 377              	.L30:
   97:Core/Src/uart_debug.c **** 		c = s[i];
- 375              		.loc 1 97 3 is_stmt 1 view .LVU93
- 376              		.loc 1 97 8 is_stmt 0 view .LVU94
- 377 000e A15C     		ldrb	r1, [r4, r2]	@ zero_extendqisi2
- 378              	.LVL22:
+ 378              		.loc 1 97 3 is_stmt 1 discriminator 3 view .LVU96
+ 379              		.loc 1 97 8 is_stmt 0 discriminator 3 view .LVU97
+ 380 000e A15C     		ldrb	r1, [r4, r2]	@ zero_extendqisi2
+ 381              	.LVL22:
   98:Core/Src/uart_debug.c **** 		s[i] = s[j];
- 379              		.loc 1 98 3 is_stmt 1 view .LVU95
- 380              		.loc 1 98 11 is_stmt 0 view .LVU96
- 381 0010 E05C     		ldrb	r0, [r4, r3]	@ zero_extendqisi2
- 382              		.loc 1 98 8 view .LVU97
- 383 0012 A054     		strb	r0, [r4, r2]
+ 382              		.loc 1 98 3 is_stmt 1 discriminator 3 view .LVU98
+ 383              		.loc 1 98 11 is_stmt 0 discriminator 3 view .LVU99
+ 384 0010 E05C     		ldrb	r0, [r4, r3]	@ zero_extendqisi2
+ 385              		.loc 1 98 8 discriminator 3 view .LVU100
+ 386 0012 A054     		strb	r0, [r4, r2]
   99:Core/Src/uart_debug.c **** 		s[j] = c;
- 384              		.loc 1 99 3 is_stmt 1 view .LVU98
- 385              		.loc 1 99 8 is_stmt 0 view .LVU99
- 386 0014 E154     		strb	r1, [r4, r3]
+ 387              		.loc 1 99 3 is_stmt 1 discriminator 3 view .LVU101
+ 388              		.loc 1 99 8 is_stmt 0 discriminator 3 view .LVU102
+ 389 0014 E154     		strb	r1, [r4, r3]
   96:Core/Src/uart_debug.c **** 		c = s[i];
- 387              		.loc 1 96 46 is_stmt 1 discriminator 3 view .LVU100
+ 390              		.loc 1 96 43 is_stmt 1 discriminator 3 view .LVU103
   96:Core/Src/uart_debug.c **** 		c = s[i];
- 388              		.loc 1 96 44 is_stmt 0 discriminator 3 view .LVU101
- 389 0016 0132     		adds	r2, r2, #1
- 390              	.LVL23:
+ 391              		.loc 1 96 44 is_stmt 0 discriminator 3 view .LVU104
+ 392 0016 0132     		adds	r2, r2, #1
+ 393              	.LVL23:
   96:Core/Src/uart_debug.c **** 		c = s[i];
- 391              		.loc 1 96 49 discriminator 3 view .LVU102
- 392 0018 013B     		subs	r3, r3, #1
- 393              	.LVL24:
- 394              	.L29:
+ 394              		.loc 1 96 49 discriminator 3 view .LVU105
+ 395 0018 013B     		subs	r3, r3, #1
+ 396              	.LVL24:
+ 397              	.L29:
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccMyiXVx.s 			page 10
+
+
   96:Core/Src/uart_debug.c **** 		c = s[i];
- 395              		.loc 1 96 39 is_stmt 1 discriminator 1 view .LVU103
- 396 001a 9A42     		cmp	r2, r3
- 397 001c F7D3     		bcc	.L30
+ 398              		.loc 1 96 38 is_stmt 1 discriminator 1 view .LVU106
+  96:Core/Src/uart_debug.c **** 		c = s[i];
+ 399              		.loc 1 96 2 is_stmt 0 discriminator 1 view .LVU107
+ 400 001a 9A42     		cmp	r2, r3
+ 401 001c F7D3     		bcc	.L30
  100:Core/Src/uart_debug.c **** 	}
  101:Core/Src/uart_debug.c **** }
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 10
-
-
- 398              		.loc 1 101 1 is_stmt 0 view .LVU104
- 399 001e 10BD     		pop	{r4, pc}
- 400              		.loc 1 101 1 view .LVU105
- 401              		.cfi_endproc
- 402              	.LFE131:
- 404              		.section	.text.ui32toa,"ax",%progbits
- 405              		.align	1
- 406              		.global	ui32toa
- 407              		.syntax unified
- 408              		.thumb
- 409              		.thumb_func
- 411              	ui32toa:
- 412              	.LVL25:
- 413              	.LFB132:
+ 402              		.loc 1 101 1 view .LVU108
+ 403 001e 10BD     		pop	{r4, pc}
+ 404              		.loc 1 101 1 view .LVU109
+ 405              		.cfi_endproc
+ 406              	.LFE131:
+ 408              		.section	.text.ui32toa,"ax",%progbits
+ 409              		.align	1
+ 410              		.global	ui32toa
+ 411              		.syntax unified
+ 412              		.thumb
+ 413              		.thumb_func
+ 415              	ui32toa:
+ 416              	.LVL25:
+ 417              	.LFB132:
  102:Core/Src/uart_debug.c **** 
  103:Core/Src/uart_debug.c **** // UART1 ui32toa
  104:Core/Src/uart_debug.c **** uint16_t ui32toa(uint32_t n, uint8_t *s){
- 414              		.loc 1 104 41 is_stmt 1 view -0
- 415              		.cfi_startproc
- 416              		@ args = 0, pretend = 0, frame = 0
- 417              		@ frame_needed = 0, uses_anonymous_args = 0
- 418              		.loc 1 104 41 is_stmt 0 view .LVU107
- 419 0000 10B5     		push	{r4, lr}
- 420              	.LCFI6:
- 421              		.cfi_def_cfa_offset 8
- 422              		.cfi_offset 4, -8
- 423              		.cfi_offset 14, -4
- 424 0002 0246     		mov	r2, r0
- 425 0004 0846     		mov	r0, r1
- 426              	.LVL26:
+ 418              		.loc 1 104 41 is_stmt 1 view -0
+ 419              		.cfi_startproc
+ 420              		@ args = 0, pretend = 0, frame = 0
+ 421              		@ frame_needed = 0, uses_anonymous_args = 0
+ 422              		.loc 1 104 41 is_stmt 0 view .LVU111
+ 423 0000 10B5     		push	{r4, lr}
+ 424              	.LCFI6:
+ 425              		.cfi_def_cfa_offset 8
+ 426              		.cfi_offset 4, -8
+ 427              		.cfi_offset 14, -4
+ 428 0002 0246     		mov	r2, r0
+ 429 0004 0846     		mov	r0, r1
+ 430              	.LVL26:
  105:Core/Src/uart_debug.c **** 	uint16_t i = 0;
- 427              		.loc 1 105 2 is_stmt 1 view .LVU108
- 428              		.loc 1 105 11 is_stmt 0 view .LVU109
- 429 0006 0024     		movs	r4, #0
- 430              	.LVL27:
- 431              	.L33:
+ 431              		.loc 1 105 2 is_stmt 1 view .LVU112
+ 432              		.loc 1 105 11 is_stmt 0 view .LVU113
+ 433 0006 0024     		movs	r4, #0
+ 434              	.LVL27:
+ 435              	.L33:
  106:Core/Src/uart_debug.c **** 
  107:Core/Src/uart_debug.c **** 	do {       																// generate digits in reverse order
- 432              		.loc 1 107 2 is_stmt 1 view .LVU110
+ 436              		.loc 1 107 2 is_stmt 1 discriminator 1 view .LVU114
  108:Core/Src/uart_debug.c **** 		s[i++] = n % 10 + '0';   								// get next digit
- 433              		.loc 1 108 3 view .LVU111
- 434              		.loc 1 108 14 is_stmt 0 view .LVU112
- 435 0008 0C4B     		ldr	r3, .L35
- 436 000a A3FB0213 		umull	r1, r3, r3, r2
- 437 000e DB08     		lsrs	r3, r3, #3
- 438 0010 9C46     		mov	ip, r3
- 439 0012 03EB8303 		add	r3, r3, r3, lsl #2
- 440 0016 A2EB4303 		sub	r3, r2, r3, lsl #1
- 441 001a A646     		mov	lr, r4
- 442              		.loc 1 108 6 view .LVU113
- 443 001c 0134     		adds	r4, r4, #1
- 444              	.LVL28:
- 445              		.loc 1 108 6 view .LVU114
- 446 001e A4B2     		uxth	r4, r4
- 447              	.LVL29:
- 448              		.loc 1 108 19 view .LVU115
- 449 0020 3033     		adds	r3, r3, #48
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 11
+ 437              		.loc 1 108 3 discriminator 1 view .LVU115
+ 438              		.loc 1 108 14 is_stmt 0 discriminator 1 view .LVU116
+ 439 0008 0C4B     		ldr	r3, .L35
+ 440 000a A3FB0213 		umull	r1, r3, r3, r2
+ 441 000e DB08     		lsrs	r3, r3, #3
+ 442 0010 9C46     		mov	ip, r3
+ 443 0012 03EB8303 		add	r3, r3, r3, lsl #2
+ 444 0016 A2EB4303 		sub	r3, r2, r3, lsl #1
+ 445 001a A646     		mov	lr, r4
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccMyiXVx.s 			page 11
 
 
- 450              		.loc 1 108 10 view .LVU116
- 451 0022 00F80E30 		strb	r3, [r0, lr]
+ 446              		.loc 1 108 6 discriminator 1 view .LVU117
+ 447 001c 0134     		adds	r4, r4, #1
+ 448              	.LVL28:
+ 449              		.loc 1 108 6 discriminator 1 view .LVU118
+ 450 001e A4B2     		uxth	r4, r4
+ 451              	.LVL29:
+ 452              		.loc 1 108 19 discriminator 1 view .LVU119
+ 453 0020 3033     		adds	r3, r3, #48
+ 454              		.loc 1 108 10 discriminator 1 view .LVU120
+ 455 0022 00F80E30 		strb	r3, [r0, lr]
  109:Core/Src/uart_debug.c **** 	} while ((n /= 10) > 0);     							// delete it
- 452              		.loc 1 109 21 is_stmt 1 discriminator 1 view .LVU117
- 453 0026 1346     		mov	r3, r2
- 454              		.loc 1 109 14 is_stmt 0 discriminator 1 view .LVU118
- 455 0028 6246     		mov	r2, ip
- 456              	.LVL30:
- 457              		.loc 1 109 21 discriminator 1 view .LVU119
- 458 002a 092B     		cmp	r3, #9
- 459 002c ECD8     		bhi	.L33
+ 456              		.loc 1 109 10 is_stmt 1 discriminator 1 view .LVU121
+ 457 0026 1346     		mov	r3, r2
+ 458              		.loc 1 109 14 is_stmt 0 discriminator 1 view .LVU122
+ 459 0028 6246     		mov	r2, ip
+ 460              	.LVL30:
+ 461              		.loc 1 109 2 discriminator 1 view .LVU123
+ 462 002a 092B     		cmp	r3, #9
+ 463 002c ECD8     		bhi	.L33
  110:Core/Src/uart_debug.c **** 	s[i] = '\0';
- 460              		.loc 1 110 2 is_stmt 1 view .LVU120
- 461              		.loc 1 110 7 is_stmt 0 view .LVU121
- 462 002e 0023     		movs	r3, #0
- 463 0030 0355     		strb	r3, [r0, r4]
+ 464              		.loc 1 110 2 is_stmt 1 view .LVU124
+ 465              		.loc 1 110 7 is_stmt 0 view .LVU125
+ 466 002e 0023     		movs	r3, #0
+ 467 0030 0355     		strb	r3, [r0, r4]
  111:Core/Src/uart_debug.c **** 	reverse(s);
- 464              		.loc 1 111 2 is_stmt 1 view .LVU122
- 465 0032 FFF7FEFF 		bl	reverse
- 466              	.LVL31:
+ 468              		.loc 1 111 2 is_stmt 1 view .LVU126
+ 469 0032 FFF7FEFF 		bl	reverse
+ 470              	.LVL31:
  112:Core/Src/uart_debug.c **** 	return i;
- 467              		.loc 1 112 2 view .LVU123
+ 471              		.loc 1 112 2 view .LVU127
  113:Core/Src/uart_debug.c **** }
- 468              		.loc 1 113 1 is_stmt 0 view .LVU124
- 469 0036 2046     		mov	r0, r4
- 470 0038 10BD     		pop	{r4, pc}
- 471              	.LVL32:
- 472              	.L36:
- 473              		.loc 1 113 1 view .LVU125
- 474 003a 00BF     		.align	2
- 475              	.L35:
- 476 003c CDCCCCCC 		.word	-858993459
- 477              		.cfi_endproc
- 478              	.LFE132:
- 480              		.section	.text.UART_transmit_ui32,"ax",%progbits
- 481              		.align	1
- 482              		.global	UART_transmit_ui32
- 483              		.syntax unified
- 484              		.thumb
- 485              		.thumb_func
- 487              	UART_transmit_ui32:
- 488              	.LVL33:
- 489              	.LFB128:
+ 472              		.loc 1 113 1 is_stmt 0 view .LVU128
+ 473 0036 2046     		mov	r0, r4
+ 474 0038 10BD     		pop	{r4, pc}
+ 475              	.LVL32:
+ 476              	.L36:
+ 477              		.loc 1 113 1 view .LVU129
+ 478 003a 00BF     		.align	2
+ 479              	.L35:
+ 480 003c CDCCCCCC 		.word	-858993459
+ 481              		.cfi_endproc
+ 482              	.LFE132:
+ 484              		.section	.text.UART_transmit_ui32,"ax",%progbits
+ 485              		.align	1
+ 486              		.global	UART_transmit_ui32
+ 487              		.syntax unified
+ 488              		.thumb
+ 489              		.thumb_func
+ 491              	UART_transmit_ui32:
+ 492              	.LVL33:
+ 493              	.LFB128:
   65:Core/Src/uart_debug.c **** 
- 490              		.loc 1 65 38 is_stmt 1 view -0
- 491              		.cfi_startproc
- 492              		@ args = 0, pretend = 0, frame = 0
- 493              		@ frame_needed = 0, uses_anonymous_args = 0
+ 494              		.loc 1 65 38 is_stmt 1 view -0
+ 495              		.cfi_startproc
+ 496              		@ args = 0, pretend = 0, frame = 0
+ 497              		@ frame_needed = 0, uses_anonymous_args = 0
   65:Core/Src/uart_debug.c **** 
- 494              		.loc 1 65 38 is_stmt 0 view .LVU127
- 495 0000 08B5     		push	{r3, lr}
- 496              	.LCFI7:
- 497              		.cfi_def_cfa_offset 8
- 498              		.cfi_offset 3, -8
- 499              		.cfi_offset 14, -4
-  67:Core/Src/uart_debug.c **** 		tx_buffer_end_pos+= ui32toa(num, &UART_TX_Buffer[tx_buffer_end_pos]);
- 500              		.loc 1 67 2 is_stmt 1 view .LVU128
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 12
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccMyiXVx.s 			page 12
 
 
-  67:Core/Src/uart_debug.c **** 		tx_buffer_end_pos+= ui32toa(num, &UART_TX_Buffer[tx_buffer_end_pos]);
- 501              		.loc 1 67 25 is_stmt 0 view .LVU129
- 502 0002 094B     		ldr	r3, .L41
- 503 0004 1B88     		ldrh	r3, [r3]
-  67:Core/Src/uart_debug.c **** 		tx_buffer_end_pos+= ui32toa(num, &UART_TX_Buffer[tx_buffer_end_pos]);
- 504              		.loc 1 67 4 view .LVU130
- 505 0006 752B     		cmp	r3, #117
- 506 0008 05D9     		bls	.L40
- 507              	.LVL34:
- 508              	.L38:
+ 498              		.loc 1 65 38 is_stmt 0 view .LVU131
+ 499 0000 08B5     		push	{r3, lr}
+ 500              	.LCFI7:
+ 501              		.cfi_def_cfa_offset 8
+ 502              		.cfi_offset 3, -8
+ 503              		.cfi_offset 14, -4
+  67:Core/Src/uart_debug.c **** 		tx_buffer_end_pos+= ui32toa(num, (uint8_t *) &UART_TX_Buffer[tx_buffer_end_pos]);
+ 504              		.loc 1 67 2 is_stmt 1 view .LVU132
+  67:Core/Src/uart_debug.c **** 		tx_buffer_end_pos+= ui32toa(num, (uint8_t *) &UART_TX_Buffer[tx_buffer_end_pos]);
+ 505              		.loc 1 67 25 is_stmt 0 view .LVU133
+ 506 0002 094B     		ldr	r3, .L41
+ 507 0004 1B88     		ldrh	r3, [r3]
+  67:Core/Src/uart_debug.c **** 		tx_buffer_end_pos+= ui32toa(num, (uint8_t *) &UART_TX_Buffer[tx_buffer_end_pos]);
+ 508              		.loc 1 67 4 view .LVU134
+ 509 0006 752B     		cmp	r3, #117
+ 510 0008 05D9     		bls	.L40
+ 511              	.LVL34:
+ 512              	.L38:
   71:Core/Src/uart_debug.c **** }
- 509              		.loc 1 71 2 is_stmt 1 view .LVU131
+ 513              		.loc 1 71 2 is_stmt 1 view .LVU135
   71:Core/Src/uart_debug.c **** }
- 510              		.loc 1 71 16 is_stmt 0 view .LVU132
- 511 000a 074B     		ldr	r3, .L41
- 512 000c 1B88     		ldrh	r3, [r3]
+ 514              		.loc 1 71 16 is_stmt 0 view .LVU136
+ 515 000a 074B     		ldr	r3, .L41
+ 516 000c 1B88     		ldrh	r3, [r3]
   71:Core/Src/uart_debug.c **** }
- 513              		.loc 1 71 36 view .LVU133
- 514 000e 074A     		ldr	r2, .L41+4
- 515 0010 0021     		movs	r1, #0
- 516 0012 D154     		strb	r1, [r2, r3]
+ 517              		.loc 1 71 36 view .LVU137
+ 518 000e 074A     		ldr	r2, .L41+4
+ 519 0010 0021     		movs	r1, #0
+ 520 0012 D154     		strb	r1, [r2, r3]
   72:Core/Src/uart_debug.c **** 
- 517              		.loc 1 72 1 view .LVU134
- 518 0014 08BD     		pop	{r3, pc}
- 519              	.LVL35:
- 520              	.L40:
+ 521              		.loc 1 72 1 view .LVU138
+ 522 0014 08BD     		pop	{r3, pc}
+ 523              	.LVL35:
+ 524              	.L40:
   68:Core/Src/uart_debug.c **** 	}
- 521              		.loc 1 68 3 is_stmt 1 view .LVU135
+ 525              		.loc 1 68 3 is_stmt 1 view .LVU139
   68:Core/Src/uart_debug.c **** 	}
- 522              		.loc 1 68 23 is_stmt 0 view .LVU136
- 523 0016 0549     		ldr	r1, .L41+4
- 524 0018 1944     		add	r1, r1, r3
- 525 001a FFF7FEFF 		bl	ui32toa
- 526              	.LVL36:
+ 526              		.loc 1 68 23 is_stmt 0 view .LVU140
+ 527 0016 0549     		ldr	r1, .L41+4
+ 528 0018 1944     		add	r1, r1, r3
+ 529 001a FFF7FEFF 		bl	ui32toa
+ 530              	.LVL36:
   68:Core/Src/uart_debug.c **** 	}
- 527              		.loc 1 68 20 discriminator 1 view .LVU137
- 528 001e 024B     		ldr	r3, .L41
- 529 0020 1A88     		ldrh	r2, [r3]
- 530 0022 1044     		add	r0, r0, r2
- 531 0024 1880     		strh	r0, [r3]	@ movhi
- 532 0026 F0E7     		b	.L38
- 533              	.L42:
- 534              		.align	2
- 535              	.L41:
- 536 0028 00000000 		.word	tx_buffer_end_pos
- 537 002c 00000000 		.word	UART_TX_Buffer
- 538              		.cfi_endproc
- 539              	.LFE128:
- 541              		.section	.bss.tx_buffer_end_pos,"aw",%nobits
- 542              		.align	1
- 545              	tx_buffer_end_pos:
- 546 0000 0000     		.space	2
- 547              		.section	.bss.UART_TX_Buffer_DMA_only,"aw",%nobits
- 548              		.align	2
- 551              	UART_TX_Buffer_DMA_only:
- 552 0000 00000000 		.space	128
- 552      00000000 
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 13
+ 531              		.loc 1 68 20 view .LVU141
+ 532 001e 024B     		ldr	r3, .L41
+ 533 0020 1A88     		ldrh	r2, [r3]
+ 534 0022 1044     		add	r0, r0, r2
+ 535 0024 1880     		strh	r0, [r3]	@ movhi
+ 536 0026 F0E7     		b	.L38
+ 537              	.L42:
+ 538              		.align	2
+ 539              	.L41:
+ 540 0028 00000000 		.word	.LANCHOR0
+ 541 002c 00000000 		.word	.LANCHOR1
+ 542              		.cfi_endproc
+ 543              	.LFE128:
+ 545              		.section	.bss.UART_TX_Buffer,"aw",%nobits
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccMyiXVx.s 			page 13
 
 
- 552      00000000 
- 552      00000000 
- 552      00000000 
- 553              		.section	.bss.UART_TX_Buffer,"aw",%nobits
- 554              		.align	2
- 557              	UART_TX_Buffer:
+ 546              		.align	2
+ 547              		.set	.LANCHOR1,. + 0
+ 550              	UART_TX_Buffer:
+ 551 0000 00000000 		.space	128
+ 551      00000000 
+ 551      00000000 
+ 551      00000000 
+ 551      00000000 
+ 552              		.section	.bss.UART_TX_Buffer_DMA_only,"aw",%nobits
+ 553              		.align	2
+ 554              		.set	.LANCHOR2,. + 0
+ 557              	UART_TX_Buffer_DMA_only:
  558 0000 00000000 		.space	128
  558      00000000 
  558      00000000 
  558      00000000 
  558      00000000 
- 559              		.text
- 560              	.Letext0:
- 561              		.file 2 "C:/toolchain/arm_gnu_toolchain/arm-none-eabi/include/machine/_default_types.h"
- 562              		.file 3 "C:/toolchain/arm_gnu_toolchain/arm-none-eabi/include/sys/_stdint.h"
- 563              		.file 4 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f302x8.h"
- 564              		.file 5 "C:/toolchain/arm_gnu_toolchain/lib/gcc/arm-none-eabi/13.2.1/include/stddef.h"
- 565              		.file 6 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_def.h"
- 566              		.file 7 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_dma.h"
- 567              		.file 8 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart.h"
- 568              		.file 9 "C:/toolchain/arm_gnu_toolchain/arm-none-eabi/include/string.h"
- 569              		.file 10 "Core/Inc/usart.h"
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 14
+ 559              		.section	.bss.tx_buffer_end_pos,"aw",%nobits
+ 560              		.align	1
+ 561              		.set	.LANCHOR0,. + 0
+ 564              	tx_buffer_end_pos:
+ 565 0000 0000     		.space	2
+ 566              		.text
+ 567              	.Letext0:
+ 568              		.file 2 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2021.10\\arm-none-eabi\\include\\
+ 569              		.file 3 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2021.10\\arm-none-eabi\\include\\
+ 570              		.file 4 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f302x8.h"
+ 571              		.file 5 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_def.h"
+ 572              		.file 6 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_dma.h"
+ 573              		.file 7 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart.h"
+ 574              		.file 8 "Core/Inc/usart.h"
+ 575              		.file 9 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2021.10\\arm-none-eabi\\include\\
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccMyiXVx.s 			page 14
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 uart_debug.c
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:21     .text.UART_transmit_string:00000000 $t
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:27     .text.UART_transmit_string:00000000 UART_transmit_string
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:99     .text.UART_transmit_string:00000030 $d
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:557    .bss.UART_TX_Buffer:00000000 UART_TX_Buffer
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:545    .bss.tx_buffer_end_pos:00000000 tx_buffer_end_pos
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:105    .text.UART_writeLine:00000000 $t
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:111    .text.UART_writeLine:00000000 UART_writeLine
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:210    .text.UART_writeLine:00000050 $d
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:216    .text.UART_transmit_crlf:00000000 $t
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:222    .text.UART_transmit_crlf:00000000 UART_transmit_crlf
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:267    .text.UART_transmit_crlf:00000030 $d
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:273    .text.UART_transmit_buffer:00000000 $t
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:279    .text.UART_transmit_buffer:00000000 UART_transmit_buffer
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:332    .text.UART_transmit_buffer:00000028 $d
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:551    .bss.UART_TX_Buffer_DMA_only:00000000 UART_TX_Buffer_DMA_only
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:340    .text.reverse:00000000 $t
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:346    .text.reverse:00000000 reverse
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:405    .text.ui32toa:00000000 $t
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:411    .text.ui32toa:00000000 ui32toa
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:476    .text.ui32toa:0000003c $d
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:481    .text.UART_transmit_ui32:00000000 $t
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:487    .text.UART_transmit_ui32:00000000 UART_transmit_ui32
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:536    .text.UART_transmit_ui32:00000028 $d
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:542    .bss.tx_buffer_end_pos:00000000 $d
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:548    .bss.UART_TX_Buffer_DMA_only:00000000 $d
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:554    .bss.UART_TX_Buffer:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccMyiXVx.s:20     .text.UART_transmit_string:00000000 $t
+C:\Users\Simio\AppData\Local\Temp\ccMyiXVx.s:26     .text.UART_transmit_string:00000000 UART_transmit_string
+C:\Users\Simio\AppData\Local\Temp\ccMyiXVx.s:100    .text.UART_transmit_string:00000030 $d
+C:\Users\Simio\AppData\Local\Temp\ccMyiXVx.s:106    .text.UART_writeLine:00000000 $t
+C:\Users\Simio\AppData\Local\Temp\ccMyiXVx.s:112    .text.UART_writeLine:00000000 UART_writeLine
+C:\Users\Simio\AppData\Local\Temp\ccMyiXVx.s:212    .text.UART_writeLine:00000050 $d
+C:\Users\Simio\AppData\Local\Temp\ccMyiXVx.s:218    .text.UART_transmit_crlf:00000000 $t
+C:\Users\Simio\AppData\Local\Temp\ccMyiXVx.s:224    .text.UART_transmit_crlf:00000000 UART_transmit_crlf
+C:\Users\Simio\AppData\Local\Temp\ccMyiXVx.s:269    .text.UART_transmit_crlf:00000030 $d
+C:\Users\Simio\AppData\Local\Temp\ccMyiXVx.s:275    .text.UART_transmit_buffer:00000000 $t
+C:\Users\Simio\AppData\Local\Temp\ccMyiXVx.s:281    .text.UART_transmit_buffer:00000000 UART_transmit_buffer
+C:\Users\Simio\AppData\Local\Temp\ccMyiXVx.s:335    .text.UART_transmit_buffer:00000028 $d
+C:\Users\Simio\AppData\Local\Temp\ccMyiXVx.s:343    .text.reverse:00000000 $t
+C:\Users\Simio\AppData\Local\Temp\ccMyiXVx.s:349    .text.reverse:00000000 reverse
+C:\Users\Simio\AppData\Local\Temp\ccMyiXVx.s:409    .text.ui32toa:00000000 $t
+C:\Users\Simio\AppData\Local\Temp\ccMyiXVx.s:415    .text.ui32toa:00000000 ui32toa
+C:\Users\Simio\AppData\Local\Temp\ccMyiXVx.s:480    .text.ui32toa:0000003c $d
+C:\Users\Simio\AppData\Local\Temp\ccMyiXVx.s:485    .text.UART_transmit_ui32:00000000 $t
+C:\Users\Simio\AppData\Local\Temp\ccMyiXVx.s:491    .text.UART_transmit_ui32:00000000 UART_transmit_ui32
+C:\Users\Simio\AppData\Local\Temp\ccMyiXVx.s:540    .text.UART_transmit_ui32:00000028 $d
+C:\Users\Simio\AppData\Local\Temp\ccMyiXVx.s:546    .bss.UART_TX_Buffer:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccMyiXVx.s:550    .bss.UART_TX_Buffer:00000000 UART_TX_Buffer
+C:\Users\Simio\AppData\Local\Temp\ccMyiXVx.s:553    .bss.UART_TX_Buffer_DMA_only:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccMyiXVx.s:557    .bss.UART_TX_Buffer_DMA_only:00000000 UART_TX_Buffer_DMA_only
+C:\Users\Simio\AppData\Local\Temp\ccMyiXVx.s:560    .bss.tx_buffer_end_pos:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccMyiXVx.s:564    .bss.tx_buffer_end_pos:00000000 tx_buffer_end_pos
 
 UNDEFINED SYMBOLS
 HAL_UART_Transmit_DMA

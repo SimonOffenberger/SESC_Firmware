@@ -65,7 +65,7 @@ void UART_writeLine(char payload[]){
 void UART_transmit_ui32(uint32_t num){
 
 	if((tx_buffer_end_pos) < UART_TX_BUFFER_SIZE-10){
-		tx_buffer_end_pos+= ui32toa(num, &UART_TX_Buffer[tx_buffer_end_pos]);
+		tx_buffer_end_pos+= ui32toa(num, (uint8_t *) &UART_TX_Buffer[tx_buffer_end_pos]);
 	}
 
 	UART_TX_Buffer[tx_buffer_end_pos] = '\0';	 // place zero terminator at the end of the string

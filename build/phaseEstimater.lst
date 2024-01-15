@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 1
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccti155R.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 1
   28:Core/Src/phaseEstimater.c **** #include <stdio.h>
   29:Core/Src/phaseEstimater.c **** #include <stdlib.h>
   30:Core/Src/phaseEstimater.c **** #include <math.h>
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 2
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccti155R.s 			page 2
 
 
   31:Core/Src/phaseEstimater.c **** #include "uart_debug.h"
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 1
   60              		.loc 1 53 2 is_stmt 1 view .LVU9
   61              		.loc 1 53 25 is_stmt 0 view .LVU10
   62 002a 0622     		movs	r2, #6
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 3
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccti155R.s 			page 3
 
 
   63 002c 9A62     		str	r2, [r3, #40]
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 1
  104              		.cfi_def_cfa_offset 32
  105              		.cfi_offset 3, -32
  106              		.cfi_offset 4, -28
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 4
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccti155R.s 			page 4
 
 
  107              		.cfi_offset 5, -24
@@ -207,7 +207,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 1
   69:Core/Src/phaseEstimater.c **** 	static uint8_t init=0;
  122              		.loc 1 69 2 view .LVU22
   70:Core/Src/phaseEstimater.c **** 
-  71:Core/Src/phaseEstimater.c **** 	static uint8_t lock_HALL1=0;
+  71:Core/Src/phaseEstimater.c **** 	static uint8_t lock_HALL1=1;
  123              		.loc 1 71 2 view .LVU23
   72:Core/Src/phaseEstimater.c **** 	static uint8_t lock_HALL2=0;
  124              		.loc 1 72 2 view .LVU24
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 1
  140 0014 DA62     		str	r2, [r3, #44]
   82:Core/Src/phaseEstimater.c **** 		SectorTIM.Instance-> PSC = 30000;
  141              		.loc 1 82 3 is_stmt 1 view .LVU34
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 5
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccti155R.s 			page 5
 
 
  142              		.loc 1 82 28 is_stmt 0 view .LVU35
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 1
  189              	.LVL4:
  190              		.loc 1 89 20 discriminator 1 view .LVU53
  191 0056 40EA4800 		orr	r0, r0, r8, lsl #1
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 6
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccti155R.s 			page 6
 
 
  192              		.loc 1 89 8 discriminator 1 view .LVU54
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 1
  240 00a2 0127     		moveq	r7, #1
  241              	.LVL9:
   96:Core/Src/phaseEstimater.c **** 	uint8_t HALL3_rising_edge =		  (HALL3&0x0F)==3;
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 7
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccti155R.s 			page 7
 
 
  242              		.loc 1 96 2 is_stmt 1 view .LVU70
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 1
  115:Core/Src/phaseEstimater.c **** 	//Bei einer Flanke wenn diese nicht gerade gelockt ist
  116:Core/Src/phaseEstimater.c **** 	if((HALL3_falling_edge||HALL3_rising_edge)&&!lock_HALL3){
  277              		.loc 1 116 2 is_stmt 1 view .LVU82
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 8
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccti155R.s 			page 8
 
 
  278              		.loc 1 116 4 is_stmt 0 view .LVU83
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 1
  315              		.loc 1 133 13 is_stmt 0 view .LVU96
  316 0104 714B     		ldr	r3, .L45+28
  317 0106 1A80     		strh	r2, [r3]	@ movhi
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 9
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccti155R.s 			page 9
 
 
  134:Core/Src/phaseEstimater.c **** 		HallSector = (HAL_GPIO_ReadPin(HALL3_GPIO_Port,HALL3_Pin)<<2)|(HAL_GPIO_ReadPin(HALL2_GPIO_Port,H
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 1
  367 014e 0132     		adds	r2, r2, #1
  368              		.loc 1 138 92 view .LVU112
  369 0150 93FBF2F3 		sdiv	r3, r3, r2
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 10
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccti155R.s 			page 10
 
 
  370              		.loc 1 138 40 view .LVU113
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 1
  408 017e 81E0     		b	.L21
  409              	.LVL24:
  410              	.L7:
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 11
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccti155R.s 			page 11
 
 
  411              		.loc 1 153 2 view .LVU129
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 1
  449 01ba 0121     		movs	r1, #1
  450 01bc 00E0     		b	.L9
  451              	.L31:
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 12
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccti155R.s 			page 12
 
 
  452 01be 0121     		movs	r1, #1
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 1
  495 01ec 81F80080 		strb	r8, [r1]
  112:Core/Src/phaseEstimater.c **** 		valid_signals = (HALL1_rising_edge<<7) || (HALL1_falling_edge<<6) || (HALL2_rising_edge<<5) || (H
  496              		.loc 1 112 3 is_stmt 1 view .LVU157
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 13
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccti155R.s 			page 13
 
 
  112:Core/Src/phaseEstimater.c **** 		valid_signals = (HALL1_rising_edge<<7) || (HALL1_falling_edge<<6) || (HALL2_rising_edge<<5) || (H
@@ -778,7 +778,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 1
  539 0222 0121     		movs	r1, #1
  540 0224 F5E7     		b	.L12
  541              	.LVL31:
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 14
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccti155R.s 			page 14
 
 
  542              	.L13:
@@ -838,7 +838,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 1
  581 0266 88E7     		b	.L16
  582              	.LVL32:
  583              	.L17:
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 15
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccti155R.s 			page 15
 
 
  131:Core/Src/phaseEstimater.c **** 		}
@@ -898,7 +898,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 1
  630              	.LBE4:
  156:Core/Src/phaseEstimater.c **** 		}
  157:Core/Src/phaseEstimater.c **** 	}
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 16
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccti155R.s 			page 16
 
 
  158:Core/Src/phaseEstimater.c **** 
@@ -958,7 +958,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 1
  660 02c4 00040048 		.word	1207960576
  661 02c8 00000000 		.word	HALL2.17
  662 02cc 00000000 		.word	phase_old.12
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 17
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccti155R.s 			page 17
 
 
  663 02d0 00000000 		.word	time_between_sectors
@@ -1018,7 +1018,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 1
  161:Core/Src/phaseEstimater.c **** 			if(HallSector_Averages[i]<256){
  709              		.loc 1 161 16 discriminator 1 view .LVU216
  710 0326 072C     		cmp	r4, #7
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 18
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccti155R.s 			page 18
 
 
  711 0328 0BDC     		bgt	.L44
@@ -1078,7 +1078,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 1
  758              	estimate_rotor_phase:
  759              	.LVL53:
  760              	.LFB128:
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 19
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccti155R.s 			page 19
 
 
  182:Core/Src/phaseEstimater.c **** 
@@ -1138,7 +1138,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 1
  795 0012 1B68     		ldr	r3, [r3]
  796              		.loc 1 201 47 view .LVU238
  797 0014 5C6A     		ldr	r4, [r3, #36]
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 20
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccti155R.s 			page 20
 
 
  798              	.LVL55:
@@ -1198,7 +1198,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 1
  838              	.LVL58:
  839              		.loc 1 215 20 discriminator 1 view .LVU256
  840 0054 40EA4A03 		orr	r3, r0, r10, lsl #1
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 21
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccti155R.s 			page 21
 
 
  841 0058 DBB2     		uxtb	r3, r3
@@ -1258,7 +1258,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 1
  888 009e 0E2B     		cmp	r3, #14
  889 00a0 14BF     		ite	ne
  890 00a2 4FF00008 		movne	r8, #0
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 22
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccti155R.s 			page 22
 
 
  891 00a6 4FF00108 		moveq	r8, #1
@@ -1318,7 +1318,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 1
  921 00c6 032B     		cmp	r3, #3
  922 00c8 00F0AC80 		beq	.L57
  923              	.L58:
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 23
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccti155R.s 			page 23
 
 
  246:Core/Src/phaseEstimater.c **** 		lock_HALL1=0;
@@ -1378,7 +1378,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 1
  965              		.loc 1 258 2 is_stmt 1 view .LVU299
  966              		.loc 1 258 42 is_stmt 0 view .LVU300
  967 00fc 744B     		ldr	r3, .L88+20
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 24
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccti155R.s 			page 24
 
 
  968 00fe 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
@@ -1438,7 +1438,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 1
  1004 0130 4362     		str	r3, [r0, #36]
  1005              	.L62:
  277:Core/Src/phaseEstimater.c **** 			//HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 25
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccti155R.s 			page 25
 
 
  278:Core/Src/phaseEstimater.c **** 		}
@@ -1498,7 +1498,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 1
  1031              	.LVL77:
  1032              		.loc 1 306 22 view .LVU326
  1033 0148 531A     		subs	r3, r2, r1
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 26
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccti155R.s 			page 26
 
 
  1034              		.loc 1 306 4 view .LVU327
@@ -1558,7 +1558,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 1
  1071 0172 1A70     		strb	r2, [r3]
  1072 0174 4CE7     		b	.L50
  1073              	.LVL82:
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 27
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccti155R.s 			page 27
 
 
  1074              	.L51:
@@ -1618,7 +1618,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 1
  1112 01b4 0121     		movs	r1, #1
  1113 01b6 00E0     		b	.L53
  1114              	.L76:
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 28
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccti155R.s 			page 28
 
 
  1115 01b8 0121     		movs	r1, #1
@@ -1678,7 +1678,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 1
  1158 01e6 81F80090 		strb	r9, [r1]
  241:Core/Src/phaseEstimater.c **** 		valid_signals = (HALL1_rising_edge<<7) || (HALL1_falling_edge<<6) || (HALL2_rising_edge<<5) || (H
  1159              		.loc 1 241 3 is_stmt 1 view .LVU370
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 29
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccti155R.s 			page 29
 
 
  241:Core/Src/phaseEstimater.c **** 		valid_signals = (HALL1_rising_edge<<7) || (HALL1_falling_edge<<6) || (HALL2_rising_edge<<5) || (H
@@ -1738,7 +1738,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 1
  1202              	.L85:
  1203 0220 0121     		movs	r1, #1
  1204 0222 F5E7     		b	.L56
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 30
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccti155R.s 			page 30
 
 
  1205              	.LVL89:
@@ -1798,7 +1798,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 1
  1244 0262 7FF434AF 		bne	.L59
  1245 0266 49E7     		b	.L60
  1246              	.LVL90:
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 31
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccti155R.s 			page 31
 
 
  1247              	.L63:
@@ -1858,7 +1858,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 1
  285:Core/Src/phaseEstimater.c **** 			if(motor->rotorphase > (offset+HallSector_phase_span[HallSector])) motor->rotorphase= offset+Hal
  1286              		.loc 1 285 103 view .LVU413
  1287 029e 34F81240 		ldrh	r4, [r4, r2, lsl #1]
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 32
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccti155R.s 			page 32
 
 
  285:Core/Src/phaseEstimater.c **** 			if(motor->rotorphase > (offset+HallSector_phase_span[HallSector])) motor->rotorphase= offset+Hal
@@ -1918,7 +1918,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 1
  1331 0300 164B     		ldr	r3, .L90
  1332 0302 1988     		ldrh	r1, [r3]
  1333              	.LVL93:
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 33
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccti155R.s 			page 33
 
 
  291:Core/Src/phaseEstimater.c **** 		if(block_commutation_active){
@@ -1978,7 +1978,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 1
  1371              		.loc 1 297 56 is_stmt 0 view .LVU441
  1372 0330 30F81220 		ldrh	r2, [r0, r2, lsl #1]
  297:Core/Src/phaseEstimater.c **** 		}
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 34
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccti155R.s 			page 34
 
 
  1373              		.loc 1 297 34 view .LVU442
@@ -2038,7 +2038,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 1
  1412              	.L91:
  1413 035a 00BF     		.align	2
  1414              	.L90:
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 35
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccti155R.s 			page 35
 
 
  1415 035c 00000000 		.word	PreviousHallSector.2
@@ -2097,12 +2097,12 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 1
  1497              		.section	.bss.lock_HALL2.14,"aw",%nobits
  1500              	lock_HALL2.14:
  1501 0000 00       		.space	1
- 1502              		.section	.bss.lock_HALL1.15,"aw",%nobits
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 36
+ 1502              		.section	.data.lock_HALL1.15,"aw"
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccti155R.s 			page 36
 
 
  1505              	lock_HALL1.15:
- 1506 0000 00       		.space	1
+ 1506 0000 01       		.byte	1
  1507              		.section	.bss.HALL3.16,"aw",%nobits
  1510              	HALL3.16:
  1511 0000 00       		.space	1
@@ -2158,7 +2158,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 1
  1572 0000 0100     		.short	1
  1573 0002 00000000 		.space	14
  1573      00000000 
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 37
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccti155R.s 			page 37
 
 
  1573      00000000 
@@ -2176,81 +2176,80 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 1
  1584              		.file 10 "Core/Inc/tim.h"
  1585              		.file 11 "Core/Inc/uart_debug.h"
  1586              		.file 12 "Core/Inc/SVM.h"
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 38
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccti155R.s 			page 38
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 phaseEstimater.c
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:21     .text.init_phase_estimater:00000000 $t
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:27     .text.init_phase_estimater:00000000 init_phase_estimater
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:73     .text.init_phase_estimater:00000038 $d
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:78     .rodata.initialize_Hallsensor_phase_estimator.str1.4:00000000 $d
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:88     .text.initialize_Hallsensor_phase_estimator:00000000 $t
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:94     .text.initialize_Hallsensor_phase_estimator:00000000 initialize_Hallsensor_phase_estimator
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:655    .text.initialize_Hallsensor_phase_estimator:000002b0 $d
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1531   .bss.init.20:00000000 init.20
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1526   .bss.voltage_phase.19:00000000 voltage_phase.19
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1520   .bss.HALL1.18:00000000 HALL1.18
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1515   .bss.HALL2.17:00000000 HALL2.17
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1490   .bss.phase_old.12:00000000 phase_old.12
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1549   .bss.time_between_sectors:00000000 time_between_sectors
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1571   .data.HallSector_Averages:00000000 HallSector_Averages
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1563   .data.HallSector_phase_offset:00000000 HallSector_phase_offset
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1484   .bss.prev_Sector.11:00000000 prev_Sector.11
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1556   .bss.HallSector_phase_span:00000000 HallSector_phase_span
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1505   .bss.lock_HALL1.15:00000000 lock_HALL1.15
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1500   .bss.lock_HALL2.14:00000000 lock_HALL2.14
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1495   .bss.lock_HALL3.13:00000000 lock_HALL3.13
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1510   .bss.HALL3.16:00000000 HALL3.16
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:676    .text.initialize_Hallsensor_phase_estimator:000002f4 $t
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:742    .text.initialize_Hallsensor_phase_estimator:00000348 $d
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:752    .text.estimate_rotor_phase:00000000 $t
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:758    .text.estimate_rotor_phase:00000000 estimate_rotor_phase
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1310   .text.estimate_rotor_phase:000002bc $d
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1479   .bss.init.10:00000000 init.10
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1474   .bss.HALL1.9:00000000 HALL1.9
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1469   .bss.HALL2.8:00000000 HALL2.8
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1444   .bss.HallSector.3:00000000 HallSector.3
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1439   .bss.PreviousHallSector.2:00000000 PreviousHallSector.2
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1542   .data.block_commutation_active:00000000 block_commutation_active
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1427   .bss.prev_phase.0:00000000 prev_phase.0
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1459   .bss.lock_HALL1.6:00000000 lock_HALL1.6
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1454   .bss.lock_HALL2.5:00000000 lock_HALL2.5
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1449   .bss.lock_HALL3.4:00000000 lock_HALL3.4
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1537   .bss.Prev_Sector_times:00000000 Prev_Sector_times
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1433   .bss.SectorTime.1:00000000 SectorTime.1
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1464   .bss.HALL3.7:00000000 HALL3.7
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1331   .text.estimate_rotor_phase:00000300 $t
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1415   .text.estimate_rotor_phase:0000035c $d
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1424   .bss.prev_phase.0:00000000 $d
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1430   .bss.SectorTime.1:00000000 $d
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1436   .bss.PreviousHallSector.2:00000000 $d
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1445   .bss.HallSector.3:00000000 $d
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1450   .bss.lock_HALL3.4:00000000 $d
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1455   .bss.lock_HALL2.5:00000000 $d
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1460   .bss.lock_HALL1.6:00000000 $d
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1465   .bss.HALL3.7:00000000 $d
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1470   .bss.HALL2.8:00000000 $d
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1475   .bss.HALL1.9:00000000 $d
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1480   .bss.init.10:00000000 $d
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1485   .bss.prev_Sector.11:00000000 $d
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1487   .bss.phase_old.12:00000000 $d
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1496   .bss.lock_HALL3.13:00000000 $d
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s 			page 39
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:21     .text.init_phase_estimater:00000000 $t
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:27     .text.init_phase_estimater:00000000 init_phase_estimater
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:73     .text.init_phase_estimater:00000038 $d
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:78     .rodata.initialize_Hallsensor_phase_estimator.str1.4:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:88     .text.initialize_Hallsensor_phase_estimator:00000000 $t
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:94     .text.initialize_Hallsensor_phase_estimator:00000000 initialize_Hallsensor_phase_estimator
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:655    .text.initialize_Hallsensor_phase_estimator:000002b0 $d
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1531   .bss.init.20:00000000 init.20
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1526   .bss.voltage_phase.19:00000000 voltage_phase.19
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1520   .bss.HALL1.18:00000000 HALL1.18
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1515   .bss.HALL2.17:00000000 HALL2.17
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1490   .bss.phase_old.12:00000000 phase_old.12
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1549   .bss.time_between_sectors:00000000 time_between_sectors
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1571   .data.HallSector_Averages:00000000 HallSector_Averages
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1563   .data.HallSector_phase_offset:00000000 HallSector_phase_offset
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1484   .bss.prev_Sector.11:00000000 prev_Sector.11
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1556   .bss.HallSector_phase_span:00000000 HallSector_phase_span
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1505   .data.lock_HALL1.15:00000000 lock_HALL1.15
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1500   .bss.lock_HALL2.14:00000000 lock_HALL2.14
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1495   .bss.lock_HALL3.13:00000000 lock_HALL3.13
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1510   .bss.HALL3.16:00000000 HALL3.16
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:676    .text.initialize_Hallsensor_phase_estimator:000002f4 $t
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:742    .text.initialize_Hallsensor_phase_estimator:00000348 $d
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:752    .text.estimate_rotor_phase:00000000 $t
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:758    .text.estimate_rotor_phase:00000000 estimate_rotor_phase
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1310   .text.estimate_rotor_phase:000002bc $d
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1479   .bss.init.10:00000000 init.10
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1474   .bss.HALL1.9:00000000 HALL1.9
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1469   .bss.HALL2.8:00000000 HALL2.8
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1444   .bss.HallSector.3:00000000 HallSector.3
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1439   .bss.PreviousHallSector.2:00000000 PreviousHallSector.2
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1542   .data.block_commutation_active:00000000 block_commutation_active
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1427   .bss.prev_phase.0:00000000 prev_phase.0
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1459   .bss.lock_HALL1.6:00000000 lock_HALL1.6
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1454   .bss.lock_HALL2.5:00000000 lock_HALL2.5
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1449   .bss.lock_HALL3.4:00000000 lock_HALL3.4
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1537   .bss.Prev_Sector_times:00000000 Prev_Sector_times
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1433   .bss.SectorTime.1:00000000 SectorTime.1
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1464   .bss.HALL3.7:00000000 HALL3.7
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1331   .text.estimate_rotor_phase:00000300 $t
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1415   .text.estimate_rotor_phase:0000035c $d
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1424   .bss.prev_phase.0:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1430   .bss.SectorTime.1:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1436   .bss.PreviousHallSector.2:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1445   .bss.HallSector.3:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1450   .bss.lock_HALL3.4:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1455   .bss.lock_HALL2.5:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1460   .bss.lock_HALL1.6:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1465   .bss.HALL3.7:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1470   .bss.HALL2.8:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1475   .bss.HALL1.9:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1480   .bss.init.10:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1485   .bss.prev_Sector.11:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1487   .bss.phase_old.12:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1496   .bss.lock_HALL3.13:00000000 $d
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccti155R.s 			page 39
 
 
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1501   .bss.lock_HALL2.14:00000000 $d
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1506   .bss.lock_HALL1.15:00000000 $d
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1511   .bss.HALL3.16:00000000 $d
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1516   .bss.HALL2.17:00000000 $d
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1521   .bss.HALL1.18:00000000 $d
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1523   .bss.voltage_phase.19:00000000 $d
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1532   .bss.init.20:00000000 $d
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1534   .bss.Prev_Sector_times:00000000 $d
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1546   .bss.time_between_sectors:00000000 $d
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1553   .bss.HallSector_phase_span:00000000 $d
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1560   .data.HallSector_phase_offset:00000000 $d
-C:\Users\Simio\AppData\Local\Temp\cc9pp2ed.s:1568   .data.HallSector_Averages:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1501   .bss.lock_HALL2.14:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1511   .bss.HALL3.16:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1516   .bss.HALL2.17:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1521   .bss.HALL1.18:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1523   .bss.voltage_phase.19:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1532   .bss.init.20:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1534   .bss.Prev_Sector_times:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1546   .bss.time_between_sectors:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1553   .bss.HallSector_phase_span:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1560   .data.HallSector_phase_offset:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccti155R.s:1568   .data.HallSector_Averages:00000000 $d
 
 UNDEFINED SYMBOLS
 htim6

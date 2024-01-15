@@ -28,6 +28,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include "uart_debug.h"
  
 static uint16_t phase=0;
 
@@ -78,7 +79,7 @@ uint16_t initialize_Hallsensor_phase_estimator(uint16_t setpoint){
 	if(!init){
 		// configure Sector Tim to Output a 10Hz Sinewave;
 		SectorTIM.Instance-> ARR= 360;
-		SectorTIM.Instance-> PSC = 20000;
+		SectorTIM.Instance-> PSC = 30000;
 		init=1;
 	}
 
@@ -150,7 +151,9 @@ uint16_t initialize_Hallsensor_phase_estimator(uint16_t setpoint){
 	}
 
 	for(int i=0; i<8;i++){
-		if(HallSector_Averages[i] >= 256) in_toleranz_count++;
+		if(HallSector_Averages[i] >= 256) {
+			in_toleranz_count++;
+		}
 	}
 
 	if(in_toleranz_count==6){
@@ -158,6 +161,15 @@ uint16_t initialize_Hallsensor_phase_estimator(uint16_t setpoint){
 		for(int i=0;i<8;i++){
 			if(HallSector_Averages[i]<256){
 				HallSector_phase_offset[i]=255;	// Für ungültige Sektoren wird die Zahl 255 verwendet
+			}
+			else{
+				UART_transmit_string("Hallsektor: ");
+				UART_transmit_ui32(i);
+				UART_transmit_string(" Offset: ");
+				UART_transmit_ui32(HallSector_phase_offset[i]);
+				UART_transmit_string(" Phasespan: ");
+				UART_transmit_ui32(HallSector_phase_span[i]);
+				UART_transmit_crlf();
 			}
 		}
 	}

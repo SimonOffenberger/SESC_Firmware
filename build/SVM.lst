@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 1
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 1
   27:Core/Src/SVM.c **** #include <stdlib.h>
   28:Core/Src/SVM.c **** 
   29:Core/Src/SVM.c **** 
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 2
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s 			page 2
 
 
   30:Core/Src/SVM.c **** 
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 1
   84:Core/Src/SVM.c **** 963     ,
   85:Core/Src/SVM.c **** 968     ,
   86:Core/Src/SVM.c **** 974     ,
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 3
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s 			page 3
 
 
   87:Core/Src/SVM.c **** 979     ,
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 1
  141:Core/Src/SVM.c **** 954     ,
  142:Core/Src/SVM.c **** 961     ,
  143:Core/Src/SVM.c **** 968     ,
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 4
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s 			page 4
 
 
  144:Core/Src/SVM.c **** 974     ,
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 1
  198:Core/Src/SVM.c **** 745     ,
  199:Core/Src/SVM.c **** 717     ,
  200:Core/Src/SVM.c **** 688     ,
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 5
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s 			page 5
 
 
  201:Core/Src/SVM.c **** 659     ,
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 1
   53 0012 1A4C     		ldr	r4, .L3
   54 0014 2268     		ldr	r2, [r4]
   55 0016 D368     		ldr	r3, [r2, #12]
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 6
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s 			page 6
 
 
   56 0018 43F00103 		orr	r3, r3, #1
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 1
   98              		.loc 1 243 2 view .LVU14
   99              		.loc 1 243 9 is_stmt 0 view .LVU15
  100 005e 084B     		ldr	r3, .L3+4
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 7
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s 			page 7
 
 
  101 0060 5A6C     		ldr	r2, [r3, #68]
@@ -375,7 +375,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 1
  245:Core/Src/SVM.c **** 	PWM_TIM->ARR=PWM_TIM_ARR;
  111              		.loc 1 245 2 is_stmt 1 view .LVU20
  112              		.loc 1 245 14 is_stmt 0 view .LVU21
- 113 0070 4FF49662 		mov	r2, #1200
+ 113 0070 4FF4B462 		mov	r2, #1440
  114 0074 DA62     		str	r2, [r3, #44]
  246:Core/Src/SVM.c **** 
  247:Core/Src/SVM.c **** 	__enable_irq();
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 1
   33:Drivers/CMSIS/Include/cmsis_gcc.h **** 
   34:Drivers/CMSIS/Include/cmsis_gcc.h **** /* Fallback for __has_builtin */
   35:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef __has_builtin
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 8
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s 			page 8
 
 
   36:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __has_builtin(x) (0)
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 1
   90:Drivers/CMSIS/Include/cmsis_gcc.h ****   __PACKED_STRUCT T_UINT16_READ { uint16_t v; };
   91:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic pop
   92:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT16_READ(addr)          (((const struct T_UINT16_READ *)(const void *)(add
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 9
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s 			page 9
 
 
   93:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 1
  133 007a 00BF     		.align	2
  134              	.L3:
  135 007c 00000000 		.word	htim1
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 10
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s 			page 10
 
 
  136 0080 002C0140 		.word	1073818624
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 1
  185 001e 154A     		ldr	r2, .L7+20
  186 0020 02FB03F3 		mul	r3, r2, r3
  187              		.loc 1 255 102 view .LVU38
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 11
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s 			page 11
 
 
  188 0024 1B13     		asrs	r3, r3, #12
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 1
  236 0068 00000000 		.word	CCR_V
  237 006c 00000000 		.word	CCR_W
  238 0070 00000000 		.word	Motor
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 12
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s 			page 12
 
 
  239 0074 B0AD0100 		.word	110000
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 1
  280:Core/Src/SVM.c **** 	if(phase<0) 	phase=phase+360;
  277              		.loc 1 280 2 is_stmt 1 view .LVU72
  278              	.L11:
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 13
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s 			page 13
 
 
  281:Core/Src/SVM.c **** 	
@@ -778,7 +778,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 1
  326:Core/Src/SVM.c **** //			active_vector2_time= ((active_vectors_time * (phase-180))/60);
  327:Core/Src/SVM.c **** //			active_vector1_time= active_vectors_time-active_vector2_time;
  328:Core/Src/SVM.c **** //			CCR_CURR_AV1=	CCR_AV1+(active_vector2_time>>1);		// middle of active vector 1 to sample curren
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 14
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s 			page 14
 
 
  329:Core/Src/SVM.c **** //			CCR_AV2= active_vector2_time + CCR_AV1;							// start of active vector 2
@@ -829,7 +829,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 1
  296              		.loc 1 365 70 discriminator 1 view .LVU80
  297 0024 02FB03F3 		mul	r3, r2, r3
  298              		.loc 1 365 79 discriminator 1 view .LVU81
- 299 0028 4FF41670 		mov	r0, #600
+ 299 0028 4FF43470 		mov	r0, #720
  300 002c 00FB03F3 		mul	r3, r0, r3
  301              		.loc 1 365 97 discriminator 1 view .LVU82
  302 0030 9B0C     		lsrs	r3, r3, #18
@@ -838,7 +838,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 1
  305              		.loc 1 365 29 discriminator 1 view .LVU84
  306 0034 4048     		ldr	r0, .L20+12
  307 0036 0380     		strh	r3, [r0]	@ movhi
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 15
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s 			page 15
 
 
  308              	.L13:
@@ -858,7 +858,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 1
  319              		.loc 1 368 73 discriminator 1 view .LVU90
  320 0046 02FB03F3 		mul	r3, r2, r3
  321              		.loc 1 368 82 discriminator 1 view .LVU91
- 322 004a 4FF41670 		mov	r0, #600
+ 322 004a 4FF43470 		mov	r0, #720
  323 004e 00FB03F3 		mul	r3, r0, r3
  324              		.loc 1 368 100 discriminator 1 view .LVU92
  325 0052 9B0C     		lsrs	r3, r3, #18
@@ -886,7 +886,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 1
  343              		.loc 1 372 73 discriminator 1 view .LVU100
  344 0066 02FB03F3 		mul	r3, r2, r3
  345              		.loc 1 372 82 discriminator 1 view .LVU101
- 346 006a 4FF41672 		mov	r2, #600
+ 346 006a 4FF43472 		mov	r2, #720
  347              	.LVL20:
  348              		.loc 1 372 82 discriminator 1 view .LVU102
  349 006e 02FB03F3 		mul	r3, r2, r3
@@ -898,7 +898,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 1
  355 0076 324A     		ldr	r2, .L20+20
  356 0078 1380     		strh	r3, [r2]	@ movhi
  357 007a 7047     		bx	lr
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 16
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s 			page 16
 
 
  358              	.LVL21:
@@ -933,7 +933,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 1
  378 0090 02FB03F3 		mul	r3, r2, r3
  366:Core/Src/SVM.c **** 	else 											CCR_U=PWM_TIM_ARR_half-((uint32_t)(SPWM[phase-180]*setpoint*PWM_TIM_ARR_half)>>18)
  379              		.loc 1 366 77 view .LVU115
- 380 0094 4FF41670 		mov	r0, #600
+ 380 0094 4FF43470 		mov	r0, #720
  381 0098 00FB03F3 		mul	r3, r0, r3
  366:Core/Src/SVM.c **** 	else 											CCR_U=PWM_TIM_ARR_half-((uint32_t)(SPWM[phase-180]*setpoint*PWM_TIM_ARR_half)>>18)
  382              		.loc 1 366 95 view .LVU116
@@ -958,7 +958,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 1
  369:Core/Src/SVM.c **** 	else if((phase<300)) 							CCR_V=PWM_TIM_ARR_half+((uint32_t)(SPWM[phase-120]*setpoint*PWM_TIM_AR
  396              		.loc 1 369 75 is_stmt 0 discriminator 1 view .LVU122
  397 00ac A1F17803 		sub	r3, r1, #120
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 17
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s 			page 17
 
 
  369:Core/Src/SVM.c **** 	else if((phase<300)) 							CCR_V=PWM_TIM_ARR_half+((uint32_t)(SPWM[phase-120]*setpoint*PWM_TIM_AR
@@ -970,7 +970,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 1
  402 00b6 02FB03F3 		mul	r3, r2, r3
  369:Core/Src/SVM.c **** 	else if((phase<300)) 							CCR_V=PWM_TIM_ARR_half+((uint32_t)(SPWM[phase-120]*setpoint*PWM_TIM_AR
  403              		.loc 1 369 89 discriminator 1 view .LVU125
- 404 00ba 4FF41670 		mov	r0, #600
+ 404 00ba 4FF43470 		mov	r0, #720
  405 00be 00FB03F3 		mul	r3, r0, r3
  369:Core/Src/SVM.c **** 	else if((phase<300)) 							CCR_V=PWM_TIM_ARR_half+((uint32_t)(SPWM[phase-120]*setpoint*PWM_TIM_AR
  406              		.loc 1 369 107 discriminator 1 view .LVU126
@@ -998,7 +998,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 1
  422 00d6 02FB03F3 		mul	r3, r2, r3
  370:Core/Src/SVM.c **** 																												 
  423              		.loc 1 370 76 view .LVU133
- 424 00da 4FF41670 		mov	r0, #600
+ 424 00da 4FF43470 		mov	r0, #720
  425 00de 00FB03F3 		mul	r3, r0, r3
  370:Core/Src/SVM.c **** 																												 
  426              		.loc 1 370 94 view .LVU134
@@ -1018,7 +1018,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 1
  437 00ec EF29     		cmp	r1, #239
  438 00ee 0EDC     		bgt	.L19
  439              		.loc 1 373 30 is_stmt 1 discriminator 1 view .LVU139
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 18
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s 			page 18
 
 
  440              		.loc 1 373 75 is_stmt 0 discriminator 1 view .LVU140
@@ -1030,7 +1030,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 1
  446              		.loc 1 373 79 discriminator 1 view .LVU142
  447 00f8 02FB03F3 		mul	r3, r2, r3
  448              		.loc 1 373 88 discriminator 1 view .LVU143
- 449 00fc 4FF41672 		mov	r2, #600
+ 449 00fc 4FF43472 		mov	r2, #720
  450              	.LVL24:
  451              		.loc 1 373 88 discriminator 1 view .LVU144
  452 0100 02FB03F3 		mul	r3, r2, r3
@@ -1055,7 +1055,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 1
  470              		.loc 1 374 67 view .LVU151
  471 0116 02FB03F3 		mul	r3, r2, r3
  472              		.loc 1 374 76 view .LVU152
- 473 011a 4FF41672 		mov	r2, #600
+ 473 011a 4FF43472 		mov	r2, #720
  474              	.LVL27:
  475              		.loc 1 374 76 view .LVU153
  476 011e 02FB03F3 		mul	r3, r2, r3
@@ -1078,7 +1078,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 1
  384:Core/Src/SVM.c **** 	
  385:Core/Src/SVM.c **** 								
  386:Core/Src/SVM.c **** }
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 19
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s 			page 19
 
 
  484              		.loc 1 386 1 view .LVU157
@@ -1138,7 +1138,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 1
  541 004a AA03     		.short	938
  542 004c B003     		.short	944
  543 004e B703     		.short	951
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 20
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s 			page 20
 
 
  544 0050 BD03     		.short	957
@@ -1198,7 +1198,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 1
  598 00bc 9C03     		.short	924
  599 00be A403     		.short	932
  600 00c0 AC03     		.short	940
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 21
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s 			page 21
 
 
  601 00c2 B403     		.short	948
@@ -1258,7 +1258,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 1
  655 012e 5A03     		.short	858
  656 0130 3E03     		.short	830
  657 0132 2203     		.short	802
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 22
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s 			page 22
 
 
  658 0134 0603     		.short	774
@@ -1315,30 +1315,30 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 1
  717              		.file 10 "Core/Inc/tim.h"
  718              		.file 11 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_tim_ex.h"
  719              		.file 12 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_cortex.h"
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s 			page 23
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s 			page 23
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 SVM.c
-C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s:21     .text.initSVM:00000000 $t
-C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s:27     .text.initSVM:00000000 initSVM
-C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s:135    .text.initSVM:0000007c $d
-C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s:141    .text.HAL_TIM_PeriodElapsedCallback:00000000 $t
-C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s:147    .text.HAL_TIM_PeriodElapsedCallback:00000000 HAL_TIM_PeriodElapsedCallback
-C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s:234    .text.HAL_TIM_PeriodElapsedCallback:00000060 $d
-C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s:706    .bss.CCR_U:00000000 CCR_U
-C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s:700    .bss.CCR_V:00000000 CCR_V
-C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s:694    .bss.CCR_W:00000000 CCR_W
-C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s:244    .text.setVoltageVector:00000000 $t
-C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s:250    .text.setVoltageVector:00000000 setVoltageVector
-C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s:489    .text.setVoltageVector:0000012c $d
-C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s:688    .bss.current_sector:00000000 current_sector
-C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s:503    .rodata.SPWM:00000000 SPWM
-C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s:500    .rodata.SPWM:00000000 $d
-C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s:685    .bss.current_sector:00000000 $d
-C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s:691    .bss.CCR_W:00000000 $d
-C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s:697    .bss.CCR_V:00000000 $d
-C:\Users\Simio\AppData\Local\Temp\ccKVhOpb.s:703    .bss.CCR_U:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s:21     .text.initSVM:00000000 $t
+C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s:27     .text.initSVM:00000000 initSVM
+C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s:135    .text.initSVM:0000007c $d
+C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s:141    .text.HAL_TIM_PeriodElapsedCallback:00000000 $t
+C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s:147    .text.HAL_TIM_PeriodElapsedCallback:00000000 HAL_TIM_PeriodElapsedCallback
+C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s:234    .text.HAL_TIM_PeriodElapsedCallback:00000060 $d
+C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s:706    .bss.CCR_U:00000000 CCR_U
+C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s:700    .bss.CCR_V:00000000 CCR_V
+C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s:694    .bss.CCR_W:00000000 CCR_W
+C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s:244    .text.setVoltageVector:00000000 $t
+C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s:250    .text.setVoltageVector:00000000 setVoltageVector
+C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s:489    .text.setVoltageVector:0000012c $d
+C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s:688    .bss.current_sector:00000000 current_sector
+C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s:503    .rodata.SPWM:00000000 SPWM
+C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s:500    .rodata.SPWM:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s:685    .bss.current_sector:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s:691    .bss.CCR_W:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s:697    .bss.CCR_V:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccIETqT3.s:703    .bss.CCR_U:00000000 $d
 
 UNDEFINED SYMBOLS
 HAL_NVIC_EnableIRQ

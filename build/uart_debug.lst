@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 1
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccJXqtKq.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 1
   27:Core/Src/uart_debug.c **** extern UART_HandleTypeDef huart1;
   28:Core/Src/uart_debug.c **** static char UART_TX_Buffer[UART_TX_BUFFER_SIZE]={0};
   29:Core/Src/uart_debug.c **** static char UART_TX_Buffer_DMA_only[UART_TX_BUFFER_SIZE]={0};
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 2
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccJXqtKq.s 			page 2
 
 
   30:Core/Src/uart_debug.c **** static uint16_t tx_buffer_end_pos=0;
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 1
   68 0014 815C     		ldrb	r1, [r0, r2]	@ zero_extendqisi2
   36:Core/Src/uart_debug.c **** 	for(uint16_t size=0;payload[size]!='\0';size++){
   69              		.loc 1 36 35 discriminator 1 view .LVU14
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 3
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccJXqtKq.s 			page 3
 
 
   70 0016 19B1     		cbz	r1, .L3
@@ -130,7 +130,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 1
   74 001a 1B88     		ldrh	r3, [r3]
   38:Core/Src/uart_debug.c **** 
   75              		.loc 1 38 5 view .LVU17
-  76 001c 7F2B     		cmp	r3, #127
+  76 001c FF2B     		cmp	r3, #255
   77 001e F2D9     		bls	.L6
   78              	.L3:
   79              	.LBE2:
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 1
  118              		@ link register save eliminated.
  119              		.loc 1 46 36 is_stmt 0 view .LVU24
  120 0000 10B4     		push	{r4}
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 4
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccJXqtKq.s 			page 4
 
 
  121              	.LCFI2:
@@ -235,10 +235,10 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 1
  158 001a 1B88     		ldrh	r3, [r3]
   50:Core/Src/uart_debug.c **** 
  159              		.loc 1 50 5 view .LVU40
- 160 001c 7F2B     		cmp	r3, #127
+ 160 001c FF2B     		cmp	r3, #255
  161 001e F2D9     		bls	.L15
  162              	.L11:
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 5
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccJXqtKq.s 			page 5
 
 
  163              	.LBE3:
@@ -250,7 +250,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 1
  166 0020 0C4B     		ldr	r3, .L16+4
  167 0022 1B88     		ldrh	r3, [r3]
  168              		.loc 1 56 4 view .LVU43
- 169 0024 7D2B     		cmp	r3, #125
+ 169 0024 FD2B     		cmp	r3, #253
  170 0026 0AD8     		bhi	.L13
   57:Core/Src/uart_debug.c **** 		UART_TX_Buffer[tx_buffer_end_pos++]='\r';
  171              		.loc 1 57 3 is_stmt 1 view .LVU44
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 1
  207              	.L17:
  208 004e 00BF     		.align	2
  209              	.L16:
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 6
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccJXqtKq.s 			page 6
 
 
  210 0050 00000000 		.word	UART_TX_Buffer
@@ -336,7 +336,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 1
  231 0000 0B4B     		ldr	r3, .L20
  232 0002 1B88     		ldrh	r3, [r3]
  233              		.loc 1 76 4 view .LVU59
- 234 0004 7D2B     		cmp	r3, #125
+ 234 0004 FD2B     		cmp	r3, #253
  235 0006 0CD8     		bhi	.L19
   77:Core/Src/uart_debug.c **** 		UART_TX_Buffer[tx_buffer_end_pos++]='\r';
  236              		.loc 1 77 3 is_stmt 1 view .LVU60
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 1
  251 001e 0A23     		movs	r3, #10
  252 0020 8B54     		strb	r3, [r1, r2]
  253              	.L19:
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 7
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccJXqtKq.s 			page 7
 
 
   79:Core/Src/uart_debug.c **** 	}
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 1
  302 0006 0849     		ldr	r1, .L26
  303 0008 CA54     		strb	r2, [r1, r3]
   85:Core/Src/uart_debug.c **** 		UART_TX_Buffer_DMA_only[size] = UART_TX_Buffer[size];
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 8
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccJXqtKq.s 			page 8
 
 
  304              		.loc 1 85 53 is_stmt 1 discriminator 3 view .LVU77
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 1
  350              		.cfi_startproc
  351              		@ args = 0, pretend = 0, frame = 0
  352              		@ frame_needed = 0, uses_anonymous_args = 0
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 9
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccJXqtKq.s 			page 9
 
 
  353              		.loc 1 93 25 is_stmt 0 view .LVU86
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 1
  397 001c F7D3     		bcc	.L30
  100:Core/Src/uart_debug.c **** 	}
  101:Core/Src/uart_debug.c **** }
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 10
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccJXqtKq.s 			page 10
 
 
  398              		.loc 1 101 1 is_stmt 0 view .LVU104
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 1
  447              	.LVL29:
  448              		.loc 1 108 19 view .LVU115
  449 0020 3033     		adds	r3, r3, #48
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 11
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccJXqtKq.s 			page 11
 
 
  450              		.loc 1 108 10 view .LVU116
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 1
  499              		.cfi_offset 14, -4
   67:Core/Src/uart_debug.c **** 		tx_buffer_end_pos+= ui32toa(num, &UART_TX_Buffer[tx_buffer_end_pos]);
  500              		.loc 1 67 2 is_stmt 1 view .LVU128
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 12
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccJXqtKq.s 			page 12
 
 
   67:Core/Src/uart_debug.c **** 		tx_buffer_end_pos+= ui32toa(num, &UART_TX_Buffer[tx_buffer_end_pos]);
@@ -667,7 +667,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 1
  503 0004 1B88     		ldrh	r3, [r3]
   67:Core/Src/uart_debug.c **** 		tx_buffer_end_pos+= ui32toa(num, &UART_TX_Buffer[tx_buffer_end_pos]);
  504              		.loc 1 67 4 view .LVU130
- 505 0006 752B     		cmp	r3, #117
+ 505 0006 F52B     		cmp	r3, #245
  506 0008 05D9     		bls	.L40
  507              	.LVL34:
  508              	.L38:
@@ -716,9 +716,9 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 1
  547              		.section	.bss.UART_TX_Buffer_DMA_only,"aw",%nobits
  548              		.align	2
  551              	UART_TX_Buffer_DMA_only:
- 552 0000 00000000 		.space	128
+ 552 0000 00000000 		.space	256
  552      00000000 
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 13
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccJXqtKq.s 			page 13
 
 
  552      00000000 
@@ -727,7 +727,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 1
  553              		.section	.bss.UART_TX_Buffer,"aw",%nobits
  554              		.align	2
  557              	UART_TX_Buffer:
- 558 0000 00000000 		.space	128
+ 558 0000 00000000 		.space	256
  558      00000000 
  558      00000000 
  558      00000000 
@@ -743,37 +743,37 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 1
  567              		.file 8 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart.h"
  568              		.file 9 "C:/toolchain/arm_gnu_toolchain/arm-none-eabi/include/string.h"
  569              		.file 10 "Core/Inc/usart.h"
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s 			page 14
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccJXqtKq.s 			page 14
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 uart_debug.c
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:21     .text.UART_transmit_string:00000000 $t
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:27     .text.UART_transmit_string:00000000 UART_transmit_string
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:99     .text.UART_transmit_string:00000030 $d
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:557    .bss.UART_TX_Buffer:00000000 UART_TX_Buffer
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:545    .bss.tx_buffer_end_pos:00000000 tx_buffer_end_pos
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:105    .text.UART_writeLine:00000000 $t
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:111    .text.UART_writeLine:00000000 UART_writeLine
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:210    .text.UART_writeLine:00000050 $d
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:216    .text.UART_transmit_crlf:00000000 $t
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:222    .text.UART_transmit_crlf:00000000 UART_transmit_crlf
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:267    .text.UART_transmit_crlf:00000030 $d
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:273    .text.UART_transmit_buffer:00000000 $t
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:279    .text.UART_transmit_buffer:00000000 UART_transmit_buffer
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:332    .text.UART_transmit_buffer:00000028 $d
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:551    .bss.UART_TX_Buffer_DMA_only:00000000 UART_TX_Buffer_DMA_only
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:340    .text.reverse:00000000 $t
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:346    .text.reverse:00000000 reverse
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:405    .text.ui32toa:00000000 $t
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:411    .text.ui32toa:00000000 ui32toa
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:476    .text.ui32toa:0000003c $d
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:481    .text.UART_transmit_ui32:00000000 $t
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:487    .text.UART_transmit_ui32:00000000 UART_transmit_ui32
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:536    .text.UART_transmit_ui32:00000028 $d
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:542    .bss.tx_buffer_end_pos:00000000 $d
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:548    .bss.UART_TX_Buffer_DMA_only:00000000 $d
-C:\Users\Simio\AppData\Local\Temp\ccQMnKES.s:554    .bss.UART_TX_Buffer:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccJXqtKq.s:21     .text.UART_transmit_string:00000000 $t
+C:\Users\Simio\AppData\Local\Temp\ccJXqtKq.s:27     .text.UART_transmit_string:00000000 UART_transmit_string
+C:\Users\Simio\AppData\Local\Temp\ccJXqtKq.s:99     .text.UART_transmit_string:00000030 $d
+C:\Users\Simio\AppData\Local\Temp\ccJXqtKq.s:557    .bss.UART_TX_Buffer:00000000 UART_TX_Buffer
+C:\Users\Simio\AppData\Local\Temp\ccJXqtKq.s:545    .bss.tx_buffer_end_pos:00000000 tx_buffer_end_pos
+C:\Users\Simio\AppData\Local\Temp\ccJXqtKq.s:105    .text.UART_writeLine:00000000 $t
+C:\Users\Simio\AppData\Local\Temp\ccJXqtKq.s:111    .text.UART_writeLine:00000000 UART_writeLine
+C:\Users\Simio\AppData\Local\Temp\ccJXqtKq.s:210    .text.UART_writeLine:00000050 $d
+C:\Users\Simio\AppData\Local\Temp\ccJXqtKq.s:216    .text.UART_transmit_crlf:00000000 $t
+C:\Users\Simio\AppData\Local\Temp\ccJXqtKq.s:222    .text.UART_transmit_crlf:00000000 UART_transmit_crlf
+C:\Users\Simio\AppData\Local\Temp\ccJXqtKq.s:267    .text.UART_transmit_crlf:00000030 $d
+C:\Users\Simio\AppData\Local\Temp\ccJXqtKq.s:273    .text.UART_transmit_buffer:00000000 $t
+C:\Users\Simio\AppData\Local\Temp\ccJXqtKq.s:279    .text.UART_transmit_buffer:00000000 UART_transmit_buffer
+C:\Users\Simio\AppData\Local\Temp\ccJXqtKq.s:332    .text.UART_transmit_buffer:00000028 $d
+C:\Users\Simio\AppData\Local\Temp\ccJXqtKq.s:551    .bss.UART_TX_Buffer_DMA_only:00000000 UART_TX_Buffer_DMA_only
+C:\Users\Simio\AppData\Local\Temp\ccJXqtKq.s:340    .text.reverse:00000000 $t
+C:\Users\Simio\AppData\Local\Temp\ccJXqtKq.s:346    .text.reverse:00000000 reverse
+C:\Users\Simio\AppData\Local\Temp\ccJXqtKq.s:405    .text.ui32toa:00000000 $t
+C:\Users\Simio\AppData\Local\Temp\ccJXqtKq.s:411    .text.ui32toa:00000000 ui32toa
+C:\Users\Simio\AppData\Local\Temp\ccJXqtKq.s:476    .text.ui32toa:0000003c $d
+C:\Users\Simio\AppData\Local\Temp\ccJXqtKq.s:481    .text.UART_transmit_ui32:00000000 $t
+C:\Users\Simio\AppData\Local\Temp\ccJXqtKq.s:487    .text.UART_transmit_ui32:00000000 UART_transmit_ui32
+C:\Users\Simio\AppData\Local\Temp\ccJXqtKq.s:536    .text.UART_transmit_ui32:00000028 $d
+C:\Users\Simio\AppData\Local\Temp\ccJXqtKq.s:542    .bss.tx_buffer_end_pos:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccJXqtKq.s:548    .bss.UART_TX_Buffer_DMA_only:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccJXqtKq.s:554    .bss.UART_TX_Buffer:00000000 $d
 
 UNDEFINED SYMBOLS
 HAL_UART_Transmit_DMA

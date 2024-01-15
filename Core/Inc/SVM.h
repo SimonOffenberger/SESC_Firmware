@@ -29,7 +29,7 @@ extern "C" {
 
 #define F_TIM (144 MHz)
 
-#define PWM_Frequency (60 kHz)
+#define PWM_Frequency (50 kHz)
 
 #define PWM_TIM_ARR (uint16_t)(((uint32_t)(F_TIM/PWM_Frequency)/2)) 
 #define PWM_TIM_ARR_half  (PWM_TIM_ARR/2)

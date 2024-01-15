@@ -33,7 +33,7 @@ build/phaseEstimater.o: Core/Src/phaseEstimater.c \
  Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart.h \
  Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart_ex.h \
  Core/Inc/global_var.h Core/Inc/SVM.h Core/Inc/encoder.h Core/Inc/main.h \
- Core/Inc/tim.h Core/Inc/global_var.h
+ Core/Inc/tim.h Core/Inc/global_var.h Core/Inc/uart_debug.h
 Core/Inc/phaseEstimater.h:
 Core/Inc/main.h:
 Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h:
@@ -76,3 +76,4 @@ Core/Inc/encoder.h:
 Core/Inc/main.h:
 Core/Inc/tim.h:
 Core/Inc/global_var.h:
+Core/Inc/uart_debug.h:

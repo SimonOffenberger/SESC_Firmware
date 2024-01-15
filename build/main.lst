@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s 			page 1
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccuRkfnU.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s 			page 1
   27:Core/Src/main.c **** #include "gpio.h"
   28:Core/Src/main.c **** 
   29:Core/Src/main.c **** /* Private includes ----------------------------------------------------------*/
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s 			page 2
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccuRkfnU.s 			page 2
 
 
   30:Core/Src/main.c **** /* USER CODE BEGIN Includes */
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s 			page 1
   63:Core/Src/main.c **** 
   64:Core/Src/main.c **** /* Private function prototypes -----------------------------------------------*/
   65:Core/Src/main.c **** void SystemClock_Config(void);
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s 			page 3
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccuRkfnU.s 			page 3
 
 
   66:Core/Src/main.c **** /* USER CODE BEGIN PFP */
@@ -177,136 +177,139 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s 			page 1
  119:Core/Src/main.c ****   HAL_ADC_Start_DMA(&hadc1,Motor.MotorCurrents.ADC_VAL_PhaseCurrents,3);
  120:Core/Src/main.c ****   /* USER CODE END 2 */
  121:Core/Src/main.c **** 
- 122:Core/Src/main.c ****   /* Infinite loop */
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s 			page 4
+ 122:Core/Src/main.c ****   UART_writeLine("SESC V3");
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccuRkfnU.s 			page 4
 
 
- 123:Core/Src/main.c ****   /* USER CODE BEGIN WHILE */
- 124:Core/Src/main.c ****   while (1)
- 125:Core/Src/main.c ****   {
- 126:Core/Src/main.c ****     /* USER CODE END WHILE */
- 127:Core/Src/main.c **** 
- 128:Core/Src/main.c ****     /* USER CODE BEGIN 3 */
- 129:Core/Src/main.c **** 	 static uint32_t i=0;
- 130:Core/Src/main.c **** 	 static uint8_t init_done = 0;
- 131:Core/Src/main.c **** 
- 132:Core/Src/main.c **** 	setpoint = (uint16_t) readEncoder(EncoderA_GPIO_Port, EncoderA_Pin,
- 133:Core/Src/main.c **** 			EncoderB_GPIO_Port, EncoderB_Pin, 255, 0);
- 134:Core/Src/main.c **** 
+ 123:Core/Src/main.c ****   /* Infinite loop */
+ 124:Core/Src/main.c ****   /* USER CODE BEGIN WHILE */
+ 125:Core/Src/main.c ****   while (1)
+ 126:Core/Src/main.c ****   {
+ 127:Core/Src/main.c ****     /* USER CODE END WHILE */
+ 128:Core/Src/main.c **** 
+ 129:Core/Src/main.c ****     /* USER CODE BEGIN 3 */
+ 130:Core/Src/main.c **** 	 static uint32_t i=0;
+ 131:Core/Src/main.c **** 	 static uint8_t init_done = 0;
+ 132:Core/Src/main.c **** 
+ 133:Core/Src/main.c **** 	setpoint = (uint16_t) readEncoder(EncoderA_GPIO_Port, EncoderA_Pin,
+ 134:Core/Src/main.c **** 			EncoderB_GPIO_Port, EncoderB_Pin, 255, 0);
  135:Core/Src/main.c **** 
  136:Core/Src/main.c **** 
- 137:Core/Src/main.c **** 	if(!init_done) {
- 138:Core/Src/main.c **** 		init_done = initialize_Hallsensor_phase_estimator(setpoint);
- 139:Core/Src/main.c **** 	}
- 140:Core/Src/main.c **** 	else{
- 141:Core/Src/main.c **** 
- 142:Core/Src/main.c **** 	estimate_rotor_phase(&Motor);
- 143:Core/Src/main.c **** 
+ 137:Core/Src/main.c **** 
+ 138:Core/Src/main.c **** 	if(!init_done) {
+ 139:Core/Src/main.c **** 		init_done = initialize_Hallsensor_phase_estimator(setpoint);
+ 140:Core/Src/main.c **** 	}
+ 141:Core/Src/main.c **** 	else{
+ 142:Core/Src/main.c **** 
+ 143:Core/Src/main.c **** 	estimate_rotor_phase(&Motor);
  144:Core/Src/main.c **** 
  145:Core/Src/main.c **** 
- 146:Core/Src/main.c **** 	phaseshift += PI_control(-Motor.MotorCurrents.DQCurrenst[1]);
- 147:Core/Src/main.c **** 
- 148:Core/Src/main.c **** 	if(phaseshift>100) phaseshift=80;
- 149:Core/Src/main.c **** 	if(phaseshift<80) phaseshift=60;
- 150:Core/Src/main.c **** 
- 151:Core/Src/main.c **** 	setVoltageVector(Motor.rotorphase, phaseshift, setpoint);
- 152:Core/Src/main.c **** 
+ 146:Core/Src/main.c **** 
+ 147:Core/Src/main.c **** 	phaseshift += PI_control(-Motor.MotorCurrents.DQCurrenst[1]);
+ 148:Core/Src/main.c **** 
+ 149:Core/Src/main.c **** 	if(phaseshift>100) phaseshift=80;
+ 150:Core/Src/main.c **** 	if(phaseshift<80) phaseshift=60;
+ 151:Core/Src/main.c **** 
+ 152:Core/Src/main.c **** 	setVoltageVector(Motor.rotorphase, phaseshift, setpoint);
  153:Core/Src/main.c **** 
  154:Core/Src/main.c **** 
- 155:Core/Src/main.c **** 	if (init_done)
- 156:Core/Src/main.c **** 		HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
- 157:Core/Src/main.c **** 	else
- 158:Core/Src/main.c **** 		HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
- 159:Core/Src/main.c **** 	}
- 160:Core/Src/main.c **** 
- 161:Core/Src/main.c **** 	TIM_PSC=SectorTIM.Instance->ARR;
- 162:Core/Src/main.c ****   }
- 163:Core/Src/main.c ****   /* USER CODE END 3 */
- 164:Core/Src/main.c **** }
- 165:Core/Src/main.c **** 
- 166:Core/Src/main.c **** /**
- 167:Core/Src/main.c ****   * @brief System Clock Configuration
- 168:Core/Src/main.c ****   * @retval None
- 169:Core/Src/main.c ****   */
- 170:Core/Src/main.c **** void SystemClock_Config(void)
- 171:Core/Src/main.c **** {
- 172:Core/Src/main.c ****   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
- 173:Core/Src/main.c ****   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
- 174:Core/Src/main.c ****   RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
- 175:Core/Src/main.c **** 
- 176:Core/Src/main.c ****   /** Initializes the RCC Oscillators according to the specified parameters
- 177:Core/Src/main.c ****   * in the RCC_OscInitTypeDef structure.
- 178:Core/Src/main.c ****   */
- 179:Core/Src/main.c ****   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s 			page 5
+ 155:Core/Src/main.c **** 
+ 156:Core/Src/main.c **** 	if (init_done)
+ 157:Core/Src/main.c **** 		HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
+ 158:Core/Src/main.c **** 	else
+ 159:Core/Src/main.c **** 		HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
+ 160:Core/Src/main.c **** 	}
+ 161:Core/Src/main.c ****   
+ 162:Core/Src/main.c ****   UART_transmit_buffer();
+ 163:Core/Src/main.c **** 
+ 164:Core/Src/main.c **** 	TIM_PSC=SectorTIM.Instance->ARR;
+ 165:Core/Src/main.c ****   }
+ 166:Core/Src/main.c ****   /* USER CODE END 3 */
+ 167:Core/Src/main.c **** }
+ 168:Core/Src/main.c **** 
+ 169:Core/Src/main.c **** /**
+ 170:Core/Src/main.c ****   * @brief System Clock Configuration
+ 171:Core/Src/main.c ****   * @retval None
+ 172:Core/Src/main.c ****   */
+ 173:Core/Src/main.c **** void SystemClock_Config(void)
+ 174:Core/Src/main.c **** {
+ 175:Core/Src/main.c ****   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+ 176:Core/Src/main.c ****   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+ 177:Core/Src/main.c ****   RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
+ 178:Core/Src/main.c **** 
+ 179:Core/Src/main.c ****   /** Initializes the RCC Oscillators according to the specified parameters
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccuRkfnU.s 			page 5
 
 
- 180:Core/Src/main.c ****   RCC_OscInitStruct.HSEState = RCC_HSE_BYPASS;
- 181:Core/Src/main.c ****   RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
- 182:Core/Src/main.c ****   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
- 183:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
- 184:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
- 185:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
- 186:Core/Src/main.c ****   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
- 187:Core/Src/main.c ****   {
- 188:Core/Src/main.c ****     Error_Handler();
- 189:Core/Src/main.c ****   }
- 190:Core/Src/main.c ****   /** Initializes the CPU, AHB and APB buses clocks
- 191:Core/Src/main.c ****   */
- 192:Core/Src/main.c ****   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
- 193:Core/Src/main.c ****                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
- 194:Core/Src/main.c ****   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
- 195:Core/Src/main.c ****   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
- 196:Core/Src/main.c ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
- 197:Core/Src/main.c ****   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
- 198:Core/Src/main.c **** 
- 199:Core/Src/main.c ****   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
- 200:Core/Src/main.c ****   {
- 201:Core/Src/main.c ****     Error_Handler();
- 202:Core/Src/main.c ****   }
- 203:Core/Src/main.c ****   PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USB|RCC_PERIPHCLK_USART1
- 204:Core/Src/main.c ****                               |RCC_PERIPHCLK_I2C1|RCC_PERIPHCLK_TIM1
- 205:Core/Src/main.c ****                               |RCC_PERIPHCLK_TIM15|RCC_PERIPHCLK_ADC1;
- 206:Core/Src/main.c ****   PeriphClkInit.Usart1ClockSelection = RCC_USART1CLKSOURCE_SYSCLK;
- 207:Core/Src/main.c ****   PeriphClkInit.I2c1ClockSelection = RCC_I2C1CLKSOURCE_SYSCLK;
- 208:Core/Src/main.c ****   PeriphClkInit.USBClockSelection = RCC_USBCLKSOURCE_PLL_DIV1_5;
- 209:Core/Src/main.c ****   PeriphClkInit.Tim1ClockSelection = RCC_TIM1CLK_PLLCLK;
- 210:Core/Src/main.c ****   PeriphClkInit.Tim15ClockSelection = RCC_TIM15CLK_HCLK;
- 211:Core/Src/main.c ****   PeriphClkInit.Adc1ClockSelection = RCC_ADC1PLLCLK_DIV1;
- 212:Core/Src/main.c **** 
- 213:Core/Src/main.c ****   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
- 214:Core/Src/main.c ****   {
- 215:Core/Src/main.c ****     Error_Handler();
- 216:Core/Src/main.c ****   }
- 217:Core/Src/main.c **** }
- 218:Core/Src/main.c **** 
- 219:Core/Src/main.c **** /* USER CODE BEGIN 4 */
- 220:Core/Src/main.c **** 
- 221:Core/Src/main.c **** /* USER CODE END 4 */
- 222:Core/Src/main.c **** 
- 223:Core/Src/main.c **** /**
- 224:Core/Src/main.c ****   * @brief  This function is executed in case of error occurrence.
- 225:Core/Src/main.c ****   * @retval None
- 226:Core/Src/main.c ****   */
- 227:Core/Src/main.c **** void Error_Handler(void)
- 228:Core/Src/main.c **** {
-  53              		.loc 1 228 1 is_stmt 1 view -0
+ 180:Core/Src/main.c ****   * in the RCC_OscInitTypeDef structure.
+ 181:Core/Src/main.c ****   */
+ 182:Core/Src/main.c ****   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+ 183:Core/Src/main.c ****   RCC_OscInitStruct.HSEState = RCC_HSE_BYPASS;
+ 184:Core/Src/main.c ****   RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
+ 185:Core/Src/main.c ****   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+ 186:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+ 187:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+ 188:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
+ 189:Core/Src/main.c ****   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+ 190:Core/Src/main.c ****   {
+ 191:Core/Src/main.c ****     Error_Handler();
+ 192:Core/Src/main.c ****   }
+ 193:Core/Src/main.c ****   /** Initializes the CPU, AHB and APB buses clocks
+ 194:Core/Src/main.c ****   */
+ 195:Core/Src/main.c ****   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+ 196:Core/Src/main.c ****                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+ 197:Core/Src/main.c ****   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+ 198:Core/Src/main.c ****   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+ 199:Core/Src/main.c ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+ 200:Core/Src/main.c ****   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+ 201:Core/Src/main.c **** 
+ 202:Core/Src/main.c ****   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+ 203:Core/Src/main.c ****   {
+ 204:Core/Src/main.c ****     Error_Handler();
+ 205:Core/Src/main.c ****   }
+ 206:Core/Src/main.c ****   PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USB|RCC_PERIPHCLK_USART1
+ 207:Core/Src/main.c ****                               |RCC_PERIPHCLK_I2C1|RCC_PERIPHCLK_TIM1
+ 208:Core/Src/main.c ****                               |RCC_PERIPHCLK_TIM15|RCC_PERIPHCLK_ADC1;
+ 209:Core/Src/main.c ****   PeriphClkInit.Usart1ClockSelection = RCC_USART1CLKSOURCE_SYSCLK;
+ 210:Core/Src/main.c ****   PeriphClkInit.I2c1ClockSelection = RCC_I2C1CLKSOURCE_SYSCLK;
+ 211:Core/Src/main.c ****   PeriphClkInit.USBClockSelection = RCC_USBCLKSOURCE_PLL_DIV1_5;
+ 212:Core/Src/main.c ****   PeriphClkInit.Tim1ClockSelection = RCC_TIM1CLK_PLLCLK;
+ 213:Core/Src/main.c ****   PeriphClkInit.Tim15ClockSelection = RCC_TIM15CLK_HCLK;
+ 214:Core/Src/main.c ****   PeriphClkInit.Adc1ClockSelection = RCC_ADC1PLLCLK_DIV1;
+ 215:Core/Src/main.c **** 
+ 216:Core/Src/main.c ****   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
+ 217:Core/Src/main.c ****   {
+ 218:Core/Src/main.c ****     Error_Handler();
+ 219:Core/Src/main.c ****   }
+ 220:Core/Src/main.c **** }
+ 221:Core/Src/main.c **** 
+ 222:Core/Src/main.c **** /* USER CODE BEGIN 4 */
+ 223:Core/Src/main.c **** 
+ 224:Core/Src/main.c **** /* USER CODE END 4 */
+ 225:Core/Src/main.c **** 
+ 226:Core/Src/main.c **** /**
+ 227:Core/Src/main.c ****   * @brief  This function is executed in case of error occurrence.
+ 228:Core/Src/main.c ****   * @retval None
+ 229:Core/Src/main.c ****   */
+ 230:Core/Src/main.c **** void Error_Handler(void)
+ 231:Core/Src/main.c **** {
+  53              		.loc 1 231 1 is_stmt 1 view -0
   54              		.cfi_startproc
   55              		@ Volatile: function does not return.
   56              		@ args = 0, pretend = 0, frame = 0
   57              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccuRkfnU.s 			page 6
+
+
   58 0000 08B5     		push	{r3, lr}
   59              	.LCFI0:
   60              		.cfi_def_cfa_offset 8
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s 			page 6
-
-
   61              		.cfi_offset 3, -8
   62              		.cfi_offset 14, -4
- 229:Core/Src/main.c ****   /* USER CODE BEGIN Error_Handler_Debug */
- 230:Core/Src/main.c ****   /* User can add his own implementation to report the HAL error return state */
- 231:Core/Src/main.c ****   __disable_irq();
-  63              		.loc 1 231 3 view .LVU5
+ 232:Core/Src/main.c ****   /* USER CODE BEGIN Error_Handler_Debug */
+ 233:Core/Src/main.c ****   /* User can add his own implementation to report the HAL error return state */
+ 234:Core/Src/main.c ****   __disable_irq();
+  63              		.loc 1 234 3 view .LVU5
   64              	.LBB4:
   65              	.LBI4:
   66              		.file 2 "Drivers/CMSIS/Include/cmsis_gcc.h"
@@ -355,12 +358,12 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s 			page 1
   43:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __INLINE
   44:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __INLINE                               inline
   45:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccuRkfnU.s 			page 7
+
+
   46:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __STATIC_INLINE
   47:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __STATIC_INLINE                        static inline
   48:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s 			page 7
-
-
   49:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __STATIC_FORCEINLINE                 
   50:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __STATIC_FORCEINLINE                   __attribute__((always_inline)) static inline
   51:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif                                           
@@ -415,12 +418,12 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s 			page 1
  100:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT32_WRITE(addr, val)    (void)((((struct T_UINT32_WRITE *)(void *)(addr))-
  101:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
  102:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __UNALIGNED_UINT32_READ
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccuRkfnU.s 			page 8
+
+
  103:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic push
  104:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wpacked"
  105:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wattributes"
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s 			page 8
-
-
  106:Drivers/CMSIS/Include/cmsis_gcc.h ****   __PACKED_STRUCT T_UINT32_READ { uint32_t v; };
  107:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic pop
  108:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT32_READ(addr)          (((const struct T_UINT32_READ *)(const void *)(add
@@ -470,25 +473,25 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s 			page 1
   76              	.L3:
   77              	.LBE5:
   78              	.LBE4:
- 232:Core/Src/main.c ****   while (1)
-  79              		.loc 1 232 3 view .LVU8
- 233:Core/Src/main.c ****   {
- 234:Core/Src/main.c **** 	  HAL_Delay(100);
-  80              		.loc 1 234 4 view .LVU9
+ 235:Core/Src/main.c ****   while (1)
+  79              		.loc 1 235 3 view .LVU8
+ 236:Core/Src/main.c ****   {
+ 237:Core/Src/main.c **** 	  HAL_Delay(100);
+  80              		.loc 1 237 4 view .LVU9
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccuRkfnU.s 			page 9
+
+
   81 0004 6420     		movs	r0, #100
   82 0006 FFF7FEFF 		bl	HAL_Delay
   83              	.LVL2:
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s 			page 9
-
-
- 235:Core/Src/main.c **** 	  HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
-  84              		.loc 1 235 4 discriminator 1 view .LVU10
+ 238:Core/Src/main.c **** 	  HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+  84              		.loc 1 238 4 discriminator 1 view .LVU10
   85 000a 2021     		movs	r1, #32
   86 000c 0148     		ldr	r0, .L5
   87 000e FFF7FEFF 		bl	HAL_GPIO_TogglePin
   88              	.LVL3:
- 232:Core/Src/main.c ****   while (1)
-  89              		.loc 1 232 9 view .LVU11
+ 235:Core/Src/main.c ****   while (1)
+  89              		.loc 1 235 9 view .LVU11
   90 0012 F7E7     		b	.L3
   91              	.L6:
   92              		.align	2
@@ -504,8 +507,8 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s 			page 1
  103              		.thumb_func
  105              	SystemClock_Config:
  106              	.LFB128:
- 171:Core/Src/main.c ****   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
- 107              		.loc 1 171 1 view -0
+ 174:Core/Src/main.c ****   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+ 107              		.loc 1 174 1 view -0
  108              		.cfi_startproc
  109              		@ args = 0, pretend = 0, frame = 112
  110              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -516,180 +519,180 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s 			page 1
  115 0002 9DB0     		sub	sp, sp, #116
  116              	.LCFI2:
  117              		.cfi_def_cfa_offset 120
- 172:Core/Src/main.c ****   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
- 118              		.loc 1 172 3 view .LVU13
- 172:Core/Src/main.c ****   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
- 119              		.loc 1 172 22 is_stmt 0 view .LVU14
+ 175:Core/Src/main.c ****   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+ 118              		.loc 1 175 3 view .LVU13
+ 175:Core/Src/main.c ****   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+ 119              		.loc 1 175 22 is_stmt 0 view .LVU14
  120 0004 2822     		movs	r2, #40
  121 0006 0021     		movs	r1, #0
  122 0008 12A8     		add	r0, sp, #72
  123 000a FFF7FEFF 		bl	memset
  124              	.LVL4:
- 173:Core/Src/main.c ****   RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
- 125              		.loc 1 173 3 is_stmt 1 view .LVU15
- 173:Core/Src/main.c ****   RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
- 126              		.loc 1 173 22 is_stmt 0 view .LVU16
+ 176:Core/Src/main.c ****   RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
+ 125              		.loc 1 176 3 is_stmt 1 view .LVU15
+ 176:Core/Src/main.c ****   RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
+ 126              		.loc 1 176 22 is_stmt 0 view .LVU16
  127 000e 0021     		movs	r1, #0
  128 0010 0D91     		str	r1, [sp, #52]
  129 0012 0E91     		str	r1, [sp, #56]
  130 0014 0F91     		str	r1, [sp, #60]
  131 0016 1091     		str	r1, [sp, #64]
  132 0018 1191     		str	r1, [sp, #68]
- 174:Core/Src/main.c **** 
- 133              		.loc 1 174 3 is_stmt 1 view .LVU17
- 174:Core/Src/main.c **** 
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s 			page 10
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccuRkfnU.s 			page 10
 
 
- 134              		.loc 1 174 28 is_stmt 0 view .LVU18
+ 177:Core/Src/main.c **** 
+ 133              		.loc 1 177 3 is_stmt 1 view .LVU17
+ 177:Core/Src/main.c **** 
+ 134              		.loc 1 177 28 is_stmt 0 view .LVU18
  135 001a 3422     		movs	r2, #52
  136 001c 6846     		mov	r0, sp
  137 001e FFF7FEFF 		bl	memset
  138              	.LVL5:
- 179:Core/Src/main.c ****   RCC_OscInitStruct.HSEState = RCC_HSE_BYPASS;
- 139              		.loc 1 179 3 is_stmt 1 view .LVU19
- 179:Core/Src/main.c ****   RCC_OscInitStruct.HSEState = RCC_HSE_BYPASS;
- 140              		.loc 1 179 36 is_stmt 0 view .LVU20
+ 182:Core/Src/main.c ****   RCC_OscInitStruct.HSEState = RCC_HSE_BYPASS;
+ 139              		.loc 1 182 3 is_stmt 1 view .LVU19
+ 182:Core/Src/main.c ****   RCC_OscInitStruct.HSEState = RCC_HSE_BYPASS;
+ 140              		.loc 1 182 36 is_stmt 0 view .LVU20
  141 0022 0123     		movs	r3, #1
  142 0024 1293     		str	r3, [sp, #72]
- 180:Core/Src/main.c ****   RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
- 143              		.loc 1 180 3 is_stmt 1 view .LVU21
- 180:Core/Src/main.c ****   RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
- 144              		.loc 1 180 30 is_stmt 0 view .LVU22
+ 183:Core/Src/main.c ****   RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
+ 143              		.loc 1 183 3 is_stmt 1 view .LVU21
+ 183:Core/Src/main.c ****   RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
+ 144              		.loc 1 183 30 is_stmt 0 view .LVU22
  145 0026 4FF4A022 		mov	r2, #327680
  146 002a 1392     		str	r2, [sp, #76]
- 181:Core/Src/main.c ****   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
- 147              		.loc 1 181 3 is_stmt 1 view .LVU23
- 182:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
- 148              		.loc 1 182 3 view .LVU24
- 182:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
- 149              		.loc 1 182 30 is_stmt 0 view .LVU25
+ 184:Core/Src/main.c ****   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+ 147              		.loc 1 184 3 is_stmt 1 view .LVU23
+ 185:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+ 148              		.loc 1 185 3 view .LVU24
+ 185:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+ 149              		.loc 1 185 30 is_stmt 0 view .LVU25
  150 002c 1693     		str	r3, [sp, #88]
- 183:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
- 151              		.loc 1 183 3 is_stmt 1 view .LVU26
- 183:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
- 152              		.loc 1 183 34 is_stmt 0 view .LVU27
+ 186:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+ 151              		.loc 1 186 3 is_stmt 1 view .LVU26
+ 186:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+ 152              		.loc 1 186 34 is_stmt 0 view .LVU27
  153 002e 0223     		movs	r3, #2
  154 0030 1993     		str	r3, [sp, #100]
- 184:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
- 155              		.loc 1 184 3 is_stmt 1 view .LVU28
- 184:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
- 156              		.loc 1 184 35 is_stmt 0 view .LVU29
+ 187:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
+ 155              		.loc 1 187 3 is_stmt 1 view .LVU28
+ 187:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
+ 156              		.loc 1 187 35 is_stmt 0 view .LVU29
  157 0032 4FF48033 		mov	r3, #65536
  158 0036 1A93     		str	r3, [sp, #104]
- 185:Core/Src/main.c ****   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
- 159              		.loc 1 185 3 is_stmt 1 view .LVU30
- 185:Core/Src/main.c ****   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
- 160              		.loc 1 185 32 is_stmt 0 view .LVU31
+ 188:Core/Src/main.c ****   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+ 159              		.loc 1 188 3 is_stmt 1 view .LVU30
+ 188:Core/Src/main.c ****   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+ 160              		.loc 1 188 32 is_stmt 0 view .LVU31
  161 0038 4FF4E013 		mov	r3, #1835008
  162 003c 1B93     		str	r3, [sp, #108]
- 186:Core/Src/main.c ****   {
- 163              		.loc 1 186 3 is_stmt 1 view .LVU32
- 186:Core/Src/main.c ****   {
- 164              		.loc 1 186 7 is_stmt 0 view .LVU33
+ 189:Core/Src/main.c ****   {
+ 163              		.loc 1 189 3 is_stmt 1 view .LVU32
+ 189:Core/Src/main.c ****   {
+ 164              		.loc 1 189 7 is_stmt 0 view .LVU33
  165 003e 12A8     		add	r0, sp, #72
  166 0040 FFF7FEFF 		bl	HAL_RCC_OscConfig
  167              	.LVL6:
- 186:Core/Src/main.c ****   {
- 168              		.loc 1 186 6 discriminator 1 view .LVU34
+ 189:Core/Src/main.c ****   {
+ 168              		.loc 1 189 6 discriminator 1 view .LVU34
  169 0044 08BB     		cbnz	r0, .L12
- 192:Core/Src/main.c ****                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
- 170              		.loc 1 192 3 is_stmt 1 view .LVU35
- 192:Core/Src/main.c ****                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
- 171              		.loc 1 192 31 is_stmt 0 view .LVU36
+ 195:Core/Src/main.c ****                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+ 170              		.loc 1 195 3 is_stmt 1 view .LVU35
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccuRkfnU.s 			page 11
+
+
+ 195:Core/Src/main.c ****                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+ 171              		.loc 1 195 31 is_stmt 0 view .LVU36
  172 0046 0F23     		movs	r3, #15
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s 			page 11
-
-
  173 0048 0D93     		str	r3, [sp, #52]
- 194:Core/Src/main.c ****   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
- 174              		.loc 1 194 3 is_stmt 1 view .LVU37
- 194:Core/Src/main.c ****   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
- 175              		.loc 1 194 34 is_stmt 0 view .LVU38
+ 197:Core/Src/main.c ****   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+ 174              		.loc 1 197 3 is_stmt 1 view .LVU37
+ 197:Core/Src/main.c ****   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+ 175              		.loc 1 197 34 is_stmt 0 view .LVU38
  176 004a 0221     		movs	r1, #2
  177 004c 0E91     		str	r1, [sp, #56]
- 195:Core/Src/main.c ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
- 178              		.loc 1 195 3 is_stmt 1 view .LVU39
- 195:Core/Src/main.c ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
- 179              		.loc 1 195 35 is_stmt 0 view .LVU40
+ 198:Core/Src/main.c ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+ 178              		.loc 1 198 3 is_stmt 1 view .LVU39
+ 198:Core/Src/main.c ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+ 179              		.loc 1 198 35 is_stmt 0 view .LVU40
  180 004e 0023     		movs	r3, #0
  181 0050 0F93     		str	r3, [sp, #60]
- 196:Core/Src/main.c ****   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
- 182              		.loc 1 196 3 is_stmt 1 view .LVU41
- 196:Core/Src/main.c ****   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
- 183              		.loc 1 196 36 is_stmt 0 view .LVU42
+ 199:Core/Src/main.c ****   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+ 182              		.loc 1 199 3 is_stmt 1 view .LVU41
+ 199:Core/Src/main.c ****   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+ 183              		.loc 1 199 36 is_stmt 0 view .LVU42
  184 0052 4FF48062 		mov	r2, #1024
  185 0056 1092     		str	r2, [sp, #64]
- 197:Core/Src/main.c **** 
- 186              		.loc 1 197 3 is_stmt 1 view .LVU43
- 197:Core/Src/main.c **** 
- 187              		.loc 1 197 36 is_stmt 0 view .LVU44
+ 200:Core/Src/main.c **** 
+ 186              		.loc 1 200 3 is_stmt 1 view .LVU43
+ 200:Core/Src/main.c **** 
+ 187              		.loc 1 200 36 is_stmt 0 view .LVU44
  188 0058 1193     		str	r3, [sp, #68]
- 199:Core/Src/main.c ****   {
- 189              		.loc 1 199 3 is_stmt 1 view .LVU45
- 199:Core/Src/main.c ****   {
- 190              		.loc 1 199 7 is_stmt 0 view .LVU46
+ 202:Core/Src/main.c ****   {
+ 189              		.loc 1 202 3 is_stmt 1 view .LVU45
+ 202:Core/Src/main.c ****   {
+ 190              		.loc 1 202 7 is_stmt 0 view .LVU46
  191 005a 0DA8     		add	r0, sp, #52
  192 005c FFF7FEFF 		bl	HAL_RCC_ClockConfig
  193              	.LVL7:
- 199:Core/Src/main.c ****   {
- 194              		.loc 1 199 6 discriminator 1 view .LVU47
+ 202:Core/Src/main.c ****   {
+ 194              		.loc 1 202 6 discriminator 1 view .LVU47
  195 0060 A8B9     		cbnz	r0, .L13
- 203:Core/Src/main.c ****                               |RCC_PERIPHCLK_I2C1|RCC_PERIPHCLK_TIM1
- 196              		.loc 1 203 3 is_stmt 1 view .LVU48
- 203:Core/Src/main.c ****                               |RCC_PERIPHCLK_I2C1|RCC_PERIPHCLK_TIM1
- 197              		.loc 1 203 38 is_stmt 0 view .LVU49
+ 206:Core/Src/main.c ****                               |RCC_PERIPHCLK_I2C1|RCC_PERIPHCLK_TIM1
+ 196              		.loc 1 206 3 is_stmt 1 view .LVU48
+ 206:Core/Src/main.c ****                               |RCC_PERIPHCLK_I2C1|RCC_PERIPHCLK_TIM1
+ 197              		.loc 1 206 38 is_stmt 0 view .LVU49
  198 0062 0D4B     		ldr	r3, .L15
  199 0064 0093     		str	r3, [sp]
- 206:Core/Src/main.c ****   PeriphClkInit.I2c1ClockSelection = RCC_I2C1CLKSOURCE_SYSCLK;
- 200              		.loc 1 206 3 is_stmt 1 view .LVU50
- 206:Core/Src/main.c ****   PeriphClkInit.I2c1ClockSelection = RCC_I2C1CLKSOURCE_SYSCLK;
- 201              		.loc 1 206 38 is_stmt 0 view .LVU51
+ 209:Core/Src/main.c ****   PeriphClkInit.I2c1ClockSelection = RCC_I2C1CLKSOURCE_SYSCLK;
+ 200              		.loc 1 209 3 is_stmt 1 view .LVU50
+ 209:Core/Src/main.c ****   PeriphClkInit.I2c1ClockSelection = RCC_I2C1CLKSOURCE_SYSCLK;
+ 201              		.loc 1 209 38 is_stmt 0 view .LVU51
  202 0066 0123     		movs	r3, #1
  203 0068 0293     		str	r3, [sp, #8]
- 207:Core/Src/main.c ****   PeriphClkInit.USBClockSelection = RCC_USBCLKSOURCE_PLL_DIV1_5;
- 204              		.loc 1 207 3 is_stmt 1 view .LVU52
- 207:Core/Src/main.c ****   PeriphClkInit.USBClockSelection = RCC_USBCLKSOURCE_PLL_DIV1_5;
- 205              		.loc 1 207 36 is_stmt 0 view .LVU53
+ 210:Core/Src/main.c ****   PeriphClkInit.USBClockSelection = RCC_USBCLKSOURCE_PLL_DIV1_5;
+ 204              		.loc 1 210 3 is_stmt 1 view .LVU52
+ 210:Core/Src/main.c ****   PeriphClkInit.USBClockSelection = RCC_USBCLKSOURCE_PLL_DIV1_5;
+ 205              		.loc 1 210 36 is_stmt 0 view .LVU53
  206 006a 1023     		movs	r3, #16
  207 006c 0393     		str	r3, [sp, #12]
- 208:Core/Src/main.c ****   PeriphClkInit.Tim1ClockSelection = RCC_TIM1CLK_PLLCLK;
- 208              		.loc 1 208 3 is_stmt 1 view .LVU54
- 208:Core/Src/main.c ****   PeriphClkInit.Tim1ClockSelection = RCC_TIM1CLK_PLLCLK;
- 209              		.loc 1 208 35 is_stmt 0 view .LVU55
+ 211:Core/Src/main.c ****   PeriphClkInit.Tim1ClockSelection = RCC_TIM1CLK_PLLCLK;
+ 208              		.loc 1 211 3 is_stmt 1 view .LVU54
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccuRkfnU.s 			page 12
+
+
+ 211:Core/Src/main.c ****   PeriphClkInit.Tim1ClockSelection = RCC_TIM1CLK_PLLCLK;
+ 209              		.loc 1 211 35 is_stmt 0 view .LVU55
  210 006e 0022     		movs	r2, #0
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s 			page 12
-
-
  211 0070 0C92     		str	r2, [sp, #48]
- 209:Core/Src/main.c ****   PeriphClkInit.Tim15ClockSelection = RCC_TIM15CLK_HCLK;
- 212              		.loc 1 209 3 is_stmt 1 view .LVU56
- 209:Core/Src/main.c ****   PeriphClkInit.Tim15ClockSelection = RCC_TIM15CLK_HCLK;
- 213              		.loc 1 209 36 is_stmt 0 view .LVU57
+ 212:Core/Src/main.c ****   PeriphClkInit.Tim15ClockSelection = RCC_TIM15CLK_HCLK;
+ 212              		.loc 1 212 3 is_stmt 1 view .LVU56
+ 212:Core/Src/main.c ****   PeriphClkInit.Tim15ClockSelection = RCC_TIM15CLK_HCLK;
+ 213              		.loc 1 212 36 is_stmt 0 view .LVU57
  214 0072 4FF48073 		mov	r3, #256
  215 0076 0893     		str	r3, [sp, #32]
- 210:Core/Src/main.c ****   PeriphClkInit.Adc1ClockSelection = RCC_ADC1PLLCLK_DIV1;
- 216              		.loc 1 210 3 is_stmt 1 view .LVU58
- 210:Core/Src/main.c ****   PeriphClkInit.Adc1ClockSelection = RCC_ADC1PLLCLK_DIV1;
- 217              		.loc 1 210 37 is_stmt 0 view .LVU59
+ 213:Core/Src/main.c ****   PeriphClkInit.Adc1ClockSelection = RCC_ADC1PLLCLK_DIV1;
+ 216              		.loc 1 213 3 is_stmt 1 view .LVU58
+ 213:Core/Src/main.c ****   PeriphClkInit.Adc1ClockSelection = RCC_ADC1PLLCLK_DIV1;
+ 217              		.loc 1 213 37 is_stmt 0 view .LVU59
  218 0078 0992     		str	r2, [sp, #36]
- 211:Core/Src/main.c **** 
- 219              		.loc 1 211 3 is_stmt 1 view .LVU60
- 211:Core/Src/main.c **** 
- 220              		.loc 1 211 36 is_stmt 0 view .LVU61
+ 214:Core/Src/main.c **** 
+ 219              		.loc 1 214 3 is_stmt 1 view .LVU60
+ 214:Core/Src/main.c **** 
+ 220              		.loc 1 214 36 is_stmt 0 view .LVU61
  221 007a 0693     		str	r3, [sp, #24]
- 213:Core/Src/main.c ****   {
- 222              		.loc 1 213 3 is_stmt 1 view .LVU62
- 213:Core/Src/main.c ****   {
- 223              		.loc 1 213 7 is_stmt 0 view .LVU63
+ 216:Core/Src/main.c ****   {
+ 222              		.loc 1 216 3 is_stmt 1 view .LVU62
+ 216:Core/Src/main.c ****   {
+ 223              		.loc 1 216 7 is_stmt 0 view .LVU63
  224 007c 6846     		mov	r0, sp
  225 007e FFF7FEFF 		bl	HAL_RCCEx_PeriphCLKConfig
  226              	.LVL8:
- 213:Core/Src/main.c ****   {
- 227              		.loc 1 213 6 discriminator 1 view .LVU64
+ 216:Core/Src/main.c ****   {
+ 227              		.loc 1 216 6 discriminator 1 view .LVU64
  228 0082 30B9     		cbnz	r0, .L14
- 217:Core/Src/main.c **** 
- 229              		.loc 1 217 1 view .LVU65
+ 220:Core/Src/main.c **** 
+ 229              		.loc 1 220 1 view .LVU65
  230 0084 1DB0     		add	sp, sp, #116
  231              	.LCFI3:
  232              		.cfi_remember_state
@@ -699,361 +702,378 @@ ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s 			page 1
  236              	.L12:
  237              	.LCFI4:
  238              		.cfi_restore_state
- 188:Core/Src/main.c ****   }
- 239              		.loc 1 188 5 is_stmt 1 view .LVU66
+ 191:Core/Src/main.c ****   }
+ 239              		.loc 1 191 5 is_stmt 1 view .LVU66
  240 008a FFF7FEFF 		bl	Error_Handler
  241              	.LVL9:
  242              	.L13:
- 201:Core/Src/main.c ****   }
- 243              		.loc 1 201 5 view .LVU67
+ 204:Core/Src/main.c ****   }
+ 243              		.loc 1 204 5 view .LVU67
  244 008e FFF7FEFF 		bl	Error_Handler
  245              	.LVL10:
  246              	.L14:
- 215:Core/Src/main.c ****   }
- 247              		.loc 1 215 5 view .LVU68
+ 218:Core/Src/main.c ****   }
+ 247              		.loc 1 218 5 view .LVU68
  248 0092 FFF7FEFF 		bl	Error_Handler
  249              	.LVL11:
  250              	.L16:
  251 0096 00BF     		.align	2
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccuRkfnU.s 			page 13
+
+
  252              	.L15:
  253 0098 A1100600 		.word	397473
  254              		.cfi_endproc
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s 			page 13
-
-
  255              	.LFE128:
- 257              		.section	.text.main,"ax",%progbits
- 258              		.align	1
- 259              		.global	main
- 260              		.syntax unified
- 261              		.thumb
- 262              		.thumb_func
- 264              	main:
- 265              	.LFB127:
+ 257              		.section	.rodata.main.str1.4,"aMS",%progbits,1
+ 258              		.align	2
+ 259              	.LC0:
+ 260 0000 53455343 		.ascii	"SESC V3\000"
+ 260      20563300 
+ 261              		.section	.text.main,"ax",%progbits
+ 262              		.align	1
+ 263              		.global	main
+ 264              		.syntax unified
+ 265              		.thumb
+ 266              		.thumb_func
+ 268              	main:
+ 269              	.LFB127:
   81:Core/Src/main.c ****   /* USER CODE BEGIN 1 */
- 266              		.loc 1 81 1 view -0
- 267              		.cfi_startproc
- 268              		@ args = 0, pretend = 0, frame = 0
- 269              		@ frame_needed = 0, uses_anonymous_args = 0
- 270 0000 30B5     		push	{r4, r5, lr}
- 271              	.LCFI5:
- 272              		.cfi_def_cfa_offset 12
- 273              		.cfi_offset 4, -12
- 274              		.cfi_offset 5, -8
- 275              		.cfi_offset 14, -4
- 276 0002 83B0     		sub	sp, sp, #12
- 277              	.LCFI6:
- 278              		.cfi_def_cfa_offset 24
+ 270              		.loc 1 81 1 view -0
+ 271              		.cfi_startproc
+ 272              		@ args = 0, pretend = 0, frame = 0
+ 273              		@ frame_needed = 0, uses_anonymous_args = 0
+ 274 0000 30B5     		push	{r4, r5, lr}
+ 275              	.LCFI5:
+ 276              		.cfi_def_cfa_offset 12
+ 277              		.cfi_offset 4, -12
+ 278              		.cfi_offset 5, -8
+ 279              		.cfi_offset 14, -4
+ 280 0002 83B0     		sub	sp, sp, #12
+ 281              	.LCFI6:
+ 282              		.cfi_def_cfa_offset 24
   89:Core/Src/main.c **** 
- 279              		.loc 1 89 3 view .LVU70
- 280 0004 FFF7FEFF 		bl	HAL_Init
- 281              	.LVL12:
+ 283              		.loc 1 89 3 view .LVU70
+ 284 0004 FFF7FEFF 		bl	HAL_Init
+ 285              	.LVL12:
   96:Core/Src/main.c **** 
- 282              		.loc 1 96 3 view .LVU71
- 283 0008 FFF7FEFF 		bl	SystemClock_Config
- 284              	.LVL13:
+ 286              		.loc 1 96 3 view .LVU71
+ 287 0008 FFF7FEFF 		bl	SystemClock_Config
+ 288              	.LVL13:
  103:Core/Src/main.c ****   MX_GPIO_Init();
- 285              		.loc 1 103 3 view .LVU72
- 286 000c FFF7FEFF 		bl	MX_DMA_Init
- 287              	.LVL14:
+ 289              		.loc 1 103 3 view .LVU72
+ 290 000c FFF7FEFF 		bl	MX_DMA_Init
+ 291              	.LVL14:
  104:Core/Src/main.c ****   MX_ADC1_Init();
- 288              		.loc 1 104 3 view .LVU73
- 289 0010 FFF7FEFF 		bl	MX_GPIO_Init
- 290              	.LVL15:
+ 292              		.loc 1 104 3 view .LVU73
+ 293 0010 FFF7FEFF 		bl	MX_GPIO_Init
+ 294              	.LVL15:
  105:Core/Src/main.c ****   MX_I2C1_Init();
- 291              		.loc 1 105 3 view .LVU74
- 292 0014 FFF7FEFF 		bl	MX_ADC1_Init
- 293              	.LVL16:
+ 295              		.loc 1 105 3 view .LVU74
+ 296 0014 FFF7FEFF 		bl	MX_ADC1_Init
+ 297              	.LVL16:
  106:Core/Src/main.c ****   MX_TIM1_Init();
- 294              		.loc 1 106 3 view .LVU75
- 295 0018 FFF7FEFF 		bl	MX_I2C1_Init
- 296              	.LVL17:
+ 298              		.loc 1 106 3 view .LVU75
+ 299 0018 FFF7FEFF 		bl	MX_I2C1_Init
+ 300              	.LVL17:
  107:Core/Src/main.c ****   MX_TIM6_Init();
- 297              		.loc 1 107 3 view .LVU76
- 298 001c FFF7FEFF 		bl	MX_TIM1_Init
- 299              	.LVL18:
+ 301              		.loc 1 107 3 view .LVU76
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccuRkfnU.s 			page 14
+
+
+ 302 001c FFF7FEFF 		bl	MX_TIM1_Init
+ 303              	.LVL18:
  108:Core/Src/main.c ****   MX_USB_DEVICE_Init();
- 300              		.loc 1 108 3 view .LVU77
- 301 0020 FFF7FEFF 		bl	MX_TIM6_Init
- 302              	.LVL19:
+ 304              		.loc 1 108 3 view .LVU77
+ 305 0020 FFF7FEFF 		bl	MX_TIM6_Init
+ 306              	.LVL19:
  109:Core/Src/main.c ****   MX_TIM15_Init();
- 303              		.loc 1 109 3 view .LVU78
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s 			page 14
-
-
- 304 0024 FFF7FEFF 		bl	MX_USB_DEVICE_Init
- 305              	.LVL20:
+ 307              		.loc 1 109 3 view .LVU78
+ 308 0024 FFF7FEFF 		bl	MX_USB_DEVICE_Init
+ 309              	.LVL20:
  110:Core/Src/main.c ****   MX_USART1_UART_Init();
- 306              		.loc 1 110 3 view .LVU79
- 307 0028 FFF7FEFF 		bl	MX_TIM15_Init
- 308              	.LVL21:
+ 310              		.loc 1 110 3 view .LVU79
+ 311 0028 FFF7FEFF 		bl	MX_TIM15_Init
+ 312              	.LVL21:
  111:Core/Src/main.c ****   /* USER CODE BEGIN 2 */
- 309              		.loc 1 111 3 view .LVU80
- 310 002c FFF7FEFF 		bl	MX_USART1_UART_Init
- 311              	.LVL22:
+ 313              		.loc 1 111 3 view .LVU80
+ 314 002c FFF7FEFF 		bl	MX_USART1_UART_Init
+ 315              	.LVL22:
  114:Core/Src/main.c **** 
- 312              		.loc 1 114 3 view .LVU81
+ 316              		.loc 1 114 3 view .LVU81
  116:Core/Src/main.c ****   init_phase_estimater();
- 313              		.loc 1 116 3 view .LVU82
- 314 0030 4EF66020 		movw	r0, #60000
- 315 0034 FFF7FEFF 		bl	initSVM
- 316              	.LVL23:
+ 317              		.loc 1 116 3 view .LVU82
+ 318 0030 4CF25030 		movw	r0, #50000
+ 319 0034 FFF7FEFF 		bl	initSVM
+ 320              	.LVL23:
  117:Core/Src/main.c **** 
- 317              		.loc 1 117 3 view .LVU83
- 318 0038 FFF7FEFF 		bl	init_phase_estimater
- 319              	.LVL24:
+ 321              		.loc 1 117 3 view .LVU83
+ 322 0038 FFF7FEFF 		bl	init_phase_estimater
+ 323              	.LVL24:
  119:Core/Src/main.c ****   /* USER CODE END 2 */
- 320              		.loc 1 119 3 view .LVU84
- 321 003c 0322     		movs	r2, #3
- 322 003e 2549     		ldr	r1, .L26
- 323 0040 2548     		ldr	r0, .L26+4
- 324 0042 FFF7FEFF 		bl	HAL_ADC_Start_DMA
- 325              	.LVL25:
- 326 0046 09E0     		b	.L23
- 327              	.LVL26:
- 328              	.L25:
- 329              	.LBB6:
- 138:Core/Src/main.c **** 	}
- 330              		.loc 1 138 3 view .LVU85
- 138:Core/Src/main.c **** 	}
- 331              		.loc 1 138 15 is_stmt 0 view .LVU86
- 332 0048 2046     		mov	r0, r4
- 333 004a FFF7FEFF 		bl	initialize_Hallsensor_phase_estimator
- 334              	.LVL27:
- 138:Core/Src/main.c **** 	}
- 335              		.loc 1 138 13 discriminator 1 view .LVU87
- 336 004e 234B     		ldr	r3, .L26+8
- 337 0050 1870     		strb	r0, [r3]
- 338              	.L19:
- 161:Core/Src/main.c ****   }
- 339              		.loc 1 161 2 is_stmt 1 view .LVU88
- 161:Core/Src/main.c ****   }
- 340              		.loc 1 161 19 is_stmt 0 view .LVU89
- 341 0052 234B     		ldr	r3, .L26+12
- 342 0054 1B68     		ldr	r3, [r3]
- 161:Core/Src/main.c ****   }
- 343              		.loc 1 161 28 view .LVU90
- 344 0056 DA6A     		ldr	r2, [r3, #44]
- 161:Core/Src/main.c ****   }
- 345              		.loc 1 161 9 view .LVU91
- 346 0058 224B     		ldr	r3, .L26+16
- 347 005a 1A80     		strh	r2, [r3]	@ movhi
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s 			page 15
+ 324              		.loc 1 119 3 view .LVU84
+ 325 003c 0322     		movs	r2, #3
+ 326 003e 2849     		ldr	r1, .L26
+ 327 0040 2848     		ldr	r0, .L26+4
+ 328 0042 FFF7FEFF 		bl	HAL_ADC_Start_DMA
+ 329              	.LVL25:
+ 122:Core/Src/main.c ****   /* Infinite loop */
+ 330              		.loc 1 122 3 view .LVU85
+ 331 0046 2848     		ldr	r0, .L26+8
+ 332 0048 FFF7FEFF 		bl	UART_writeLine
+ 333              	.LVL26:
+ 334 004c 0BE0     		b	.L23
+ 335              	.LVL27:
+ 336              	.L25:
+ 337              	.LBB6:
+ 139:Core/Src/main.c **** 	}
+ 338              		.loc 1 139 3 view .LVU86
+ 139:Core/Src/main.c **** 	}
+ 339              		.loc 1 139 15 is_stmt 0 view .LVU87
+ 340 004e 2046     		mov	r0, r4
+ 341 0050 FFF7FEFF 		bl	initialize_Hallsensor_phase_estimator
+ 342              	.LVL28:
+ 139:Core/Src/main.c **** 	}
+ 343              		.loc 1 139 13 discriminator 1 view .LVU88
+ 344 0054 254B     		ldr	r3, .L26+12
+ 345 0056 1870     		strb	r0, [r3]
+ 346              	.L19:
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccuRkfnU.s 			page 15
 
 
- 348              	.LBE6:
- 124:Core/Src/main.c ****   {
- 349              		.loc 1 124 9 is_stmt 1 view .LVU92
- 350              	.LVL28:
- 351              	.L23:
- 124:Core/Src/main.c ****   {
- 352              		.loc 1 124 3 view .LVU93
- 353              	.LBB7:
- 129:Core/Src/main.c **** 	 static uint8_t init_done = 0;
- 354              		.loc 1 129 3 view .LVU94
- 130:Core/Src/main.c **** 
- 355              		.loc 1 130 3 view .LVU95
- 132:Core/Src/main.c **** 			EncoderB_GPIO_Port, EncoderB_Pin, 255, 0);
- 356              		.loc 1 132 2 view .LVU96
- 132:Core/Src/main.c **** 			EncoderB_GPIO_Port, EncoderB_Pin, 255, 0);
- 357              		.loc 1 132 24 is_stmt 0 view .LVU97
- 358 005c 2248     		ldr	r0, .L26+20
- 359 005e 0023     		movs	r3, #0
- 360 0060 0193     		str	r3, [sp, #4]
- 361 0062 FF23     		movs	r3, #255
- 362 0064 0093     		str	r3, [sp]
- 363 0066 1023     		movs	r3, #16
- 364 0068 0246     		mov	r2, r0
- 365 006a 0821     		movs	r1, #8
- 366 006c FFF7FEFF 		bl	readEncoder
- 367              	.LVL29:
- 132:Core/Src/main.c **** 			EncoderB_GPIO_Port, EncoderB_Pin, 255, 0);
- 368              		.loc 1 132 11 discriminator 1 view .LVU98
- 369 0070 84B2     		uxth	r4, r0
- 370              	.LVL30:
- 137:Core/Src/main.c **** 		init_done = initialize_Hallsensor_phase_estimator(setpoint);
- 371              		.loc 1 137 2 is_stmt 1 view .LVU99
- 137:Core/Src/main.c **** 		init_done = initialize_Hallsensor_phase_estimator(setpoint);
- 372              		.loc 1 137 5 is_stmt 0 view .LVU100
- 373 0072 1A4B     		ldr	r3, .L26+8
- 374 0074 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
- 137:Core/Src/main.c **** 		init_done = initialize_Hallsensor_phase_estimator(setpoint);
- 375              		.loc 1 137 4 view .LVU101
- 376 0076 002B     		cmp	r3, #0
- 377 0078 E6D0     		beq	.L25
- 142:Core/Src/main.c **** 
- 378              		.loc 1 142 2 is_stmt 1 view .LVU102
- 379 007a 1C4D     		ldr	r5, .L26+24
- 380 007c 2846     		mov	r0, r5
- 381 007e FFF7FEFF 		bl	estimate_rotor_phase
- 382              	.LVL31:
- 146:Core/Src/main.c **** 
- 383              		.loc 1 146 2 view .LVU103
- 146:Core/Src/main.c **** 
- 384              		.loc 1 146 58 is_stmt 0 view .LVU104
- 385 0082 A868     		ldr	r0, [r5, #8]
- 146:Core/Src/main.c **** 
- 386              		.loc 1 146 16 view .LVU105
- 387 0084 4042     		rsbs	r0, r0, #0
- 388 0086 FFF7FEFF 		bl	PI_control
- 389              	.LVL32:
- 146:Core/Src/main.c **** 
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s 			page 16
+ 162:Core/Src/main.c **** 
+ 347              		.loc 1 162 3 is_stmt 1 view .LVU89
+ 348 0058 FFF7FEFF 		bl	UART_transmit_buffer
+ 349              	.LVL29:
+ 164:Core/Src/main.c ****   }
+ 350              		.loc 1 164 2 view .LVU90
+ 164:Core/Src/main.c ****   }
+ 351              		.loc 1 164 19 is_stmt 0 view .LVU91
+ 352 005c 244B     		ldr	r3, .L26+16
+ 353 005e 1B68     		ldr	r3, [r3]
+ 164:Core/Src/main.c ****   }
+ 354              		.loc 1 164 28 view .LVU92
+ 355 0060 DA6A     		ldr	r2, [r3, #44]
+ 164:Core/Src/main.c ****   }
+ 356              		.loc 1 164 9 view .LVU93
+ 357 0062 244B     		ldr	r3, .L26+20
+ 358 0064 1A80     		strh	r2, [r3]	@ movhi
+ 359              	.LBE6:
+ 125:Core/Src/main.c ****   {
+ 360              		.loc 1 125 9 is_stmt 1 view .LVU94
+ 361              	.LVL30:
+ 362              	.L23:
+ 125:Core/Src/main.c ****   {
+ 363              		.loc 1 125 3 view .LVU95
+ 364              	.LBB7:
+ 130:Core/Src/main.c **** 	 static uint8_t init_done = 0;
+ 365              		.loc 1 130 3 view .LVU96
+ 131:Core/Src/main.c **** 
+ 366              		.loc 1 131 3 view .LVU97
+ 133:Core/Src/main.c **** 			EncoderB_GPIO_Port, EncoderB_Pin, 255, 0);
+ 367              		.loc 1 133 2 view .LVU98
+ 133:Core/Src/main.c **** 			EncoderB_GPIO_Port, EncoderB_Pin, 255, 0);
+ 368              		.loc 1 133 24 is_stmt 0 view .LVU99
+ 369 0066 2448     		ldr	r0, .L26+24
+ 370 0068 0023     		movs	r3, #0
+ 371 006a 0193     		str	r3, [sp, #4]
+ 372 006c FF23     		movs	r3, #255
+ 373 006e 0093     		str	r3, [sp]
+ 374 0070 1023     		movs	r3, #16
+ 375 0072 0246     		mov	r2, r0
+ 376 0074 0821     		movs	r1, #8
+ 377 0076 FFF7FEFF 		bl	readEncoder
+ 378              	.LVL31:
+ 133:Core/Src/main.c **** 			EncoderB_GPIO_Port, EncoderB_Pin, 255, 0);
+ 379              		.loc 1 133 11 discriminator 1 view .LVU100
+ 380 007a 84B2     		uxth	r4, r0
+ 381              	.LVL32:
+ 138:Core/Src/main.c **** 		init_done = initialize_Hallsensor_phase_estimator(setpoint);
+ 382              		.loc 1 138 2 is_stmt 1 view .LVU101
+ 138:Core/Src/main.c **** 		init_done = initialize_Hallsensor_phase_estimator(setpoint);
+ 383              		.loc 1 138 5 is_stmt 0 view .LVU102
+ 384 007c 1B4B     		ldr	r3, .L26+12
+ 385 007e 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 138:Core/Src/main.c **** 		init_done = initialize_Hallsensor_phase_estimator(setpoint);
+ 386              		.loc 1 138 4 view .LVU103
+ 387 0080 002B     		cmp	r3, #0
+ 388 0082 E4D0     		beq	.L25
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccuRkfnU.s 			page 16
 
 
- 390              		.loc 1 146 13 discriminator 1 view .LVU106
- 391 008a 194B     		ldr	r3, .L26+28
- 392 008c 1A68     		ldr	r2, [r3]
- 393 008e 1044     		add	r0, r0, r2
- 394 0090 1860     		str	r0, [r3]
- 148:Core/Src/main.c **** 	if(phaseshift<80) phaseshift=60;
- 395              		.loc 1 148 2 is_stmt 1 view .LVU107
- 148:Core/Src/main.c **** 	if(phaseshift<80) phaseshift=60;
- 396              		.loc 1 148 4 is_stmt 0 view .LVU108
- 397 0092 6428     		cmp	r0, #100
- 398 0094 01DD     		ble	.L20
- 148:Core/Src/main.c **** 	if(phaseshift<80) phaseshift=60;
- 399              		.loc 1 148 21 is_stmt 1 discriminator 1 view .LVU109
- 148:Core/Src/main.c **** 	if(phaseshift<80) phaseshift=60;
- 400              		.loc 1 148 31 is_stmt 0 discriminator 1 view .LVU110
- 401 0096 5022     		movs	r2, #80
- 402 0098 1A60     		str	r2, [r3]
- 403              	.L20:
- 149:Core/Src/main.c **** 
- 404              		.loc 1 149 2 is_stmt 1 view .LVU111
- 149:Core/Src/main.c **** 
- 405              		.loc 1 149 15 is_stmt 0 view .LVU112
- 406 009a 154B     		ldr	r3, .L26+28
- 407 009c 1B68     		ldr	r3, [r3]
- 149:Core/Src/main.c **** 
- 408              		.loc 1 149 4 view .LVU113
- 409 009e 4F2B     		cmp	r3, #79
- 410 00a0 02DC     		bgt	.L21
- 149:Core/Src/main.c **** 
- 411              		.loc 1 149 20 is_stmt 1 discriminator 1 view .LVU114
- 149:Core/Src/main.c **** 
- 412              		.loc 1 149 30 is_stmt 0 discriminator 1 view .LVU115
- 413 00a2 134B     		ldr	r3, .L26+28
- 414 00a4 3C22     		movs	r2, #60
- 415 00a6 1A60     		str	r2, [r3]
- 416              	.L21:
- 151:Core/Src/main.c **** 
- 417              		.loc 1 151 2 is_stmt 1 view .LVU116
- 418 00a8 2246     		mov	r2, r4
- 419 00aa 114B     		ldr	r3, .L26+28
- 420 00ac 1968     		ldr	r1, [r3]
- 421 00ae 0F4B     		ldr	r3, .L26+24
- 422 00b0 1888     		ldrh	r0, [r3]
- 423 00b2 FFF7FEFF 		bl	setVoltageVector
- 424              	.LVL33:
- 155:Core/Src/main.c **** 		HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
- 425              		.loc 1 155 2 view .LVU117
- 155:Core/Src/main.c **** 		HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
- 426              		.loc 1 155 6 is_stmt 0 view .LVU118
- 427 00b6 094B     		ldr	r3, .L26+8
- 428 00b8 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
- 155:Core/Src/main.c **** 		HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
- 429              		.loc 1 155 5 view .LVU119
- 430 00ba 2BB1     		cbz	r3, .L22
- 156:Core/Src/main.c **** 	else
- 431              		.loc 1 156 3 is_stmt 1 view .LVU120
- 432 00bc 0122     		movs	r2, #1
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s 			page 17
+ 143:Core/Src/main.c **** 
+ 389              		.loc 1 143 2 is_stmt 1 view .LVU104
+ 390 0084 1D4D     		ldr	r5, .L26+28
+ 391 0086 2846     		mov	r0, r5
+ 392 0088 FFF7FEFF 		bl	estimate_rotor_phase
+ 393              	.LVL33:
+ 147:Core/Src/main.c **** 
+ 394              		.loc 1 147 2 view .LVU105
+ 147:Core/Src/main.c **** 
+ 395              		.loc 1 147 58 is_stmt 0 view .LVU106
+ 396 008c A868     		ldr	r0, [r5, #8]
+ 147:Core/Src/main.c **** 
+ 397              		.loc 1 147 16 view .LVU107
+ 398 008e 4042     		rsbs	r0, r0, #0
+ 399 0090 FFF7FEFF 		bl	PI_control
+ 400              	.LVL34:
+ 147:Core/Src/main.c **** 
+ 401              		.loc 1 147 13 discriminator 1 view .LVU108
+ 402 0094 1A4B     		ldr	r3, .L26+32
+ 403 0096 1A68     		ldr	r2, [r3]
+ 404 0098 1044     		add	r0, r0, r2
+ 405 009a 1860     		str	r0, [r3]
+ 149:Core/Src/main.c **** 	if(phaseshift<80) phaseshift=60;
+ 406              		.loc 1 149 2 is_stmt 1 view .LVU109
+ 149:Core/Src/main.c **** 	if(phaseshift<80) phaseshift=60;
+ 407              		.loc 1 149 4 is_stmt 0 view .LVU110
+ 408 009c 6428     		cmp	r0, #100
+ 409 009e 01DD     		ble	.L20
+ 149:Core/Src/main.c **** 	if(phaseshift<80) phaseshift=60;
+ 410              		.loc 1 149 21 is_stmt 1 discriminator 1 view .LVU111
+ 149:Core/Src/main.c **** 	if(phaseshift<80) phaseshift=60;
+ 411              		.loc 1 149 31 is_stmt 0 discriminator 1 view .LVU112
+ 412 00a0 5022     		movs	r2, #80
+ 413 00a2 1A60     		str	r2, [r3]
+ 414              	.L20:
+ 150:Core/Src/main.c **** 
+ 415              		.loc 1 150 2 is_stmt 1 view .LVU113
+ 150:Core/Src/main.c **** 
+ 416              		.loc 1 150 15 is_stmt 0 view .LVU114
+ 417 00a4 164B     		ldr	r3, .L26+32
+ 418 00a6 1B68     		ldr	r3, [r3]
+ 150:Core/Src/main.c **** 
+ 419              		.loc 1 150 4 view .LVU115
+ 420 00a8 4F2B     		cmp	r3, #79
+ 421 00aa 02DC     		bgt	.L21
+ 150:Core/Src/main.c **** 
+ 422              		.loc 1 150 20 is_stmt 1 discriminator 1 view .LVU116
+ 150:Core/Src/main.c **** 
+ 423              		.loc 1 150 30 is_stmt 0 discriminator 1 view .LVU117
+ 424 00ac 144B     		ldr	r3, .L26+32
+ 425 00ae 3C22     		movs	r2, #60
+ 426 00b0 1A60     		str	r2, [r3]
+ 427              	.L21:
+ 152:Core/Src/main.c **** 
+ 428              		.loc 1 152 2 is_stmt 1 view .LVU118
+ 429 00b2 2246     		mov	r2, r4
+ 430 00b4 124B     		ldr	r3, .L26+32
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccuRkfnU.s 			page 17
 
 
- 433 00be 2021     		movs	r1, #32
- 434 00c0 0948     		ldr	r0, .L26+20
- 435 00c2 FFF7FEFF 		bl	HAL_GPIO_WritePin
- 436              	.LVL34:
- 437 00c6 C4E7     		b	.L19
- 438              	.L22:
- 158:Core/Src/main.c **** 	}
- 439              		.loc 1 158 3 view .LVU121
- 440 00c8 0022     		movs	r2, #0
- 441 00ca 2021     		movs	r1, #32
- 442 00cc 0648     		ldr	r0, .L26+20
- 443 00ce FFF7FEFF 		bl	HAL_GPIO_WritePin
- 444              	.LVL35:
- 445 00d2 BEE7     		b	.L19
- 446              	.L27:
- 447              		.align	2
- 448              	.L26:
- 449 00d4 20000000 		.word	Motor+32
- 450 00d8 00000000 		.word	hadc1
- 451 00dc 00000000 		.word	init_done.0
- 452 00e0 00000000 		.word	htim6
- 453 00e4 00000000 		.word	TIM_PSC
- 454 00e8 00040048 		.word	1207960576
- 455 00ec 00000000 		.word	Motor
- 456 00f0 00000000 		.word	phaseshift
- 457              	.LBE7:
- 458              		.cfi_endproc
- 459              	.LFE127:
- 461              		.section	.bss.init_done.0,"aw",%nobits
- 464              	init_done.0:
- 465 0000 00       		.space	1
- 466              		.global	phaseshift
- 467              		.section	.data.phaseshift,"aw"
- 468              		.align	2
- 471              	phaseshift:
- 472 0000 5A000000 		.word	90
- 473              		.global	TIM_PSC
- 474              		.section	.bss.TIM_PSC,"aw",%nobits
- 475              		.align	1
- 478              	TIM_PSC:
- 479 0000 0000     		.space	2
- 480              		.text
- 481              	.Letext0:
- 482              		.file 3 "C:/toolchain/arm_gnu_toolchain/arm-none-eabi/include/machine/_default_types.h"
- 483              		.file 4 "C:/toolchain/arm_gnu_toolchain/arm-none-eabi/include/sys/_stdint.h"
- 484              		.file 5 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f302x8.h"
- 485              		.file 6 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f3xx.h"
- 486              		.file 7 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_def.h"
- 487              		.file 8 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_rcc.h"
- 488              		.file 9 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_rcc_ex.h"
- 489              		.file 10 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_gpio.h"
- 490              		.file 11 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_dma.h"
- 491              		.file 12 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_adc_ex.h"
- 492              		.file 13 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_adc.h"
- 493              		.file 14 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_tim.h"
- 494              		.file 15 "Core/Inc/adc.h"
- 495              		.file 16 "Core/Inc/tim.h"
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s 			page 18
+ 431 00b6 1968     		ldr	r1, [r3]
+ 432 00b8 104B     		ldr	r3, .L26+28
+ 433 00ba 1888     		ldrh	r0, [r3]
+ 434 00bc FFF7FEFF 		bl	setVoltageVector
+ 435              	.LVL35:
+ 156:Core/Src/main.c **** 		HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
+ 436              		.loc 1 156 2 view .LVU119
+ 156:Core/Src/main.c **** 		HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
+ 437              		.loc 1 156 6 is_stmt 0 view .LVU120
+ 438 00c0 0A4B     		ldr	r3, .L26+12
+ 439 00c2 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 156:Core/Src/main.c **** 		HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
+ 440              		.loc 1 156 5 view .LVU121
+ 441 00c4 2BB1     		cbz	r3, .L22
+ 157:Core/Src/main.c **** 	else
+ 442              		.loc 1 157 3 is_stmt 1 view .LVU122
+ 443 00c6 0122     		movs	r2, #1
+ 444 00c8 2021     		movs	r1, #32
+ 445 00ca 0B48     		ldr	r0, .L26+24
+ 446 00cc FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 447              	.LVL36:
+ 448 00d0 C2E7     		b	.L19
+ 449              	.L22:
+ 159:Core/Src/main.c **** 	}
+ 450              		.loc 1 159 3 view .LVU123
+ 451 00d2 0022     		movs	r2, #0
+ 452 00d4 2021     		movs	r1, #32
+ 453 00d6 0848     		ldr	r0, .L26+24
+ 454 00d8 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 455              	.LVL37:
+ 456 00dc BCE7     		b	.L19
+ 457              	.L27:
+ 458 00de 00BF     		.align	2
+ 459              	.L26:
+ 460 00e0 20000000 		.word	Motor+32
+ 461 00e4 00000000 		.word	hadc1
+ 462 00e8 00000000 		.word	.LC0
+ 463 00ec 00000000 		.word	init_done.0
+ 464 00f0 00000000 		.word	htim6
+ 465 00f4 00000000 		.word	TIM_PSC
+ 466 00f8 00040048 		.word	1207960576
+ 467 00fc 00000000 		.word	Motor
+ 468 0100 00000000 		.word	phaseshift
+ 469              	.LBE7:
+ 470              		.cfi_endproc
+ 471              	.LFE127:
+ 473              		.section	.bss.init_done.0,"aw",%nobits
+ 476              	init_done.0:
+ 477 0000 00       		.space	1
+ 478              		.global	phaseshift
+ 479              		.section	.data.phaseshift,"aw"
+ 480              		.align	2
+ 483              	phaseshift:
+ 484 0000 5A000000 		.word	90
+ 485              		.global	TIM_PSC
+ 486              		.section	.bss.TIM_PSC,"aw",%nobits
+ 487              		.align	1
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccuRkfnU.s 			page 18
 
 
- 496              		.file 17 "Core/Inc/global_var.h"
- 497              		.file 18 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h"
- 498              		.file 19 "Core/Inc/SVM.h"
- 499              		.file 20 "Core/Inc/phaseEstimater.h"
- 500              		.file 21 "Core/Inc/encoder.h"
- 501              		.file 22 "Core/Inc/usart.h"
- 502              		.file 23 "USB_DEVICE/App/usb_device.h"
- 503              		.file 24 "Core/Inc/i2c.h"
- 504              		.file 25 "Core/Inc/gpio.h"
- 505              		.file 26 "Core/Inc/dma.h"
- 506              		.file 27 "<built-in>"
-ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s 			page 19
+ 490              	TIM_PSC:
+ 491 0000 0000     		.space	2
+ 492              		.text
+ 493              	.Letext0:
+ 494              		.file 3 "C:/toolchain/arm_gnu_toolchain/arm-none-eabi/include/machine/_default_types.h"
+ 495              		.file 4 "C:/toolchain/arm_gnu_toolchain/arm-none-eabi/include/sys/_stdint.h"
+ 496              		.file 5 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f302x8.h"
+ 497              		.file 6 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f3xx.h"
+ 498              		.file 7 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_def.h"
+ 499              		.file 8 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_rcc.h"
+ 500              		.file 9 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_rcc_ex.h"
+ 501              		.file 10 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_gpio.h"
+ 502              		.file 11 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_dma.h"
+ 503              		.file 12 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_adc_ex.h"
+ 504              		.file 13 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_adc.h"
+ 505              		.file 14 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_tim.h"
+ 506              		.file 15 "Core/Inc/adc.h"
+ 507              		.file 16 "Core/Inc/tim.h"
+ 508              		.file 17 "Core/Inc/global_var.h"
+ 509              		.file 18 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h"
+ 510              		.file 19 "Core/Inc/SVM.h"
+ 511              		.file 20 "Core/Inc/phaseEstimater.h"
+ 512              		.file 21 "Core/Inc/encoder.h"
+ 513              		.file 22 "Core/Inc/uart_debug.h"
+ 514              		.file 23 "Core/Inc/usart.h"
+ 515              		.file 24 "USB_DEVICE/App/usb_device.h"
+ 516              		.file 25 "Core/Inc/i2c.h"
+ 517              		.file 26 "Core/Inc/gpio.h"
+ 518              		.file 27 "Core/Inc/dma.h"
+ 519              		.file 28 "<built-in>"
+ARM GAS  C:\Users\Simio\AppData\Local\Temp\ccuRkfnU.s 			page 19
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 main.c
-C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s:21     .text.PI_control:00000000 $t
-C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s:27     .text.PI_control:00000000 PI_control
-C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s:45     .text.Error_Handler:00000000 $t
-C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s:51     .text.Error_Handler:00000000 Error_Handler
-C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s:94     .text.Error_Handler:00000014 $d
-C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s:99     .text.SystemClock_Config:00000000 $t
-C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s:105    .text.SystemClock_Config:00000000 SystemClock_Config
-C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s:253    .text.SystemClock_Config:00000098 $d
-C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s:258    .text.main:00000000 $t
-C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s:264    .text.main:00000000 main
-C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s:449    .text.main:000000d4 $d
-C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s:464    .bss.init_done.0:00000000 init_done.0
-C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s:478    .bss.TIM_PSC:00000000 TIM_PSC
-C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s:471    .data.phaseshift:00000000 phaseshift
-C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s:465    .bss.init_done.0:00000000 $d
-C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s:468    .data.phaseshift:00000000 $d
-C:\Users\Simio\AppData\Local\Temp\ccwWDRh8.s:475    .bss.TIM_PSC:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccuRkfnU.s:21     .text.PI_control:00000000 $t
+C:\Users\Simio\AppData\Local\Temp\ccuRkfnU.s:27     .text.PI_control:00000000 PI_control
+C:\Users\Simio\AppData\Local\Temp\ccuRkfnU.s:45     .text.Error_Handler:00000000 $t
+C:\Users\Simio\AppData\Local\Temp\ccuRkfnU.s:51     .text.Error_Handler:00000000 Error_Handler
+C:\Users\Simio\AppData\Local\Temp\ccuRkfnU.s:94     .text.Error_Handler:00000014 $d
+C:\Users\Simio\AppData\Local\Temp\ccuRkfnU.s:99     .text.SystemClock_Config:00000000 $t
+C:\Users\Simio\AppData\Local\Temp\ccuRkfnU.s:105    .text.SystemClock_Config:00000000 SystemClock_Config
+C:\Users\Simio\AppData\Local\Temp\ccuRkfnU.s:253    .text.SystemClock_Config:00000098 $d
+C:\Users\Simio\AppData\Local\Temp\ccuRkfnU.s:258    .rodata.main.str1.4:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccuRkfnU.s:262    .text.main:00000000 $t
+C:\Users\Simio\AppData\Local\Temp\ccuRkfnU.s:268    .text.main:00000000 main
+C:\Users\Simio\AppData\Local\Temp\ccuRkfnU.s:460    .text.main:000000e0 $d
+C:\Users\Simio\AppData\Local\Temp\ccuRkfnU.s:476    .bss.init_done.0:00000000 init_done.0
+C:\Users\Simio\AppData\Local\Temp\ccuRkfnU.s:490    .bss.TIM_PSC:00000000 TIM_PSC
+C:\Users\Simio\AppData\Local\Temp\ccuRkfnU.s:483    .data.phaseshift:00000000 phaseshift
+C:\Users\Simio\AppData\Local\Temp\ccuRkfnU.s:477    .bss.init_done.0:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccuRkfnU.s:480    .data.phaseshift:00000000 $d
+C:\Users\Simio\AppData\Local\Temp\ccuRkfnU.s:487    .bss.TIM_PSC:00000000 $d
 
 UNDEFINED SYMBOLS
 HAL_Delay
@@ -1075,7 +1095,9 @@ MX_USART1_UART_Init
 initSVM
 init_phase_estimater
 HAL_ADC_Start_DMA
+UART_writeLine
 initialize_Hallsensor_phase_estimator
+UART_transmit_buffer
 readEncoder
 estimate_rotor_phase
 setVoltageVector

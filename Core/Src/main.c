@@ -119,6 +119,7 @@ int main(void)
   HAL_ADC_Start_DMA(&hadc1,Motor.MotorCurrents.ADC_VAL_PhaseCurrents,3);
   /* USER CODE END 2 */
 
+  UART_writeLine("SESC V3");
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
@@ -157,6 +158,8 @@ int main(void)
 	else
 		HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
 	}
+  
+  UART_transmit_buffer();
 
 	TIM_PSC=SectorTIM.Instance->ARR;
   }

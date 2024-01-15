@@ -27,7 +27,7 @@ extern "C" {
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 
-#define UART_TX_BUFFER_SIZE 128
+#define UART_TX_BUFFER_SIZE 256
 
 void UART_transmit_string(char payload[]);
 void UART_writeLine(char payload[]);

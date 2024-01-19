@@ -57,9 +57,9 @@ void init_phase_estimater(){
 uint16_t time_between_sectors=0;
 
 // make Pin State Global to see them on STM Studio
-uint8_t HALL1 = 0;
-uint8_t HALL2 = 0;
-uint8_t HALL3 = 0;
+	uint8_t HALL1 = 0;
+	uint8_t HALL2 = 0;
+	uint8_t HALL3 = 0;
 
 uint16_t initialize_Hallsensor_phase_estimator(uint16_t setpoint){
 	uint16_t init_done=0;
@@ -81,7 +81,7 @@ uint16_t initialize_Hallsensor_phase_estimator(uint16_t setpoint){
 	if(!init){
 		// configure Sector Tim to Output a 10Hz Sinewave;
 		SectorTIM.Instance-> ARR= 360;
-		SectorTIM.Instance-> PSC = 30000;
+		SectorTIM.Instance-> PSC = 10000;
 		init=1;
 	}
 
@@ -134,9 +134,9 @@ uint16_t initialize_Hallsensor_phase_estimator(uint16_t setpoint){
 		}
 		phase_old = voltage_phase;
 		// Get the current Hallsektor 
-		HallSector = (HALL3<<2)|(HALL2<<1)|(HALL1);
+		HallSector = (HAL_GPIO_ReadPin(HALL3_GPIO_Port,HALL3_Pin)<<2)|(HAL_GPIO_ReadPin(HALL2_GPIO_Port,HALL2_Pin)<<1)|(HAL_GPIO_ReadPin(HALL1_GPIO_Port,HALL1_Pin));
 
-		// Check if the sector is actually possible, the sectors should be spaced apart by 60°
+		// Check if the sector is actually possible, the sectors should be spaced apart by 60ï¿½
 		if(time_between_sectors>45 && time_between_sectors <75){
 
 			HallSector_phase_offset[HallSector] = (HallSector_Averages[HallSector] * voltage_phase) /(HallSector_Averages[HallSector] +1);
@@ -144,10 +144,10 @@ uint16_t initialize_Hallsensor_phase_estimator(uint16_t setpoint){
 
 			if( HallSector_phase_offset[HallSector]>HallSector_phase_offset[prev_Sector]){
 				// calculate the phase span of the previous Sektor
-				HallSector_phase_span[prev_Sector] = HallSector_phase_offset[HallSector]-HallSector_phase_offset[prev_Sector];
+				HallSector_phase_span[HallSector] = HallSector_phase_offset[HallSector]-HallSector_phase_offset[prev_Sector];
 			}
 			else {
-				HallSector_phase_span[prev_Sector] =(360 + HallSector_phase_offset[HallSector]) - HallSector_phase_offset[prev_Sector];
+				HallSector_phase_span[HallSector] =(360 + HallSector_phase_offset[HallSector]) - HallSector_phase_offset[prev_Sector];
 			}
 
 		}
@@ -186,6 +186,9 @@ uint16_t initialize_Hallsensor_phase_estimator(uint16_t setpoint){
 
 static uint8_t block_commutation_active=1;
 static uint16_t Prev_Sector_times[8]={0};
+int16_t rate_of_change = 0;
+int32_t avg_rate_of_change=1024;
+
 
 void estimate_rotor_phase(motor_TypeDef* motor){
 	static uint8_t init=0;
@@ -303,23 +306,23 @@ void estimate_rotor_phase(motor_TypeDef* motor){
 	
 	// Correct for glitches in the rotorphase
 
-	int16_t rate_of_change = 0;
+	
 
-	// When the rotorphase passes 360Â° correct for it
-	if(motor->rotorphase-prev_phase<300){
+
+	if( prev_phase -  motor->rotorphase >300){
 		rate_of_change = (motor->rotorphase+360)-prev_phase;
-	}
-	else if(motor->rotorphase - prev_phase >300){
-		rate_of_change = (motor->rotorphase-360)-prev_phase;
 	}
 	else{
 		rate_of_change = motor->rotorphase-prev_phase;
 	}
 
-	if(rate_of_change>5) motor->corr_rotor_phase = prev_phase + 5;
+	if((rate_of_change+10) > (avg_rate_of_change>>10)) motor->corr_rotor_phase = prev_phase + 10;
 	else{ motor->corr_rotor_phase=motor->rotorphase;}
-
-	prev_phase = motor->rotorphase;
+	
+	// avg rate of change is 10 bits to the left for fixed point calculations
+	avg_rate_of_change = ((avg_rate_of_change*1023) + (rate_of_change<<10)) >>10;
+	
+	prev_phase = motor->corr_rotor_phase;
 }
 
 

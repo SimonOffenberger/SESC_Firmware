@@ -56,6 +56,10 @@ void init_phase_estimater(){
 
 uint16_t time_between_sectors=0;
 
+// make Pin State Global to see them on STM Studio
+uint8_t HALL1 = 0;
+uint8_t HALL2 = 0;
+uint8_t HALL3 = 0;
 
 uint16_t initialize_Hallsensor_phase_estimator(uint16_t setpoint){
 	uint16_t init_done=0;
@@ -63,9 +67,7 @@ uint16_t initialize_Hallsensor_phase_estimator(uint16_t setpoint){
 	uint16_t in_toleranz_count=0;
 
 	static uint16_t voltage_phase=0;
-	static uint8_t HALL1 = 0;
-	static uint8_t HALL2 = 0;
-	static uint8_t HALL3 = 0;
+
 	static uint8_t init=0;
 
 	static uint8_t lock_HALL1=0;
@@ -131,20 +133,22 @@ uint16_t initialize_Hallsensor_phase_estimator(uint16_t setpoint){
 			time_between_sectors =360 - (phase_old - voltage_phase);
 		}
 		phase_old = voltage_phase;
-		HallSector = (HAL_GPIO_ReadPin(HALL3_GPIO_Port,HALL3_Pin)<<2)|(HAL_GPIO_ReadPin(HALL2_GPIO_Port,HALL2_Pin)<<1)|(HAL_GPIO_ReadPin(HALL1_GPIO_Port,HALL1_Pin));
+		// Get the current Hallsektor 
+		HallSector = (HALL3<<2)|(HALL2<<1)|(HALL1);
 
+		// Check if the sector is actually possible, the sectors should be spaced apart by 60°
 		if(time_between_sectors>45 && time_between_sectors <75){
 
 			HallSector_phase_offset[HallSector] = (HallSector_Averages[HallSector] * voltage_phase) /(HallSector_Averages[HallSector] +1);
 			HallSector_Averages[HallSector] ++;
 
 			if( HallSector_phase_offset[HallSector]>HallSector_phase_offset[prev_Sector]){
-				HallSector_phase_span[HallSector] = HallSector_phase_offset[HallSector]-HallSector_phase_offset[prev_Sector];
+				// calculate the phase span of the previous Sektor
+				HallSector_phase_span[prev_Sector] = HallSector_phase_offset[HallSector]-HallSector_phase_offset[prev_Sector];
 			}
 			else {
-				HallSector_phase_span[HallSector] =(360 + HallSector_phase_offset[HallSector]) - HallSector_phase_offset[prev_Sector];
+				HallSector_phase_span[prev_Sector] =(360 + HallSector_phase_offset[HallSector]) - HallSector_phase_offset[prev_Sector];
 			}
-
 
 		}
 		prev_Sector = HallSector;
@@ -175,7 +179,6 @@ uint16_t initialize_Hallsensor_phase_estimator(uint16_t setpoint){
 	}
 
 	setVoltageVector(voltage_phase, 0, setpoint);
-
 
 	return init_done;
 }
